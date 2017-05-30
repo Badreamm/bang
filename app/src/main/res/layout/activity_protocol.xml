@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorTheme"
+            android:gravity="center"
+            android:text="@string/tv_i_protocol_title"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_i_protocol_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="-10dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <WebView
+        android:id="@+id/wv_userr_protocol"
+        android:layout_width="match_parent"
+        android:layout_height ="match_parent"
+      />
+</LinearLayout>

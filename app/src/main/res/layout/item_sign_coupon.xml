@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80dip"
+    android:layout_marginTop="10dip"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="10dip"
+    android:background="@mipmap/ic_sign_coupon_backgroud">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1.0"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¥20"
+            android:paddingTop="5dp"
+            android:paddingLeft="8dp"
+            android:textSize="34dp"
+            android:textColor="@color/colorTextWhite"
+            android:id="@+id/tv_item_sign_coupon_money" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5000积分"
+            android:paddingLeft="8dp"
+            android:textSize="11dp"
+            android:textColor="@color/colorTextWhite"
+            android:id="@+id/tv_item_sign_coupon_integral" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="兑现截止日期:2016-06-14"
+            android:textSize="8dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="8dp"
+            android:id="@+id/tv_item_sign_coupon_time" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dip"
+        android:layout_weight="1.3"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20元代金券"
+            android:textSize="16dp"
+            android:paddingLeft="8dip"
+            android:layout_marginTop="5dip"
+            android:textColor="@color/colorTextWhite"
+            android:id="@+id/tv_item_sign_coupon_type" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="满100元可用,仅限手机端用户使用"
+            android:textSize="11dp"
+            android:paddingLeft="8dp"
+            android:textColor="@color/colorTextWhite"
+            android:id="@+id/tv_item_sign_coupon_introduction" />
+    </LinearLayout>
+
+
+</LinearLayout>

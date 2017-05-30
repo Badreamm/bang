@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80dip"
+    android:layout_marginTop="10dip"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="10dip"
+    android:background="@mipmap/ic_coupon_background">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dip"
+        android:layout_weight="1.0"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新人大礼包"
+            android:textSize="14dp"
+            android:paddingLeft="8dip"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:id="@+id/tv_item_coupon_type" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="使用期限 2016.06.06—2016.07.06"
+            android:textSize="11dp"
+            android:paddingLeft="8dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/tv_item_coupon_validity_period" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¥20"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:textSize="25dp"
+            android:gravity="right"
+            android:textColor="@color/colorTextWhite"
+            android:id="@+id/tv_item_coupon_money" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="满200元使用"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:gravity="right"
+            android:textColor="@color/colorTextWhite"
+            android:id="@+id/tv_item_coupon_introduction" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/task_srl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <ListView
+            android:id="@+id/task_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="false"
+            android:scrollbars="none"
+            android:divider="@color/colorMainBackground"
+            android:dividerHeight="10dp">
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

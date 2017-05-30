@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="@string/tv_edit_address_title"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_edit_address_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_edit_address_save"
+            android:layout_width="50dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_edit_address_save"
+                android:textColor="@color/colorTextWhite"
+                android:textSize="15dp"
+                android:id="@+id/textView"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_edit_address_city"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/tv_edit_address_city"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip"
+            android:textSize="15dp"/>
+        <TextView
+            android:id="@+id/tv_edit_address_city"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center_vertical|right"
+            android:hint="@string/tv_edit_address_city_text"
+            android:paddingRight="5dip"
+            android:textSize="14dp" />
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_right"
+            android:scaleType="center"/>
+    </LinearLayout>
+
+    <!--<View-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="1dip"-->
+        <!--android:background="@color/colorLine" />-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_edit_address_street"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:background="@color/colorTextWhite">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="@string/tv_edit_address_street"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dip"-->
+            <!--android:textSize="15dp"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_edit_address_street"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1.0"-->
+            <!--android:gravity="center_vertical|right"-->
+            <!--android:hint="@string/tv_edit_address_street_text"-->
+            <!--android:paddingRight="5dip"-->
+            <!--android:textSize="14dp" />-->
+        <!--<ImageView-->
+            <!--android:layout_width="40dip"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@mipmap/ic_arrow_right"-->
+            <!--android:scaleType="center"/>-->
+
+    <!--</LinearLayout>-->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <EditText
+        android:id="@+id/et_edit_address_detail"
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:background="@color/colorTextWhite"
+        android:gravity="top"
+        android:padding="10dip"
+        android:hint="@string/et_edit_address_detail"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+
+</LinearLayout>

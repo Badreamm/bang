@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground">
+
+    <RelativeLayout
+        android:id="@+id/rl_home_fragment_container"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_home_bottom"
+        android:background="@color/colorMainBackground" />
+
+    <LinearLayout
+        android:id="@+id/ll_home_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_home_map"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <Button
+                android:id="@+id/bt_home_map"
+                style="@style/HomeButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/bt_home_map"
+                android:onClick="onTabClicked"
+                android:paddingBottom="2dp"
+                android:paddingTop="7dp"
+                android:text="@string/bt_home_map"
+                android:textSize="11dp" />
+
+            <TextView
+                android:id="@+id/tv_home_map_red"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_home_buy"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <Button
+                android:id="@+id/bt_home_buy"
+                style="@style/HomeButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/bt_home_buy"
+                android:onClick="onTabClicked"
+                android:paddingBottom="2dp"
+                android:paddingTop="7dp"
+                android:text="@string/bt_home_buy"
+                android:textSize="11dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/tv_home_buy_red"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_home_sale"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <Button
+                android:id="@+id/bt_home_sale"
+                style="@style/HomeButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/bt_home_sale"
+                android:onClick="onTabClicked"
+                android:paddingBottom="2dp"
+                android:paddingTop="7dp"
+                android:text="@string/bt_home_sale"
+                android:textSize="11dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/tv_home_sale_red"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_home_me"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <Button
+                android:id="@+id/bt_home_me"
+                style="@style/HomeButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/bt_home_me"
+                android:onClick="onTabClicked"
+                android:paddingBottom="2dp"
+                android:paddingTop="7dp"
+                android:text="@string/bt_home_me"
+                android:textSize="11dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/tv_home_me_red"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </LinearLayout>
+    >
+
+
+</RelativeLayout>

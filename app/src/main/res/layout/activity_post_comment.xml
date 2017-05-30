@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divider"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="发布评价"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_help_me_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_publish_comment"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发布"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/colorTextWhite"
+                    android:textSize="15sp"
+                    />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/ed_comment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorTextWhite"
+        android:padding="10dp"
+        android:hint="禁止发布违反国家法律的言论"
+        android:gravity="start"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTheme"
+            android:text="请打分:"
+            />
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="1"
+            android:stepSize="1"
+            style="ratingBarStyleSmall"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

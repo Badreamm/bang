@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="46dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="卷码验证"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_shopping_cart_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:onClick="onBack"
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_verify_code"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_below="@+id/title"
+        android:textSize="20sp"
+        android:background="@drawable/bt_verify_code"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <Button
+        android:id="@+id/btn_verify"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="开始验证"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bt_login"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+
+        />
+
+</RelativeLayout>

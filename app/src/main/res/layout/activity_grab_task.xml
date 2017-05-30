@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorTheme"
+            android:gravity="center"
+            android:text="@string/tv_fragment_buy_title"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="20dp" />
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/sb_fragment_buy"
+            style="@style/SwitchButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@drawable/sb_text_color"
+            android:textSize="12dp"
+            app:kswBackColor="@drawable/sb_back_color"
+            app:kswTextOff="@string/sb_fragment_buy_close"
+            app:kswTextOn="@string/sb_fragment_buy_open"
+            app:kswTintColor="@drawable/sb_button_color" />
+
+        <RelativeLayout
+            android:id="@+id/ll_task"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/add_white" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

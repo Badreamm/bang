@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:text="@string/tv_edit_personal_title"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_edit_personal_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorMainBackground"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="16dip"
+                android:paddingBottom="25dp"
+                android:background="@color/colorTheme">
+
+                <cn.xcom.helper.view.CircleImageView
+                    android:id="@+id/iv_edit_personal_head"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentBottom="true"
+                    android:src="@mipmap/ic_me_head"
+                    app:border_color="@color/colorTextWhite"
+                    app:border_width="1dip" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/colorTextWhite">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/tv_edit_personal_phone"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dip"
+                    android:textSize="18dp"/>
+                <TextView
+                    android:id="@+id/tv_edit_personal_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="35dip"
+                    android:textSize="18dp" >
+                </TextView>
+
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorLine" />
+            <LinearLayout
+                android:id="@+id/ll_edit_personal_update_name"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/colorTextWhite">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/tv_edit_personal_nickname"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dip"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/tv_edit_personal_nickname"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="35dip"
+                    android:textSize="18sp" >
+                </TextView>
+                <ImageView
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:scaleType="center"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorLine" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/colorTextWhite">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/tv_edit_personal_gender"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dip"
+                    android:textSize="18sp"/>
+                <RadioGroup
+                    android:id="@+id/radioGroup_edit_personal_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:orientation="horizontal"
+                    android:paddingLeft="35dip">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/rb_register_man"
+                        android:id="@+id/radioButton_edit_personal_man"
+                        android:paddingLeft="20dip"
+                        android:button="@drawable/rb_register_gender"
+                        />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/rb_register_woman"
+                        android:id="@+id/radioButton_edit_personal_woman"
+                        android:paddingLeft="20dip"
+                        android:layout_marginLeft="40dip"
+                        android:button="@drawable/rb_register_gender"
+                        />
+                </RadioGroup>
+
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorLine" />
+            <LinearLayout
+                android:id="@+id/ll_edit_personal_update_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorTextWhite">
+                <TextView
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:layout_marginLeft="15dip"
+                    android:gravity="center_vertical"
+                    android:text="@string/tv_edit_personal_update_password"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:scaleType="center"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorLine" />
+            <LinearLayout
+                android:id="@+id/ll_edit_personal_update_phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@color/colorTextWhite">
+                <TextView
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:layout_marginLeft="15dip"
+                    android:gravity="center_vertical"
+                    android:text="@string/tv_edit_personal_update_phone"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:scaleType="center"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorLine" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

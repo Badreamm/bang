@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="@string/tv_payment_title"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_payment_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/tv_payment_escrow_amount_hint"
+        android:textColor="@color/colorUploadSkip"
+        android:textSize="30dp"
+        android:layout_marginTop="30dip"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="@string/tv_payment_escrow_amount"
+        android:textColor="@color/colorUploadSkip"
+        android:textSize="16sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:layout_marginTop="20dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:drawableLeft="@mipmap/ic_zhifubao"
+            android:gravity="center_vertical"
+            android:drawablePadding="15dip"
+            android:text="@string/tv_payment_zhifubao"
+            android:textSize="15dp"/>
+        <CheckBox
+            android:id="@+id/cb_payment_zhifubao"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/checkbox_bg2"
+            android:layout_marginRight="10dp"
+            android:button="@null" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:background="@color/colorTextWhite">
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:drawableLeft="@mipmap/ic_weixin"
+            android:gravity="center_vertical"
+            android:drawablePadding="15dip"
+            android:text="@string/tv_payment_weixin"
+            android:textSize="15dp"
+            android:id="@+id/textView2" />
+
+        <CheckBox
+            android:id="@+id/cb_payment_weixin"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/checkbox_bg2"
+            android:layout_marginRight="10dp"
+            android:button="@null" />
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <LinearLayout
+        android:id="@+id/card_pay"
+        android:layout_width="match_parent"
+        android:layout_height="46dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:drawableLeft="@mipmap/ic_yinhangka"
+            android:gravity="center_vertical"
+            android:drawablePadding="15dip"
+            android:text="@string/tv_payment_yinhangka"
+            android:textSize="15dp"/>
+        <CheckBox
+            android:id="@+id/cb_payment_yinhangka"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/checkbox_bg2"
+            android:layout_marginRight="10dp"
+            android:button="@null" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_payment_submit"
+        android:layout_width="match_parent"
+        android:layout_height="43dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="50dip"
+        android:background="@drawable/bt_login_click"
+        android:text="@string/bt_payment_submit"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="16dp" />
+    <Button
+        android:id="@+id/bt_payment_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="43dip"
+        android:layout_marginBottom="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="5dip"
+        android:background="@drawable/bt_login_click"
+        android:text="@string/bt_payment_cancel"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="16dp" />
+</LinearLayout>

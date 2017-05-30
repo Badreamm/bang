@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+		android:background="@color/colorTheme"
+    >
+	<TextView 
+	    android:id="@+id/tv_tittle"
+	    android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:gravity="center"
+    	android:singleLine="true"
+    	android:paddingLeft="64dp"
+    	android:paddingRight="64dp"
+    	android:layout_alignBottom="@+id/btn_back"
+    	android:layout_alignTop="@+id/btn_back"
+    	android:textSize="16sp"
+		android:text="请选择"
+    	android:textColor="#ffffff"
+    	/>
+	<Button 
+	    android:id="@+id/btn_back"
+	    android:layout_width="50dp"
+    	android:layout_height="fill_parent"
+    	android:text="返回"
+    	android:textSize="16sp"
+    	android:textColor="#ffffff"
+
+		android:background="@color/colorTheme"/>
+	<Button 
+	    android:id="@+id/btn_right"
+	    android:layout_width="wrap_content"
+    	android:layout_height="fill_parent"
+    	android:textSize="16sp"
+    	android:layout_alignBottom="@+id/btn_back"
+    	android:layout_alignTop="@+id/btn_back"
+    	android:layout_alignParentRight="true"
+    	android:textColor="#ffffff"
+    	android:paddingRight="8dp"
+		android:text=""
+		android:background="@color/colorTheme"
+    	/>
+	</RelativeLayout>
+</LinearLayout>

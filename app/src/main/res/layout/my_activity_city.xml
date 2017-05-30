@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title" 
+        android:id="@+id/ll_title"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="当前定位城市"
+        android:textColor="@color/text_black"
+        android:background="@color/colorMainBackground"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="正在定位..."
+        android:textColor="@color/text_black"
+        android:background="@color/background_white"
+        android:textSize="14sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="选择城市"
+        android:textColor="@color/text_black"
+        android:background="@color/colorMainBackground"
+        android:textSize="16sp"/>
+    <ListView
+        android:id="@+id/lv_city"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <HorizontalScrollView 
+        android:id="@+id/scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        >
+        <LinearLayout
+            android:id="@+id/ll_add"
+        	android:layout_width="fill_parent"
+        	android:layout_height="match_parent"
+        	android:orientation="horizontal">
+            
+        </LinearLayout>
+    </HorizontalScrollView>
+     
+</LinearLayout>

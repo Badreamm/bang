@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorTheme"
+            android:gravity="center"
+            android:text="@string/tv_insure_title"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_insure_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_insure_state"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:background="@color/colorTextGray"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_insure_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/tv_insure_state_no"
+                    android:textColor="@color/colorTextWhite"
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/tv_insure_state"
+                    android:layout_alignLeft="@+id/tv_insure_state"
+                    android:layout_alignRight="@+id/tv_insure_state"
+                    android:layout_alignStart="@+id/tv_insure_state"
+                    android:layout_below="@+id/tv_insure_state"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:text="@string/tv_insure_state_text"
+                    android:textColor="@color/colorTextWhite"
+                    android:textSize="12dp" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/bt_insure"
+                android:layout_width="match_parent"
+                android:layout_height="42dip"
+                android:layout_marginBottom="20dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/bt_login_click"
+                android:text="支付宝投保凭证上传"
+                android:textColor="@color/colorTextWhite"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_warning_word"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/insure_warning_word"
+                android:padding="10dp"
+                android:gravity="center"
+                android:textColor="@color/msg_red"
+                />
+
+
+            <ImageView
+                android:id="@+id/iv_insure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/weitoubao" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

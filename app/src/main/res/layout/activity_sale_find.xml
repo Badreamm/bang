@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#F0F0F0"
+        android:padding="15dp"
+        >
+        <ImageView
+            android:id="@+id/sale_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/em_back"/>
+        <EditText
+            android:id="@+id/sfa_search_edt"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/fragment_me_search"
+            android:drawableLeft="@drawable/ic_chazhao"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:hint="@string/find"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_find"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/et_find"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/findhistory"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_marginTop="10dp"-->
+
+    <!--/>-->
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/list_find"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorMainBackground"
+        android:dividerHeight="1dp"
+
+        >
+
+    </com.jcodecraeer.xrecyclerview.XRecyclerView>
+</LinearLayout>

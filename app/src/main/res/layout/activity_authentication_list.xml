@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_authentication_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="46dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="@string/tv_authentication_list"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_authentication_list_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_authentication_list_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_authentication_list_title"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tuan_tab_linear_background"
+            android:paddingBottom="0.5dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0.5dp"
+            android:paddingTop="0dp" >
+
+            <TextView
+                android:id="@+id/tv_authentication_list_select_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_tab_background"
+                android:drawableRight="@drawable/ic_arrow_down_hui"
+                android:gravity="center_horizontal"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="@string/tv_authentication_list_select_first"
+                android:textSize="15sp"
+                android:textColor="@color/text_black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tuan_tab_linear_background"
+            android:paddingBottom="0.5dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0.5dp"
+            android:paddingTop="0dp" >
+
+            <TextView
+                android:id="@+id/tv_authentication_list_select_second"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_tab_background"
+                android:drawableRight="@drawable/ic_arrow_down_hui"
+                android:gravity="center_horizontal"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="@string/tv_authentication_list_select_second"
+                android:textSize="15sp"
+                android:textColor="@color/text_black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tuan_tab_linear_background"
+            android:paddingBottom="0.5dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0.5dp"
+            android:paddingTop="0dp" >
+
+            <TextView
+                android:id="@+id/tv_authentication_list_select_third"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_tab_background"
+                android:drawableRight="@drawable/ic_arrow_down_hui"
+                android:gravity="center_horizontal"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="@string/tv_authentication_list_select_third"
+                android:textSize="15sp"
+                android:textColor="@color/text_black" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/ShopListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_authentication_list_select" />
+
+    <ListView
+        android:id="@+id/lv_authentication_list_third"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@+id/ll_authentication_list_select"
+        android:background="#ffffff"
+        android:divider="@null"
+        android:padding="3dp"
+        android:visibility="gone" />
+    <ListView
+        android:id="@+id/lv_authentication_list_second"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@+id/ll_authentication_list_select"
+        android:background="#ffffff"
+        android:divider="@null"
+        android:padding="3dp"
+        android:visibility="gone" />
+    <ListView
+        android:id="@+id/lv_authentication_list_first"
+        android:layout_width="150dp"
+        android:layout_height="350dp"
+        android:layout_below="@+id/ll_authentication_list_select"
+        android:background="#ffffff"
+        android:divider="@null"
+        android:padding="3dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

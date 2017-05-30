@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorTheme"
+            android:gravity="center"
+            android:text="@string/bind_bank_account"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_bind_account_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:onClick="back"
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorTextWhite">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dip"
+            android:text="@string/tv_bind_account_name"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/et_bind_account_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="@string/et_bind_account_name"
+            android:inputType="textPersonName"
+            android:paddingLeft="25dip"
+            android:textSize="14dp"></EditText>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorTextWhite">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dip"
+            android:text="@string/tv_authorized_ID"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/et_id_num"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="输入身份证号码"
+            android:inputType="textPersonName"
+            android:paddingLeft="25dip"
+            android:textSize="14dp"
+            android:maxLength="18"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorTextWhite">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dip"
+            android:text="银行卡账号"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/et_bind_account"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="输入银行卡账号"
+            android:inputType="textPersonName"
+            android:paddingLeft="25dip"
+            android:textSize="14dp"
+            android:maxLength="19"
+            ></EditText>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorTextWhite">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dip"
+            android:text="开户银行"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/et_bank_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="输入开户银行"
+            android:inputType="textPersonName"
+            android:paddingLeft="25dip"
+            android:textSize="14dp"
+            android:maxLength="19"
+            ></EditText>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+
+    <TextView
+        android:id="@+id/bind_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorTextWhite"
+        >
+        <EditText
+            android:id="@+id/et_bind_code"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:inputType="textPersonName"
+            android:paddingLeft="15dip"
+            android:textSize="14dp"
+            android:hint="请输入短信验证码"
+            />
+
+        <TextView
+            android:id="@+id/get_code"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/colorTheme"
+            android:text="@string/tv_reset_password_verification_obtain"
+            android:gravity="center"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_bind_account_bind"
+        android:layout_width="match_parent"
+        android:layout_height="43dip"
+        android:layout_marginBottom="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="50dip"
+        android:background="@drawable/bt_login_click"
+        android:text="@string/bt_bind_account_bind"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="16dp" />
+
+
+</LinearLayout>

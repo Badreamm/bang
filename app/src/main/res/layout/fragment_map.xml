@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/map_layout"
+    android:background="@color/colorMainBackground"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="@string/tv_fragment_map_title"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_fragment_map_location"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:contentDescription="@string/app_name"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_location" />
+            <TextView
+                android:id="@+id/locate_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="北京市"
+                android:textColor="@color/background_white"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_fragment_map_authentication_list"
+            android:layout_width="50dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:layout_marginRight="10dp">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="认证帮"
+               android:textColor="@color/background_white"
+               android:textSize="15sp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:background="@color/colorTextWhite"
+                >
+                <TextView
+                    android:id="@+id/tv_fragment_map_help_me"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:text="@string/tv_fragment_map_help_me"
+                    android:gravity="center"
+                    android:drawableTop="@mipmap/ic_home_help_me"
+                    android:drawablePadding="5dip"
+                    android:padding="10dip"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_fragment_map_I_help"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:text="抢单"
+                    android:gravity="center"
+                    android:drawableTop="@mipmap/ic_home_i_help"
+                    android:drawablePadding="5dip"
+                    android:padding="10dip"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_fragment_map_city_interaction"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:text="@string/tv_fragment_map_city_interaction"
+                    android:gravity="center"
+                    android:drawableTop="@mipmap/ic_home_city_interaction"
+                    android:drawablePadding="5dip"
+                    android:padding="10dip"
+                    />
+            </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/mapView_fragment_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"/>
+        <ImageView
+            android:id="@+id/btn_location"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/sign"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="70dp"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorTheme"
+            android:gravity="center"
+            android:text="@string/tv_help_me_title"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_help_me_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorMainBackground"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <cn.xcom.helper.view.NoScrollGridView
+                android:id="@+id/gridView_help_me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="5" />
+
+            <EditText
+                android:id="@+id/et_help_me_content"
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:background="@color/colorTextWhite"
+                android:gravity="center_horizontal|left"
+                android:hint="@string/et_help_me_content_hint"
+                android:padding="10dip"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_white"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_photo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/ic_tupian" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_voice"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/ic_yinpin" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <cn.xcom.helper.record.SoundView
+                android:id="@+id/sound_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                apps:show_delete="true" />
+
+            <RelativeLayout
+                android:id="@+id/rl_grid_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/background_white"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <cn.xcom.helper.view.NoScrollGridView
+                    android:id="@+id/addsn_pic_grid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="3dp"
+                    android:numColumns="4"
+                    android:verticalSpacing="3dp"></cn.xcom.helper.view.NoScrollGridView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/colorTextWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@mipmap/ic_phone_blue"
+                    android:drawablePadding="10dip"
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+                    android:text="@string/tv_help_me_phone"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/et_help_me_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:hint="@string/et_help_me_phone_hint"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/colorTextWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@mipmap/ic_site_location"
+                    android:drawablePadding="10dip"
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+                    android:text="@string/tv_help_me_site_location"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/et_help_me_site_location"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:hint="@string/et_help_me_site_location_hint"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/iv_help_me_site_location"
+                    android:layout_width="60dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dip"
+                    android:scaleType="center"
+                    android:src="@mipmap/ic_help_me_location" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorLine" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dip"
+                android:background="@color/colorTextWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@mipmap/ic_service_location"
+                    android:drawablePadding="15dip"
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+
+                    android:text="@string/tv_help_me_service_location"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/et_help_me_service_location"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:hint="@string/et_help_me_service_location_hint"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/iv_help_me_service_location"
+                    android:layout_width="60dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dip"
+                    android:scaleType="center"
+                    android:src="@mipmap/ic_help_me_location" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/colorTextWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@mipmap/ic_wages"
+                    android:drawablePadding="10dip"
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+                    android:text="@string/tv_help_me_wages"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/et_help_me_wages"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:hint="@string/et_help_me_wages_hint"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/tv_help_me_time_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="20dip"
+                    android:drawableRight="@mipmap/ic_arrow_right"
+                    android:gravity="center"
+                    android:paddingRight="25dip"
+                    android:text="@string/tv_help_me_time_unit"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_time"
+                android:layout_width="match_parent"
+                android:layout_height="46dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/colorTextWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@mipmap/ic_validity_period"
+                    android:drawablePadding="10dip"
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+                    android:text="@string/tv_help_me_validity_period"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/et_help_me_validity_period"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:hint="@string/et_help_me_validity_period_hint"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/iv_help_me_validity_period"
+                    android:layout_width="60dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dip"
+                    android:paddingLeft="8dp"
+                    android:scaleType="center"
+                    android:src="@mipmap/ic_arrow_right" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tv_help_me_service_charge_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_help_me_service_charge"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/tv_help_me_service_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignTop="@+id/tv_help_me_service_charge_text"
+                    android:layout_toRightOf="@+id/tv_help_me_service_charge_text"
+                    android:text="¥0"
+                    android:textColor="@color/colorHelpMe"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/bt_help_me_submit"
+                android:layout_width="match_parent"
+                android:layout_height="43dip"
+                android:layout_marginBottom="20dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/bt_login_click"
+                android:text="@string/bt_help_me_submit"
+                android:textColor="@color/colorTextWhite"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:orientation="vertical"
+    tools:context="cn.xcom.helper.activity.ShopReleaseActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="46dip"
+            android:background="@color/colorTheme"
+            android:gravity="center"
+            android:text="@string/shop_release"
+            android:textSize="17dp"
+            android:textColor="@color/colorTextWhite"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-33dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_back_white_left"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+ <ListView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/shop_list">
+
+ </ListView>
+</LinearLayout>

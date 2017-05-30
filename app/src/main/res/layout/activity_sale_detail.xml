@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="cn.xcom.helper.activity.SaleDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="46dip"
+            android:background="@color/colorTheme"
+            android:gravity="center"
+            android:text="确认订单"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="17dp" />
+        <RelativeLayout
+            android:id="@+id/back"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:background="@color/colorTheme">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_share"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分享"
+                android:textSize="15sp"
+                android:textColor="@color/background_white"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <cn.xcom.helper.view.MyScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/divider"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/background_white"
+            >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp"
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+            </android.support.v4.view.ViewPager>
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/text_black"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/text_grey"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/divider"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                >
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/msg_red"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/collect"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/shoucang" />
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/divider"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_city_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextSale"
+                    android:textSize="16sp"
+                    android:layout_marginRight="50dp"
+                    android:drawableLeft="@mipmap/ic_locate"
+                    android:drawablePadding="5dp"
+                    />
+
+                <TextView
+                    android:id="@+id/adress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/tv_city_name"
+                    android:layout_below="@id/tv_city_name"
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="17dp"
+                    />
+                <LinearLayout
+                    android:id="@+id/ll_iv_right"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true">
+                    <ImageView
+                        android:id="@+id/iv_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_dianhua" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/divider"></View>
+
+
+            <RelativeLayout
+                android:id="@+id/shopPublish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商家发布"
+                    android:textColor="@color/colorTextSale"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/divider"></View>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/background_white"
+                android:text="评价"
+                android:textColor="@color/colorTextSale"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:paddingLeft="10dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"></View>
+            <cn.xcom.helper.view.NoScrollListView
+                android:id="@+id/sale_detail_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </cn.xcom.helper.view.NoScrollListView>
+        </LinearLayout>
+    </cn.xcom.helper.view.MyScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/tvprice_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="价格:"
+            android:textColor="@color/colorTextSale"
+            android:textSize="16sp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tvprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorHelpMe"
+            android:textSize="16sp"
+            android:layout_toRightOf="@id/tvprice_"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/buy"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorHelpMe"
+            android:text="购买"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

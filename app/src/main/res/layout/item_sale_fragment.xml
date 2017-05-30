@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="10dp">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_item_sale_fragment"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1.0"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1.0"
+                android:layout_height="match_parent"
+                android:textSize="15dp"
+                android:text="自助烧烤"
+                android:textColor="@color/colorTextSale"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="2.1km"
+                android:textSize="10dp"
+                android:textColor="@color/colorTextHint"/>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:text=""/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            ></LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

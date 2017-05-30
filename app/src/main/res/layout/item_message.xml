@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80dip"
+    android:background="@color/colorTextWhite">
+    <cn.xcom.helper.view.CircleImageView
+        android:id="@+id/iv_item_message_head"
+        android:layout_width="55dip"
+        android:layout_height="55dip"
+        android:layout_marginTop="31dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginBottom="20dip"
+        android:src="@mipmap/ic_me_head"
+        app:border_color="@color/colorTextWhite"
+        app:border_width="1dip" />
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_weight="1.0"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_item_message_name"
+                android:layout_width="0dip"
+                android:layout_weight="1.0"
+                android:gravity="center_vertical"
+                android:text="[51帮]提现服务器暂停服务公告"
+                android:textSize="20dip"
+                android:singleLine="true"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_item_message_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="12:30"
+                android:textSize="15dip"
+                android:paddingTop="10dip"
+                android:paddingRight="18dip"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_item_message_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:textSize="16dip"
+            android:paddingTop="5dip"
+            android:paddingRight="18dip"
+            android:singleLine="true"
+            android:text="我们将于2016年6月14日"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

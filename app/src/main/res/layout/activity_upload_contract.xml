@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="@string/tv_upload_contract_title"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_upload_contract_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0">
+        <ImageView
+            android:id="@+id/iv_upload_contract_photo"
+            android:layout_margin="5dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_upload_contract_photo"
+            android:scaleType="center"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_upload_contract_skip"
+            android:layout_width="0dip"
+            android:layout_height="50dip"
+            android:layout_weight="1.0"
+            android:background="@drawable/bt_upload_contract_skip_click"
+            android:textColor="@color/colorTextWhite"
+            android:text="@string/bt_upload_contract_skip"
+            android:textSize="18dp"
+            android:layout_margin="10dip"
+            />
+
+        <Button
+            android:id="@+id/bt_upload_contract_upload"
+            android:layout_width="0dip"
+            android:layout_height="50dip"
+            android:layout_weight="1.0"
+            android:background="@drawable/bt_login_click"
+            android:text="@string/bt_upload_contract_upload"
+            android:textColor="@color/colorTextWhite"
+            android:layout_margin="10dip"
+            android:textSize="18dp"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

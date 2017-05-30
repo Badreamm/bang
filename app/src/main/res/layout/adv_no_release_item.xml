@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <cn.xcom.helper.utils.RoundImageView
+            android:id="@+id/adv_convenience_photo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/morenimage" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/adv_convenience_photo">
+
+            <TextView
+                android:id="@+id/adv_convenience_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="51-证"
+                android:textColor="@color/colorTheme"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/adv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_payment"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:text="编辑"
+                android:textColor="#FF9800" />
+            <ImageView
+                android:id="@+id/frg_adv_shanchu"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_toLeftOf="@id/adv_edit"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_shanchu_cha"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/adv_go_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:layout_toLeftOf="@id/frg_adv_shanchu"
+                android:background="@drawable/bt_payment"
+                android:gravity="center"
+                android:text="去支付"
+                android:textColor="#FF9800"
+                android:visibility="gone" />
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/adv_convenience_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/adv_convenience_photo"
+            android:layout_toRightOf="@id/adv_convenience_photo"
+            android:text="2012-06-12 15:20:03"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/adv_release_img"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="跳转网址："
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/adv_release_net_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/yuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="元" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/yuan"
+            android:text="0.00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/price"
+            android:text="总价：" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/release_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="2038-1-19" />
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/release_end_time"
+            android:text="--" />
+
+        <TextView
+            android:id="@+id/release_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/to"
+            android:text="2038-1-19" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/release_start_time"
+            android:text="广告播放时间：" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="@string/tv_more_service_title"
+            android:textColor="@color/colorTextWhite"
+            android:background="@color/colorTheme"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_more_service_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_more_service_training_course"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:gravity="center_vertical"
+            android:text="@string/tv_more_service_training_course"
+            android:textSize="15dp"/>
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_right"
+            android:scaleType="center"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <LinearLayout
+        android:id="@+id/ll_more_service_common_problem"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:gravity="center_vertical"
+            android:text="@string/tv_more_service_common_problem"
+            android:textSize="15dp"/>
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_right"
+            android:scaleType="center"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <LinearLayout
+        android:id="@+id/ll_more_service_legal_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:gravity="center_vertical"
+            android:text="用户者服务协议"
+            android:textSize="15dp"/>
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_right"
+            android:scaleType="center"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <LinearLayout
+        android:id="@+id/ll_more_service_score"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:gravity="center_vertical"
+            android:text="@string/tv_more_service_score"
+            android:textSize="15dp"/>
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_right"
+            android:scaleType="center"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <LinearLayout
+        android:id="@+id/ll_more_service_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:gravity="center_vertical"
+            android:text="@string/tv_more_service_clear_cache"
+            android:textSize="15dp"/>
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_right"
+            android:scaleType="center"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <LinearLayout
+        android:id="@+id/ll_about"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:background="@color/colorTextWhite">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="15dip"
+            android:gravity="center_vertical"
+            android:text="关于51帮"
+            android:textSize="15dp"/>
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_right"
+            android:scaleType="center"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/colorLine" />
+    <TextView
+        android:id="@+id/tv_more_service_exit"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="20dip"
+        android:background="@color/colorTextWhite"
+        android:textSize="14dp"
+        android:textColor="@color/colorTheme"
+        android:gravity="center"
+        android:text="@string/tv_more_service_exit"/>
+
+</LinearLayout>

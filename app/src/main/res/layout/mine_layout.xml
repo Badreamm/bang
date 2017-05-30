@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/mine_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:scaleType="fitXY" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        >
+
+        <TextView
+            android:id="@+id/mine_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="披萨自助"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/mine_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="单人自助餐，可享受大量优惠"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/mine_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="￥45.5"
+            android:textColor="@color/price"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/mine_price"
+            android:layout_alignParentRight="true"
+            >
+            <TextView
+                android:id="@+id/mine_saled"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text="已售0"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
+                />
+
+            <TextView
+                android:id="@+id/mine_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/mine_saled"
+                android:layout_marginLeft="10dp"
+                android:text="删除"
+                android:gravity="center"
+                android:textColor="@color/common_blue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/good_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上架"
+                android:gravity="center"
+                android:textColor="@color/common_blue"
+                android:layout_toLeftOf="@id/mine_delete"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/mine_editor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编辑"
+                android:textColor="@color/common_blue"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:visibility="gone"
+                />
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>
