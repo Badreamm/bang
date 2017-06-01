@@ -61,47 +61,47 @@
         </RelativeLayout>
     </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dip"
-                android:background="@color/colorTextWhite"
-                >
-                <TextView
-                    android:id="@+id/tv_fragment_map_help_me"
-                    android:layout_width="0dip"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.0"
-                    android:text="@string/tv_fragment_map_help_me"
-                    android:gravity="center"
-                    android:drawableTop="@mipmap/ic_home_help_me"
-                    android:drawablePadding="5dip"
-                    android:padding="10dip"
-                    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:background="@color/colorTextWhite">
 
-                <TextView
-                    android:id="@+id/tv_fragment_map_I_help"
-                    android:layout_width="0dip"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.0"
-                    android:text="抢单"
-                    android:gravity="center"
-                    android:drawableTop="@mipmap/ic_home_i_help"
-                    android:drawablePadding="5dip"
-                    android:padding="10dip"
-                    />
+        <TextView
+            android:id="@+id/tv_fragment_map_city_interaction"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawablePadding="5dip"
+            android:drawableTop="@mipmap/ic_home_city_interaction"
+            android:gravity="center"
+            android:padding="10dip"
+            android:text="@string/tv_fragment_map_city_interaction" />
 
-                <TextView
-                    android:id="@+id/tv_fragment_map_city_interaction"
-                    android:layout_width="0dip"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.0"
-                    android:text="@string/tv_fragment_map_city_interaction"
-                    android:gravity="center"
-                    android:drawableTop="@mipmap/ic_home_city_interaction"
-                    android:drawablePadding="5dip"
-                    android:padding="10dip"
-                    />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/tv_fragment_map_help_me"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawablePadding="5dip"
+            android:drawableTop="@mipmap/ic_home_help_me"
+            android:gravity="center"
+            android:padding="10dip"
+            android:text="@string/tv_fragment_map_help_me" />
+
+        <TextView
+            android:id="@+id/tv_fragment_map_I_help"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawablePadding="5dip"
+            android:drawableTop="@mipmap/ic_home_i_help"
+            android:gravity="center"
+            android:padding="10dip"
+            android:text="抢单" />
+
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

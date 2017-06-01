@@ -22,6 +22,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.xcom.helper.HelperApplication;
 import cn.xcom.helper.R;
 import cn.xcom.helper.bean.UserInfo;
 import cn.xcom.helper.constant.HelperConstant;
@@ -75,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
 //        Intent intent = new Intent(this, OrderService.class);
 //        startService(intent);
         getOrder(userInfo.getUserId());
+        HelperApplication.getInstance().addActivity(this);
 }
 
     private void initView() {

@@ -28,7 +28,9 @@ public class AdvertisingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advertising);
-        getSupportActionBar().hide();
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
         url = "http://"+getIntent().getStringExtra("ad_url");
 
         webView = (WebView) findViewById(R.id.ad_webView);

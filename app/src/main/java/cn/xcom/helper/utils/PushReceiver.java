@@ -12,17 +12,16 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.ta.utdid2.android.utils.StringUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.List;
-
 import cn.jpush.android.api.JPushInterface;
 import cn.xcom.helper.HelperApplication;
 import cn.xcom.helper.R;
@@ -82,15 +81,18 @@ public class PushReceiver extends BroadcastReceiver {
             Log.i(TAG, "[PushReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.i(TAG, "[PushReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+            String message =  bundle.getString(JPushInterface.EXTRA_ALERT);
             switch (key) {
                 case "certificationType":
                     if (v.equals("1")) {
                         SPUtils.put(context, HelperConstant.IS_HAD_AUTHENTICATION, "1");
+                        popDialog(title,message);
                     }
                     break;
                 case "loginFromOther":
-                    String title = "您的账号再异地登录";
-                    String message = "您需要重新登陆";
+                    title = "您的账号再异地登录";
+                    message = "您需要重新登陆";
                     popLogOutDialog(title, message);
                     break;
 
@@ -109,29 +111,36 @@ public class PushReceiver extends BroadcastReceiver {
                 case "acceptTaskType":
                     if(v.equals("-1")){
                         playNotificationSound(context,"task_cancel");
+                        popDialog(title,message);
                     }
                     break;
                 case "sendTaskType":
                     if(v.equals("1")){
                         playNotificationSound(context,"task_taked");
+                        popDialog(title,message);
                     }
                     break;
                 case "businessOrderType":
                     if(v.equals("1")){
                         playNotificationSound(context,"buy_goods");
+                        popDialog(title,message);
                     }
                     break;
                 case "TaskTimeOut":
                     playNotificationSound(context,"timeout");
+                    popDialog(title,message);
                     break;
                 case "system":
                     playNotificationSound(context,"system");
+                    popDialog(title,message);
                     break;
                 case "newTask":
                     playNotificationSound(context,"task_new");
+                    popDialog(title,message);
                     break;
                 case "hireTaskType":
                     playNotificationSound(context,"hire_task");
+                    popDialog(title,message);
                     break;
             }
 
@@ -270,6 +279,32 @@ public class PushReceiver extends BroadcastReceiver {
                 JPushInterface.stopPush(activity);
                 activity.startActivity(new Intent(activity, LoginActivity.class));
                 HelperApplication.getInstance().onTerminate();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void popDialog(String title, String message) {
+        List<Activity> activities = HelperApplication.getInstance().getActivities();
+        if (activities.size() == 0) {
+            return;
+        }
+        final Activity activity = activities.get(activities.size() - 1);
+        if (activity == null) {
+            return;
+        }
+        if(StringUtils.isEmpty(title)){
+            return;
+        }
+        if(StringUtils.isEmpty(message)){
+            message = "";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title).setMessage(message).setCancelable(true).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         builder.show();
