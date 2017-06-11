@@ -500,4 +500,8 @@ public interface NetConstant extends HelperConstant {
     * */
     String USER_PROTOCOL ="http://www.my51bang.com/index.php?g=portal&m=article&a=index&id=4" ;
 
+    /**
+     * 发送红包
+     */
+    String SEND_PACKET = NET_HOST_PREFIX + "a=addPacket&";
 }

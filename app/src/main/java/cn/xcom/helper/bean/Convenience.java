@@ -36,6 +36,8 @@ public class Convenience implements Serializable {
     private String photo;
     private String soundtime;
     private String video;
+    private String picketId;
+    private String picketstate;
     /**
      * pictureurl : avatar2016:09:19:22:54:06:2540.png
      */
@@ -176,4 +178,19 @@ public class Convenience implements Serializable {
         this.video = video;
     }
 
+    public String getPicketstate() {
+        return picketstate;
+    }
+
+    public void setPicketstate(String picketstate) {
+        this.picketstate = picketstate;
+    }
+
+    public String getPicketId() {
+        return picketId;
+    }
+
+    public void setPicketId(String picketId) {
+        this.picketId = picketId;
+    }
 }

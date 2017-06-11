@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorMainBackground"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -168,6 +168,19 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_fragment_picket"
+            android:layout_width="match_parent"
+            android:layout_height="46dip"
+            android:layout_marginTop="1dip"
+            android:background="@color/colorTextWhite"
+            android:drawableLeft="@mipmap/ic_me_bill"
+            android:drawablePadding="10dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip"
+            android:text="红包记录"
+            android:textSize="14dip" />
+
+        <TextView
             android:id="@+id/tv_fragment_me_bill"
             android:layout_width="match_parent"
             android:layout_height="46dip"
@@ -257,6 +270,7 @@
             android:paddingLeft="10dip"
             android:text="@string/tv_fragment_me_order_shop"
             android:textSize="14dip" />
+
         <TextView
             android:id="@+id/tv_fragment_me_myMsg"
             android:layout_width="match_parent"
@@ -269,6 +283,7 @@
             android:paddingLeft="10dip"
             android:text="@string/tv_fragment_me_my_msg"
             android:textSize="14dip" />
+
         <TextView
             android:id="@+id/tv_fragment_me_myAdvertising"
             android:layout_width="match_parent"
@@ -281,6 +296,7 @@
             android:paddingLeft="10dip"
             android:text="@string/tv_fragment_me_my_advertising"
             android:textSize="14dip" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dip"

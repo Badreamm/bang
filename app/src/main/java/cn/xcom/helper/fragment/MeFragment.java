@@ -37,6 +37,7 @@ import cn.xcom.helper.activity.MyMessageActivity;
 import cn.xcom.helper.activity.MyOrderActivity;
 import cn.xcom.helper.activity.OrderActivity;
 import cn.xcom.helper.activity.OrderTakingActivity;
+import cn.xcom.helper.activity.PacketRecordActivity;
 import cn.xcom.helper.activity.ShareQRCodeActivity;
 import cn.xcom.helper.activity.SignActivity;
 import cn.xcom.helper.activity.UserMessageActivity;
@@ -63,8 +64,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private ImageView iv_gender;
     private TextView tv_name, tv_phone, tv_realName, tv_wallet, tv_sign, tv_message,
             tv_bill, tv_coupon, tv_order, tv_collection, tv_shoppingCart, tv_share2, tv_shopBuy, tv_orderTaking,
-            tv_insure, tv_moreService, tv_adress, tv_fragment_me_real_baoxian, tv_fragment_me_real_name,tv_fragment_me_my_msg,
-            tv_fragment_me_advertsing;
+            tv_insure, tv_moreService, tv_adress, tv_fragment_me_real_baoxian, tv_fragment_me_real_name, tv_fragment_me_my_msg,
+            tv_fragment_me_advertsing, tv_fragment_picket;
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private DisplayImageOptions options;
     private UserInfo userInfo;
@@ -198,10 +199,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         tv_moreService.setOnClickListener(this);
         tv_adress = (TextView) getView().findViewById(R.id.tv_fragment_me_adress);
         tv_adress.setOnClickListener(this);
-        tv_fragment_me_my_msg=(TextView)getView().findViewById(R.id.tv_fragment_me_myMsg) ;
+        tv_fragment_me_my_msg = (TextView) getView().findViewById(R.id.tv_fragment_me_myMsg);
         tv_fragment_me_my_msg.setOnClickListener(this);
-        tv_fragment_me_advertsing=(TextView)getView().findViewById(R.id.tv_fragment_me_myAdvertising) ;
+        tv_fragment_me_advertsing = (TextView) getView().findViewById(R.id.tv_fragment_me_myAdvertising);
         tv_fragment_me_advertsing.setOnClickListener(this);
+        tv_fragment_picket = (TextView) getView().findViewById(R.id.tv_fragment_picket);
+        tv_fragment_picket.setOnClickListener(this);
         userInfo = new UserInfo(mContext);
         options = new DisplayImageOptions.Builder()
                 .bitmapConfig(Bitmap.Config.RGB_565)
@@ -338,6 +341,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.tv_fragment_me_myAdvertising:
                 startActivity(new Intent(mContext, MyAdvertsingActivity.class));
+                break;
+            case R.id.tv_fragment_picket:
+                startActivity(new Intent(mContext, PacketRecordActivity.class));
                 break;
         }
 

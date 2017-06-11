@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#e2e2e2"
+    >
+
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="关闭"
+        android:textColor="@color/text_blue"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发红包"
+        android:textColor="@color/text_black"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/money_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/title"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="总金额"
+            android:textColor="@color/text_black"
+            android:gravity="center"
+            android:padding="5dp"
+            />
+        <EditText
+            android:id="@+id/et_money"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="0"
+            android:gravity="end|center_vertical"
+            android:inputType="number"
+            />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text="元"
+            android:textColor="@color/text_black"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/num_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/money_layout"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="红包个数"
+            android:textColor="@color/text_black"
+            android:gravity="center"
+            android:padding="5dp"
+            />
+        <EditText
+            android:id="@+id/et_num"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="填写个数"
+            android:gravity="end|center_vertical"
+            android:inputType="number"
+            />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text="个"
+            android:textColor="@color/text_black"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/num_layout"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black"
+            android:text="￥"
+            />
+        <TextView
+            android:id="@+id/tv_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/tag_layout"
+        android:layout_margin="20dp"
+        android:text="塞进红包"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:background="@color/msg_red"
+        />
+
+
+</RelativeLayout>

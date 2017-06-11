@@ -2,6 +2,7 @@ package cn.xcom.helper.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -72,14 +73,15 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
     private Map<Integer, Boolean> states;
     private String videoPic;
     List<AuthenticationList> authenticationLists;
+    private ShowPacketListener showPacketListener;
 
-    public ConvenienceAdapter(List<Convenience> list, Context context) {
+    public ConvenienceAdapter(List<Convenience> list, Context context, ShowPacketListener showPacketListener) {
         this.list = list;
         this.context = context;
         userInfo = new UserInfo(context);
         userInfo.readData(context);
         states = new HashMap<>();
-
+        this.showPacketListener = showPacketListener;
     }
 
 
@@ -107,7 +109,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailAuthenticatinActivity.class);
-                intent.putExtra("haveid",true);
+                intent.putExtra("haveid", true);
                 intent.putExtra("userid", convenience.getUserid());
                 context.startActivity(intent);
             }
@@ -314,23 +316,26 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         }
 
         int soundTime = 0;
-        if (!TextUtils.isEmpty(convenience.getSoundtime()))
-
-        {
+        if (!TextUtils.isEmpty(convenience.getSoundtime())) {
             soundTime = Integer.valueOf(convenience.getSoundtime());
         }
-        if (TextUtils.isEmpty(convenience.getSound()))
-
-        {
+        if (TextUtils.isEmpty(convenience.getSound())) {
             holder.soundView.setVisibility(View.GONE);
-        } else
-
-        {
+        } else {
             holder.soundView.setVisibility(View.VISIBLE);
             holder.soundView.init(NetConstant.NET_DISPLAY_IMG + convenience.getSound(), soundTime);
         }
-//        if (TextUtils.isEmpty(convenience.g))
 
+        //判断红包
+        if (!TextUtils.isEmpty(convenience.getPicketId())) {
+            holder.packetFlag.setVisibility(View.VISIBLE);
+            if ("1".equals(convenience.getPicketstate())) {
+                AnimationDrawable animationDrawable = (AnimationDrawable) holder.packetFlag.getDrawable();
+                animationDrawable.start();
+            }
+        } else {
+            holder.packetFlag.setVisibility(View.GONE);
+        }
 
     }
 
@@ -350,7 +355,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         private ImageView iv_shanchu, iv_jubao;
         private SoundView soundView;
         private TextViewExpandableAnimation contentEtv;
-
+        private ImageView packetFlag;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -366,10 +371,13 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             convenience_phone = (ImageView) itemView.findViewById(R.id.convenience_phone);
             noScrollGridView = (NoScrollGridView) itemView.findViewById(R.id.gridview);
             soundView = (SoundView) itemView.findViewById(R.id.sound_view);
-
+            packetFlag = (ImageView) itemView.findViewById(R.id.packet_flag);
         }
 
     }
 
+    public interface ShowPacketListener {
+        void showPacket(String packetId);
+    }
 
 }

@@ -51,7 +51,7 @@ import cn.xcom.helper.utils.SingleVolleyRequest;
 import cn.xcom.helper.utils.StringPostRequest;
 import cn.xcom.helper.utils.ToastUtil;
 
-public class ConvenienceActivity extends BaseActivity implements View.OnClickListener {
+public class ConvenienceActivity extends BaseActivity implements View.OnClickListener ,ConvenienceAdapter.ShowPacketListener{
 
     private RelativeLayout back;
     private TextView cnnvenience_release, cnnvenience_msg, message_count;
@@ -66,7 +66,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
 
     String msgCount;
     UserInfo user;
-    String keyWord="";
+    String keyWord = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +152,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
                 getMoreDatas(keyWord);
             }
         });
-        convenienceAdapter = new ConvenienceAdapter(addlist, context);
+        convenienceAdapter = new ConvenienceAdapter(addlist, context,this);
         xRecyclerView.setAdapter(convenienceAdapter);
         getMessage();
     }
@@ -178,7 +178,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
 
                         }
 
-                    }else {
+                    } else {
                         message_count.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
@@ -191,8 +191,6 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 ToastUtil.Toast(context, "网络错误，请检查");
-
-
             }
         });
         request.putValue("uid", user.getUserId());
@@ -210,7 +208,6 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             keyWord = et_research.getText().toString();
             getNewDatas(et_research.getText().toString());
-
         }
 
         @Override
@@ -254,8 +251,6 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
 
     private void goPublish() {
         startActivity(new Intent(ConvenienceActivity.this, ReleaseConvenienceActivity.class));
-
-
     }
 
     private void goAuthorized() {
@@ -265,7 +260,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
 
     private void getNewDatas(String keyWord) {
         String url = NetConstant.CONVENIENCE;
-        Log.d("---url",url);
+        Log.d("---url", url);
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -302,6 +297,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
 
             }
         });
+        request.putValue("userid", user.getUserId());
         request.putValue("beginid", "0");
         request.putValue("type", "1");
         request.putValue("keyword", keyWord);
@@ -344,6 +340,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
 
         });
         Convenience lastConV = addlist.get(addlist.size() - 1);
+        request.putValue("userid", user.getUserId());
         request.putValue("beginid", lastConV.getMid());
         request.putValue("type", "1");
         request.putValue("city", HelperApplication.getInstance().mDistrict);
@@ -378,4 +375,8 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         return onTouchEvent(ev);
     }
 
+    @Override
+    public void showPacket(String packetId) {
+
+    }
 }

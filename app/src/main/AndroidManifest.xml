@@ -182,6 +182,8 @@
         <activity android:name=".activity.Authorized2Activity" />
         <activity android:name=".activity.AdvImgDetialActivity" />
         <activity android:name=".activity.EmployeeAcyivity" />
+        <activity android:name=".activity.PacketRecordActivity"/>
+        <activity android:name=".activity.SendPacketActivity"/>
         <activity
             android:name=".record.RecordActivity"
             android:theme="@style/translucent" />

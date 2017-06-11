@@ -50,9 +50,18 @@
                 android:id="@+id/iv_jubao"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@drawable/ic_jubao"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/iv_shanchu"
+                android:layout_alignStart="@+id/iv_shanchu" />
+
+            <ImageView
+                android:id="@+id/packet_flag"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/convenience_message"
-                android:src="@drawable/ic_jubao" />
+                android:layout_toLeftOf="@id/iv_shanchu"
+                android:src="@drawable/packet_anni" />
 
             <TextView
                 android:id="@+id/convenience_name"
