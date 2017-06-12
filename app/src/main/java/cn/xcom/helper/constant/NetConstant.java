@@ -504,4 +504,19 @@ public interface NetConstant extends HelperConstant {
      * 发送红包
      */
     String SEND_PACKET = NET_HOST_PREFIX + "a=addPacket&";
+
+    /**
+     * 抢红包时的状态判断
+     */
+    String GET_PACKET_STATE = NET_HOST_PREFIX + "a=getPacketState";
+
+    /**
+     * 抢红包
+     */
+    String TOUCH_PACKET = NET_HOST_PREFIX + "a=touchPacket";
+
+    /**
+     * 判断首页是否显示红包标志
+     */
+    String GET_HOME_PACKET_FLAG = NET_HOST_PREFIX + "a=getCanBePacket";
 }

@@ -51,7 +51,7 @@ import cn.xcom.helper.utils.SingleVolleyRequest;
 import cn.xcom.helper.utils.StringPostRequest;
 import cn.xcom.helper.utils.ToastUtil;
 
-public class ConvenienceActivity extends BaseActivity implements View.OnClickListener ,ConvenienceAdapter.ShowPacketListener{
+public class ConvenienceActivity extends BaseActivity implements View.OnClickListener{
 
     private RelativeLayout back;
     private TextView cnnvenience_release, cnnvenience_msg, message_count;
@@ -152,7 +152,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
                 getMoreDatas(keyWord);
             }
         });
-        convenienceAdapter = new ConvenienceAdapter(addlist, context,this);
+        convenienceAdapter = new ConvenienceAdapter(addlist, context);
         xRecyclerView.setAdapter(convenienceAdapter);
         getMessage();
     }
@@ -373,10 +373,5 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
             return true;
         }
         return onTouchEvent(ev);
-    }
-
-    @Override
-    public void showPacket(String packetId) {
-
     }
 }

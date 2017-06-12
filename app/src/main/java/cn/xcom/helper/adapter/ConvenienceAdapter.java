@@ -40,10 +40,13 @@ import java.util.Map;
 import cn.xcom.helper.R;
 import cn.xcom.helper.activity.ChatActivity;
 import cn.xcom.helper.activity.DetailAuthenticatinActivity;
+import cn.xcom.helper.activity.PacketActivity;
+import cn.xcom.helper.activity.PacketDetailActivity;
 import cn.xcom.helper.activity.SpaceImageDetailActivity;
 import cn.xcom.helper.activity.SpaceVideoDetialActivity;
 import cn.xcom.helper.bean.AuthenticationList;
 import cn.xcom.helper.bean.Convenience;
+import cn.xcom.helper.bean.Packet;
 import cn.xcom.helper.bean.UserInfo;
 import cn.xcom.helper.constant.HelperConstant;
 import cn.xcom.helper.constant.NetConstant;
@@ -73,15 +76,13 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
     private Map<Integer, Boolean> states;
     private String videoPic;
     List<AuthenticationList> authenticationLists;
-    private ShowPacketListener showPacketListener;
 
-    public ConvenienceAdapter(List<Convenience> list, Context context, ShowPacketListener showPacketListener) {
+    public ConvenienceAdapter(List<Convenience> list, Context context) {
         this.list = list;
         this.context = context;
         userInfo = new UserInfo(context);
         userInfo.readData(context);
         states = new HashMap<>();
-        this.showPacketListener = showPacketListener;
     }
 
 
@@ -336,8 +337,56 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         } else {
             holder.packetFlag.setVisibility(View.GONE);
         }
-
+        holder.packetFlag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPacketState(convenience.getPicketId());
+            }
+        });
     }
+
+    private void getPacketState(String packetId){
+        String url = NetConstant.GET_PACKET_STATE;
+        StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("success")) {
+                        String date = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        Packet packet = gson.fromJson(date,Packet.class);
+                        String packetState = packet.getState();
+                        if ("1".equals(packetState)){
+                            //可以抢
+                            Intent intent = new Intent(context, PacketActivity.class);
+                            intent.putExtra("packetid",packet.getId());
+                            context.startActivity(intent);
+                        }else {
+                            //直接显示红包信息
+                            Intent intent = new Intent(context, PacketDetailActivity.class);
+                            intent.putExtra("packet",packet);
+                            context.startActivity(intent);
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtil.Toast(context, "网络错误，请检查");
+            }
+        });
+        request.putValue("userid", userInfo.getUserId());
+        request.putValue("packetid", packetId);
+        SingleVolleyRequest.getInstance(context).addToRequestQueue(request);
+    }
+
 
     @Override
     public int getItemCount() {
@@ -376,8 +425,5 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
 
     }
 
-    public interface ShowPacketListener {
-        void showPacket(String packetId);
-    }
 
 }

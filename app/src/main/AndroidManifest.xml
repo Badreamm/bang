@@ -184,6 +184,8 @@
         <activity android:name=".activity.EmployeeAcyivity" />
         <activity android:name=".activity.PacketRecordActivity"/>
         <activity android:name=".activity.SendPacketActivity"/>
+        <activity android:name=".activity.PacketDetailActivity"/>
+        <activity android:name=".activity.PacketActivity"/>
         <activity
             android:name=".record.RecordActivity"
             android:theme="@style/translucent" />

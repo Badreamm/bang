@@ -86,8 +86,11 @@ import cn.xcom.helper.activity.DetailAuthenticatinActivity;
 import cn.xcom.helper.activity.HelpMeActivity;
 import cn.xcom.helper.activity.HomeActivity;
 import cn.xcom.helper.activity.MyCitySelectActivity;
+import cn.xcom.helper.activity.PacketActivity;
+import cn.xcom.helper.activity.PacketDetailActivity;
 import cn.xcom.helper.activity.ReleaseAdvertisingActivity;
 import cn.xcom.helper.bean.AuthenticationList;
+import cn.xcom.helper.bean.Packet;
 import cn.xcom.helper.bean.UserInfo;
 import cn.xcom.helper.constant.NetConstant;
 import cn.xcom.helper.net.HelperAsyncHttpClient;
@@ -146,6 +149,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     String address = "";
     String count = "";
     LinearLayout mapLayout;
+    private ImageView packetFlag;
 
     @Nullable
     @Override
@@ -344,6 +348,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         tv_city_interaction = (TextView) getView().findViewById(R.id.tv_fragment_map_city_interaction);
         tv_city_interaction.setOnClickListener(this);
         locate_district = (TextView) getView().findViewById(R.id.locate_district);
+        packetFlag = (ImageView) getView().findViewById(R.id.packet_flag);
     }
 
     @Override
@@ -396,6 +401,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 //            HelperApplication.getInstance().needUploadLocation = false;
 //            getWorkingState();
 //        }
+        getPacketInfo();
     }
 
     /**
@@ -1058,4 +1064,32 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 
         SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
     }
+
+    private void getPacketInfo(){
+        String url = NetConstant.GET_HOME_PACKET_FLAG;
+        StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("success")) {
+                        String date = jsonObject.getString("data");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtil.Toast(getContext(), "网络错误，请检查");
+            }
+        });
+        request.putValue("userid", userInfo.getUserId());
+        request.putValue("city", "烟台市莱山区");
+        SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
+    }
+
 }
