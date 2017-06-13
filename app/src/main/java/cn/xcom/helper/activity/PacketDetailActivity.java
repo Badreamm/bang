@@ -3,6 +3,7 @@ package cn.xcom.helper.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class PacketDetailActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         packet = (Packet) getIntent().getSerializableExtra("packet");
+        Log.e("packetrecord",packet.toString());
         from = getIntent().getStringExtra("from");
 
         user = new UserInfo(this);
@@ -52,7 +54,7 @@ public class PacketDetailActivity extends BaseActivity {
             messageTv.setText("已领取" + packet.getIspacket().size() + "/" + packet.getCount() + ",剩" + packet.getLeft_money() + "/" + packet.getMoney() + "元");
             recordLv.setAdapter(new DetailAdapter(this, packet.getIspacket()));
             for (PacketRecord record : packet.getIspacket()) {
-                if(record.getPhone().equals(user.getUserPhone())){
+                if(record.getName().equals(user.getUserName())){
                     totalMoneyTv.setText(record.getMoney()+"元");
                     break;
                 }

@@ -142,4 +142,5 @@ dependencies {
     //    compile 'com.bugtags.library:bugtags-lib:latest.integration'
     compile project(':mediapicker')
     //   compile 'fm.jiecao:jiecaovideoplayer:5.5.2'
+    compile 'com.youth.banner:banner:1.4.9'
 }

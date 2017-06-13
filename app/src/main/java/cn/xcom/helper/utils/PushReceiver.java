@@ -27,6 +27,7 @@ import cn.xcom.helper.HelperApplication;
 import cn.xcom.helper.R;
 import cn.xcom.helper.activity.BillActivity;
 import cn.xcom.helper.activity.ChatActivity;
+import cn.xcom.helper.activity.ConvenienceActivity;
 import cn.xcom.helper.activity.HomeActivity;
 import cn.xcom.helper.activity.LoginActivity;
 import cn.xcom.helper.activity.MyOrderActivity;
@@ -142,6 +143,9 @@ public class PushReceiver extends BroadcastReceiver {
                     playNotificationSound(context,"hire_task");
                     popDialog(title,message);
                     break;
+                case "bbspushwithcityname":
+                    popDialog(title,message);
+                    break;
             }
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
@@ -231,7 +235,12 @@ public class PushReceiver extends BroadcastReceiver {
                 intent.putExtra("from", "push");
                 context.startActivity(intent);
                 break;
-
+            case "bbspushwithcityname":
+                intent = new Intent(context, ConvenienceActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("city", value);
+                context.startActivity(intent);
+                break;
         }
 
 

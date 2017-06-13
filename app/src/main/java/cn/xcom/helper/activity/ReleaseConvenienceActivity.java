@@ -477,7 +477,7 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
         }
         request.putValue("latitude", String.valueOf(HelperApplication.getInstance().mLocLat));
         request.putValue("longitude", String.valueOf(HelperApplication.getInstance().mLocLon));
-        request.putValue("address", HelperApplication.getInstance().mDistrict);
+        request.putValue("address", HelperApplication.getInstance().provinceCityDistrict);
         Log.e("发布便民圈", String.valueOf(HelperApplication.getInstance().mLocLat) + HelperApplication.getInstance().mLocAddress);
         SingleVolleyRequest.getInstance(getApplication()).addToRequestQueue(request);
     }

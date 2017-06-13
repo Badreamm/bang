@@ -311,7 +311,7 @@
     <!--ReleaseConvenienceActivity-->
     <string name="tv_i_convenience_releasepeople">发布便民信息</string>
     <string name="tv_i_convenience_release">发布</string>
-    <string name="tv_i_convenience_hint">禁止发布二维码、黄，赌，毒，违反国家法律的言论和图片，所有信息均用户提供，真假需自辩</string>
+    <string name="tv_i_convenience_hint">禁止发布黄、赌、毒及违反国家法律的言论和图片，所有信息均用户发布，真假需自辩。赠人玫瑰，手留余香！分享到朋友圈吧！分享有福利喔！分享步骤:51首页右下角（我的）--（分享我的二维码）</string>
     <string name="tv_i_convenience_phone">联系电话</string>
 
     <string name="tv_fragment_me_shopping_cart">卷码验证</string>

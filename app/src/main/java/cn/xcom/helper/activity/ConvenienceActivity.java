@@ -2,16 +2,10 @@ package cn.xcom.helper.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -63,15 +56,20 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
     private Context context;
     private XRecyclerView xRecyclerView;
     private KProgressHUD hud;
-
+    private String city;
     String msgCount;
     UserInfo user;
     String keyWord = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convenience);
+        city = getIntent().getStringExtra("city");
+        if(TextUtils.isEmpty(city)){
+            city = HelperApplication.getInstance().mDistrict;
+        }
         initView();
         hud = KProgressHUD.create(context)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -155,6 +153,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         convenienceAdapter = new ConvenienceAdapter(addlist, context);
         xRecyclerView.setAdapter(convenienceAdapter);
         getMessage();
+
     }
 
     /*
@@ -301,7 +300,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         request.putValue("beginid", "0");
         request.putValue("type", "1");
         request.putValue("keyword", keyWord);
-        request.putValue("city", HelperApplication.getInstance().mDistrict);
+        request.putValue("city", city);
         Log.e("获取便民圈", HelperApplication.getInstance().mDistrict);
         SingleVolleyRequest.getInstance(context).addToRequestQueue(request);
     }
@@ -345,9 +344,6 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         request.putValue("type", "1");
         request.putValue("city", HelperApplication.getInstance().mDistrict);
         request.putValue("keyword", keyWord);
-        Log.e("获取便民圈", HelperApplication.getInstance().mDistrict);
-        Log.e("city", HelperApplication.getInstance().mDistrict);//HelperApplication.getInstance().mDistrict
-        Log.e("beginid", lastConV.getMid());
         SingleVolleyRequest.getInstance(context).addToRequestQueue(request);
 
     }

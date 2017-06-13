@@ -44,6 +44,7 @@ public class ADDetial {
     private String paystatus;
     private String paytype;
     private String listorder;
+    private String phone;
 
     public String getSlide_id() {
         return slide_id;
@@ -187,6 +188,14 @@ public class ADDetial {
 
     public void setListorder(String listorder) {
         this.listorder = listorder;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
 

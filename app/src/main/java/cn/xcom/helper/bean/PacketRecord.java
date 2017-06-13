@@ -49,4 +49,14 @@ public class PacketRecord implements Serializable{
     public void setCreate_time(long create_time) {
         this.create_time = create_time;
     }
+
+    @Override
+    public String toString() {
+        return "PacketRecord{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", money='" + money + '\'' +
+                ", create_time=" + create_time +
+                '}';
+    }
 }

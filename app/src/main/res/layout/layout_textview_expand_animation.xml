@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/color_gray_light_content_text"
         android:textSize="@dimen/sp_txt_size_content"
+        android:autoLink="phone|web"
         android:textIsSelectable="true"
         tools:text="@string/tips" />
 

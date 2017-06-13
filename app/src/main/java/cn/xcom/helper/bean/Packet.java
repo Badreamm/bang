@@ -178,4 +178,26 @@ public class Packet implements Serializable{
     public void setIspacket(List<PacketRecord> ispacket) {
         this.ispacket = ispacket;
     }
+
+    @Override
+    public String toString() {
+        return "Packet{" +
+                "id='" + id + '\'' +
+                ", mid='" + mid + '\'' +
+                ", userid='" + userid + '\'' +
+                ", order_num='" + order_num + '\'' +
+                ", paytype='" + paytype + '\'' +
+                ", paystatus='" + paystatus + '\'' +
+                ", draw_money='" + draw_money + '\'' +
+                ", money='" + money + '\'' +
+                ", count='" + count + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", photo='" + photo + '\'' +
+                ", left_money='" + left_money + '\'' +
+                ", state='" + state + '\'' +
+                ", ispacket=" + ispacket +
+                '}';
+    }
 }

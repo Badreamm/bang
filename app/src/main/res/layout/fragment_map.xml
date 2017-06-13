@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:id="@+id/map_layout"
@@ -65,11 +66,12 @@
         android:layout_width="match_parent"
         android:layout_height="100dip"
         android:background="@color/colorTextWhite">
+
         <FrameLayout
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            >
+            android:layout_weight="1.0">
+
             <TextView
                 android:id="@+id/tv_fragment_map_city_interaction"
                 android:layout_width="match_parent"
@@ -85,9 +87,7 @@
                 android:id="@+id/packet_flag"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="bottom|right"
-                android:src="@drawable/packet_anni"
-                />
+                android:layout_gravity="bottom|right"/>
         </FrameLayout>
 
 
@@ -132,6 +132,26 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginBottom="70dp"/>
+            android:layout_marginBottom="70dp"
+            />
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:image_scale_type="center_inside"
+            android:background="@color/divider"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:id="@+id/tv_hide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="隐藏"
+            android:layout_above="@id/banner"
+            android:layout_alignParentRight="true"
+            android:padding="5dp"
+            android:background="@color/divider"
+            />
     </RelativeLayout>
 </LinearLayout>

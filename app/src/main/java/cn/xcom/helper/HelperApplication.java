@@ -51,11 +51,10 @@ public class HelperApplication extends Application {
     public String mDistrict = "";
     public String mLocaddresscity = "";
     public String mLocaddresscityid = "";
+    public String provinceCityDistrict = "";
     //实时定位坐标和地址
     public double mLocLat, mLocLon;
     public String mLocAddress;
-
-    public String cityAndDistrict = "";
 
     //支付相关参数
     public String tradeNo;

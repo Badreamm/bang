@@ -2,6 +2,7 @@ package cn.xcom.helper.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,16 +15,19 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +64,8 @@ import com.google.gson.reflect.TypeToken;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,11 +76,8 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import cn.finalteam.toolsfinal.io.stream.ByteArrayOutputStream;
 import cn.xcom.helper.HelperApplication;
@@ -87,14 +90,12 @@ import cn.xcom.helper.activity.DetailAuthenticatinActivity;
 import cn.xcom.helper.activity.HelpMeActivity;
 import cn.xcom.helper.activity.HomeActivity;
 import cn.xcom.helper.activity.MyCitySelectActivity;
-import cn.xcom.helper.activity.PacketActivity;
-import cn.xcom.helper.activity.PacketDetailActivity;
-import cn.xcom.helper.activity.ReleaseAdvertisingActivity;
+import cn.xcom.helper.bean.ADDetial;
 import cn.xcom.helper.bean.AuthenticationList;
-import cn.xcom.helper.bean.Packet;
 import cn.xcom.helper.bean.UserInfo;
 import cn.xcom.helper.constant.NetConstant;
 import cn.xcom.helper.net.HelperAsyncHttpClient;
+import cn.xcom.helper.utils.GlideImageLoader;
 import cn.xcom.helper.utils.LogUtils;
 import cn.xcom.helper.utils.SingleVolleyRequest;
 import cn.xcom.helper.utils.StringPostRequest;
@@ -103,9 +104,9 @@ import cn.xcom.helper.utils.ToastUtils;
 import cn.xcom.helper.view.MapBottomPopWindow;
 import cn.xcom.helper.view.NiceDialog;
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.util.TextUtils;
 
 import static cn.finalteam.toolsfinal.io.IOUtils.copy;
-import static com.baidu.mapapi.BMapManager.getContext;
 
 /**
  * Created by zhuchongkun on 16/5/27.
@@ -151,7 +152,11 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     String count = "";
     LinearLayout mapLayout;
     private ImageView packetFlag;
-
+    private Banner banner;
+    private TextView hideTv;
+    private boolean smallFlag = false;//广告是否缩小
+    private ScaleAnimation animation;
+    private List<ADDetial> adDetials;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -167,33 +172,13 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         markers = new ArrayList<>();
         skill = new ArrayList<>();
         skills = new ArrayList<>();
+        adDetials = new ArrayList<>();
         userInfo = new UserInfo(mContext);
         mLocClient = new LocationClient(mContext);     //声明LocationClient类
         mLocClient.registerLocationListener(myListener);    //注册监听函数
-        // 地图初始化
-        mMapView = (MapView) getView().findViewById(R.id.mapView_fragment_map);
-        mapLayout = (LinearLayout) getView().findViewById(R.id.map_layout);
-        mBaiduMap = mMapView.getMap();
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
+        initView();
         initLocation();
         initListener();
-        ImageView button = (ImageView) getView().findViewById(R.id.btn_location);
-        // 初始化搜索模块，注册事件监听
-        mSearch = GeoCoder.newInstance();
-        mSearch.setOnGetGeoCodeResultListener(this);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LatLng ll = new LatLng(mLatitude, mLongtitude);
-                MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngZoom(ll, 18.0f);
-                mBaiduMap.animateMapStatus(msu);
-            }
-        });
-        initView();
-        hud = KProgressHUD.create(mContext)
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setCancellable(true);
         getCityId();
     }
 
@@ -252,7 +237,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             @Override
             public boolean onMarkerClick(Marker marker) {
                 hud.show();
-
                 markerId = lists.get(Integer.parseInt(marker.getTitle())).getId();
                 if (markerId != null) {
                     skill.clear();
@@ -265,7 +249,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                     }).start();
 
                 }
-
                 Log.d("----markerid", markerId);
                 Log.d("----markerid", "null");
 //                    } else {
@@ -274,8 +257,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 //                        }
 //                    }
 //                }
-
-
                 return true;
             }
         });
@@ -283,9 +264,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 
     /**
      * 构建坐标点
-     *
-     * @param mPt
-     * @param name
      */
     public void createMarker(final LatLng mPt, String name) {
         //构建Marker图标
@@ -338,6 +316,29 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     }
 
     private void initView() {
+        // 地图初始化
+        mMapView = (MapView) getView().findViewById(R.id.mapView_fragment_map);
+        mapLayout = (LinearLayout) getView().findViewById(R.id.map_layout);
+        mBaiduMap = mMapView.getMap();
+        // 开启定位图层
+        mBaiduMap.setMyLocationEnabled(true);
+
+        ImageView button = (ImageView) getView().findViewById(R.id.btn_location);
+        // 初始化搜索模块，注册事件监听
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(this);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng ll = new LatLng(mLatitude, mLongtitude);
+                MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngZoom(ll, 18.0f);
+                mBaiduMap.animateMapStatus(msu);
+            }
+        });
+        hud = KProgressHUD.create(mContext)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setCancellable(true);
+
         rl_location = (RelativeLayout) getView().findViewById(R.id.rl_fragment_map_location);
         rl_location.setOnClickListener(this);
         rl_authentication_list = (RelativeLayout) getView().findViewById(R.id.rl_fragment_map_authentication_list);
@@ -350,6 +351,50 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         tv_city_interaction.setOnClickListener(this);
         locate_district = (TextView) getView().findViewById(R.id.locate_district);
         packetFlag = (ImageView) getView().findViewById(R.id.packet_flag);
+        banner = (Banner) getView().findViewById(R.id.banner);
+        banner.setImageLoader(new GlideImageLoader());
+        hideTv = (TextView) getView().findViewById(R.id.tv_hide);
+        hideTv.setOnClickListener(this);
+
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if (smallFlag) {
+                    smallFlag = false;
+                    hideTv.setVisibility(View.VISIBLE);
+                    animation.cancel();
+                }else{
+                    if(position >=  adDetials.size()){
+                        return;
+                    }
+                    final ADDetial ad = adDetials.get(position);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setCancelable(true);
+                    builder.setTitle("联系我们");
+                    builder.setPositiveButton("拨打电话", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ad.getPhone()));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    });
+                    if (!TextUtils.isEmpty(ad.getSlide_url())){
+                        builder.setNegativeButton("访问网址", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri uri=Uri.parse(ad.getSlide_url());   //指定网址
+                                Intent intent=new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);           //指定Action
+                                intent.setData(uri);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    builder.show();
+                }
+            }
+        });
     }
 
     @Override
@@ -404,13 +449,12 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 //            getWorkingState();
 //        }
         getPacketInfo();
-
+        getImg();
     }
 
     /**
      * 获取认证帮服务者
      */
-
     private void getAuthentication() {
         String url = NetConstant.GET_HOME_MAP_AUTHENTICATION_USER;
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
@@ -639,7 +683,16 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             case R.id.tv_fragment_map_city_interaction:
                 startActivity(new Intent(mContext, ConvenienceActivity.class));
                 break;
-
+            case R.id.tv_hide:
+                animation = new ScaleAnimation(1.0f, 0.3f, 1.0f, 0.3f,
+                        Animation.RELATIVE_TO_SELF, 0.8f, Animation.RELATIVE_TO_SELF, 0.8f);
+                animation.setDuration(1000);//设置动画持续时间
+                animation.setFillAfter(true);
+                banner.setAnimation(animation);
+                animation.start();
+                smallFlag = true;
+                hideTv.setVisibility(View.GONE);
+                break;
         }
 
     }
@@ -747,7 +800,8 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             HelperApplication.getInstance().mLocLat = location.getLatitude();
             HelperApplication.getInstance().mLocLon = location.getLongitude();
             HelperApplication.getInstance().mLocAddress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
-            HelperApplication.getInstance().cityAndDistrict = location.getCity() + location.getDistrict();
+            HelperApplication.getInstance().mDistrict = location.getDistrict();
+            HelperApplication.getInstance().provinceCityDistrict = location.getAddrStr();
             if (isFirstIn) {
                 LatLng ll = new LatLng(mLatitude, mLongtitude);
                 MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngZoom(ll, 18.0f);
@@ -762,13 +816,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 homegetSpecificAuthentication();
                 getPacketInfo();
             }
-//
-//
-//            HelperApplication.getInstance().mLocaddresscity = location.getCity();
-//            HelperApplication.getInstance().mDistrict = location.getDistrict();
             getCityId();
-//            HelperApplication.getInstance().mLocaddressprovince = location.getProvince();
-//            Log.d("====mfmLocaddresscity", HelperApplication.getInstance().mLocaddresscity);
         }
     }
 
@@ -1069,7 +1117,10 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
     }
 
-    private void getPacketInfo(){
+    private void getPacketInfo() {
+        if ("".equals(HelperApplication.getInstance().mDistrict)) {
+            return;
+        }
         String url = NetConstant.GET_HOME_PACKET_FLAG;
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
             @Override
@@ -1077,13 +1128,19 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     String status = jsonObject.getString("status");
+                    packetFlag.setImageResource(R.drawable.packet_anni);
                     AnimationDrawable animationDrawable = (AnimationDrawable) packetFlag.getDrawable();
-
                     if (status.equals("success")) {
                         String date = jsonObject.getString("data");
-                        animationDrawable.start();
-                    }else{
-                        animationDrawable.stop();
+                        if ("0".equals(date)) {
+                            if (animationDrawable.isRunning()) {
+                                animationDrawable.stop();
+                                packetFlag.setBackgroundDrawable(null);
+                                packetFlag.setImageResource(R.drawable.packet_anni);
+                            }
+                        } else {
+                            animationDrawable.start();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1097,8 +1154,56 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             }
         });
         request.putValue("userid", userInfo.getUserId());
-        request.putValue("city", HelperApplication.getInstance().cityAndDistrict);
+        request.putValue("city", HelperApplication.getInstance().mDistrict);
         SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
     }
 
+
+    /*
+    * 获取广告图片
+    * */
+    private void getImg() {
+        String url = NetConstant.GET_SLIDE_LIST_NEW;
+        StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    Log.d("=====显示111", "" + s);
+                    JSONObject jsonObject = new JSONObject(s);
+                    String state = jsonObject.getString("status");
+                    if (state.equals("success")) {
+                        String jsonObject1 = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        List<ADDetial> imgs = gson.fromJson(jsonObject1,
+                                new TypeToken<ArrayList<ADDetial>>() {
+                                }.getType());
+                        adDetials.clear();
+                        adDetials.addAll(imgs);
+                        List<String> ads = new ArrayList<>();
+                        for (int i = 0; i < imgs.size(); i++) {
+                            ads.add(NetConstant.NET_DISPLAY_IMG + imgs.get(i).getSlide_pic());
+                        }
+                        for (int i = 0; i < 3 - ads.size(); i++) {
+                            ads.add(NetConstant.NET_DISPLAY_IMG + "yyy39501497369019325.jpg");
+                        }
+                        banner.setImages(ads);
+                        banner.start();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showToast(getContext(), "网络连接错误，请检查您的网络");
+            }
+        });
+        request.putValue("typeid", "1");
+//        request.putValue("cityid", "44");
+        request.putValue("cityid", HelperApplication.getInstance().mLocaddresscityid);
+        SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
+    }
 }

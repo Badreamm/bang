@@ -1,7 +1,10 @@
 package cn.xcom.helper.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.hardware.SensorManager;
 import android.net.Uri;
@@ -19,6 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.alipay.share.sdk.openapi.APAPIFactory;
+import com.alipay.share.sdk.openapi.APMediaMessage;
+import com.alipay.share.sdk.openapi.APTextObject;
+import com.alipay.share.sdk.openapi.APWebPageObject;
+import com.alipay.share.sdk.openapi.IAPApi;
+import com.alipay.share.sdk.openapi.SendMessageToZFB;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bigkoo.alertview.AlertView;
@@ -27,21 +36,37 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
+import com.tencent.connect.share.QQShare;
+import com.tencent.connect.share.QzoneShare;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.xcom.helper.HelperApplication;
 import cn.xcom.helper.R;
+import cn.xcom.helper.WXpay.Constants;
 import cn.xcom.helper.activity.ChatActivity;
+import cn.xcom.helper.activity.ConvenienceActivity;
 import cn.xcom.helper.activity.DetailAuthenticatinActivity;
 import cn.xcom.helper.activity.PacketActivity;
 import cn.xcom.helper.activity.PacketDetailActivity;
+import cn.xcom.helper.activity.SaleDetailActivity;
 import cn.xcom.helper.activity.SpaceImageDetailActivity;
 import cn.xcom.helper.activity.SpaceVideoDetialActivity;
 import cn.xcom.helper.bean.AuthenticationList;
@@ -58,10 +83,14 @@ import cn.xcom.helper.utils.SingleVolleyRequest;
 import cn.xcom.helper.utils.StringPostRequest;
 import cn.xcom.helper.utils.TimeUtils;
 import cn.xcom.helper.utils.ToastUtil;
+import cn.xcom.helper.utils.ToastUtils;
 import cn.xcom.helper.view.MapBottomPopWindow;
+import cn.xcom.helper.view.SharePopupWindow;
 import cn.xcom.helper.view.TextViewExpandableAnimation;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
+import static com.tencent.connect.share.QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT;
 
 /**
  * Created by Administrator on 2016/9/25 0025.
@@ -76,13 +105,23 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
     private Map<Integer, Boolean> states;
     private String videoPic;
     List<AuthenticationList> authenticationLists;
-
+    SharePopupWindow takePhotoPopWin;
+    private int flag = 2, wxflag = 1;
+    IWXAPI msgApi;
+    private Tencent mTencent;
+    private BaseUiListener listener;
+    private String shaerText;
     public ConvenienceAdapter(List<Convenience> list, Context context) {
         this.list = list;
         this.context = context;
         userInfo = new UserInfo(context);
         userInfo.readData(context);
         states = new HashMap<>();
+        msgApi = WXAPIFactory.createWXAPI(context, Constants.APP_ID, false);
+        msgApi.registerApp(Constants.APP_ID);
+        mTencent = Tencent.createInstance("1105802480", context.getApplicationContext());
+        listener = new BaseUiListener();
+
     }
 
 
@@ -341,6 +380,14 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
                 getPacketState(convenience.getPicketId());
             }
         });
+
+        holder.shareIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopFormBottom();
+                shaerText = convenience.getContent()+"（要想获取更多信息，请下载51帮App）";
+            }
+        });
     }
 
     private void getPacketState(String packetId) {
@@ -403,6 +450,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         private SoundView soundView;
         private TextViewExpandableAnimation contentEtv;
         private ImageView packetFlag;
+        private ImageView shareIv;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -419,9 +467,143 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             noScrollGridView = (NoScrollGridView) itemView.findViewById(R.id.gridview);
             soundView = (SoundView) itemView.findViewById(R.id.sound_view);
             packetFlag = (ImageView) itemView.findViewById(R.id.packet_flag);
+            shareIv = (ImageView) itemView.findViewById(R.id.iv_share);
         }
 
     }
 
+    public void showPopFormBottom() {
+        takePhotoPopWin = new SharePopupWindow(context, onClickListener);
+        //SharePopupWindow takePhotoPopWin = new SharePopupWindow(this, onClickListener);
+        takePhotoPopWin.showAtLocation(HelperApplication.getInstance().getActivities().get(HelperApplication.getInstance().getActivities().size()-1).getCurrentFocus(), Gravity.BOTTOM, 0, 0);
+    }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.haoyou:
+                    ToastUtils.showToast(context, "微信好友");
+                    setting(shaerText);
+                    break;
+                case R.id.dongtai:
+                    ToastUtils.showToast(context, "微信朋友圈");
+                    history(shaerText);
+                    break;
+                case R.id.qq:
+                    ToastUtils.showToast(context, "QQ");
+                    shareToQQ(shaerText);
+                    takePhotoPopWin.dismiss();
+                    break;
+                case R.id.kongjian:
+                    ToastUtils.showToast(context, "QQ空间");
+                    shareToQzone(shaerText);
+                    takePhotoPopWin.dismiss();
+                    break;
+                case R.id.zhifubao:
+                    ToastUtils.showToast(context, "支付宝");
+                    toAlipay(shaerText);
+                    takePhotoPopWin.dismiss();
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 分享到微信好友
+     */
+    private void setting(String text) {
+        //ToastUtils.ToastShort(this, "分享到微信好友");
+        wxflag = 0;
+        shareWX(text);
+        takePhotoPopWin.dismiss();
+    }
+
+    /**
+     * 分享到微信朋友圈
+     */
+    private void history(String text) {
+        // ToastUtils.ToastShort(this, "分享到微信朋友圈");
+        wxflag = 1;
+        shareWX(text);
+        takePhotoPopWin.dismiss();
+    }
+
+    /**
+     * 微信
+     */
+    private void shareWX(String text) {
+        WXTextObject textObject = new WXTextObject();
+        textObject.text = text;
+
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = textObject;
+        msg.description = text;
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = String.valueOf(new Date().getTime());
+        req.message = msg;
+        req.scene = wxflag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+        msgApi.sendReq(req);
+    }
+
+    private void shareToQQ(String text) {
+        Bundle params = new Bundle();
+        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+        params.putString(QQShare.SHARE_TO_QQ_TITLE, text);
+        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, text);
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, NetConstant.SHARE_SHOP_H5 + userInfo.getUserId());
+        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "51帮");
+        mTencent.shareToQQ((Activity) context, params, listener);
+    }
+
+    private void shareToQzone(String text) {
+        Bundle params = new Bundle();
+        //分享类型
+        params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
+        params.putString(QzoneShare.SHARE_TO_QQ_TITLE, "51帮");//必填
+        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY,text);//选填
+        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, NetConstant.SHARE_SHOP_H5 + userInfo.getUserId());//必填
+        ArrayList<String> images = new ArrayList<>();
+        images.add("http://www.my51bang.com/uploads/ic_logo.png");
+        params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, images);
+        mTencent.shareToQzone((Activity) context, params, listener);
+    }
+
+    private class BaseUiListener implements IUiListener {
+        @Override
+        public void onCancel() {
+            Toast.makeText(context, "取消分享", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(context, uiError.errorMessage + "\n" + uiError.errorDetail,
+                    Toast.LENGTH_SHORT)
+                    .show();
+            Log.d("QQshare", uiError.errorMessage + "\n" + uiError.errorDetail);
+        }
+
+        @Override
+        public void onComplete(Object o) {
+//            enableAction(enableActionShareQRCodeActivity.this.action);
+        }
+    }
+
+    private void toAlipay(String text) {
+        //创建工具对象实例，此处的APPID为上文提到的，申请应用生效后，在应用详情页中可以查到的支付宝应用唯一标识
+        IAPApi api = APAPIFactory.createZFBApi(context.getApplicationContext(), "2016083001821606", false);
+        APTextObject textObject = new APTextObject();
+        textObject.text = text;
+        //初始化APMediaMessage ，组装分享消息对象
+        APMediaMessage mediaMessage = new APMediaMessage();
+        mediaMessage.mediaObject = textObject;
+        //将分享消息对象包装成请求对象
+        SendMessageToZFB.Req req = new SendMessageToZFB.Req();
+        req.message = mediaMessage;
+        //发送请求
+        api.sendReq(req);
+    }
 
 }
