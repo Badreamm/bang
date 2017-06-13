@@ -55,6 +55,8 @@ public class HelperApplication extends Application {
     public double mLocLat, mLocLon;
     public String mLocAddress;
 
+    public String cityAndDistrict = "";
+
     //支付相关参数
     public String tradeNo;
     public String payType;

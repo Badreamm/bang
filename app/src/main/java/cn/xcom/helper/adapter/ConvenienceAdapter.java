@@ -262,11 +262,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             });
         }
         //显示举报按钮
-        if (!convenience.getUserid().
-
-                equals(userInfo.getUserId()))
-
-        {
+        if (!convenience.getUserid().equals(userInfo.getUserId())) {
             holder.iv_jubao.setVisibility(View.VISIBLE);
             holder.iv_shanchu.setVisibility(View.GONE);
             holder.iv_jubao.setOnClickListener(new View.OnClickListener() {
@@ -330,9 +326,11 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         //判断红包
         if (!TextUtils.isEmpty(convenience.getPicketId())) {
             holder.packetFlag.setVisibility(View.VISIBLE);
+            AnimationDrawable animationDrawable = (AnimationDrawable) holder.packetFlag.getDrawable();
             if ("1".equals(convenience.getPicketstate())) {
-                AnimationDrawable animationDrawable = (AnimationDrawable) holder.packetFlag.getDrawable();
                 animationDrawable.start();
+            }else{
+                animationDrawable.stop();
             }
         } else {
             holder.packetFlag.setVisibility(View.GONE);
@@ -345,7 +343,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         });
     }
 
-    private void getPacketState(String packetId){
+    private void getPacketState(String packetId) {
         String url = NetConstant.GET_PACKET_STATE;
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
             @Override
@@ -356,17 +354,17 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
                     if (status.equals("success")) {
                         String date = jsonObject.getString("data");
                         Gson gson = new Gson();
-                        Packet packet = gson.fromJson(date,Packet.class);
+                        Packet packet = gson.fromJson(date, Packet.class);
                         String packetState = packet.getState();
-                        if ("1".equals(packetState)){
+                        if ("1".equals(packetState)) {
                             //可以抢
                             Intent intent = new Intent(context, PacketActivity.class);
-                            intent.putExtra("packetid",packet.getId());
+                            intent.putExtra("packetid", packet.getId());
                             context.startActivity(intent);
-                        }else {
+                        } else {
                             //直接显示红包信息
                             Intent intent = new Intent(context, PacketDetailActivity.class);
-                            intent.putExtra("packet",packet);
+                            intent.putExtra("packet", packet);
                             context.startActivity(intent);
 
                         }

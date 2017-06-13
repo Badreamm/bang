@@ -13,6 +13,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -380,6 +381,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         super.onResume();
         Log.e("resume", "yes");
         Log.e("当前定位坐标", HelperApplication.getInstance().mCurrentLocLat + "," + HelperApplication.getInstance().mCurrentLocLon);
+
         if (HelperApplication.getInstance().mCurrentLocLon != 0) {
             currentPt = new LatLng(HelperApplication.getInstance().mCurrentLocLat, HelperApplication.getInstance().mCurrentLocLon);
             MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngZoom(currentPt, 18.0f);
@@ -402,6 +404,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 //            getWorkingState();
 //        }
         getPacketInfo();
+
     }
 
     /**
@@ -744,7 +747,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             HelperApplication.getInstance().mLocLat = location.getLatitude();
             HelperApplication.getInstance().mLocLon = location.getLongitude();
             HelperApplication.getInstance().mLocAddress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
-
+            HelperApplication.getInstance().cityAndDistrict = location.getCity() + location.getDistrict();
             if (isFirstIn) {
                 LatLng ll = new LatLng(mLatitude, mLongtitude);
                 MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngZoom(ll, 18.0f);
@@ -757,6 +760,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 locate_district.setText(location.getDistrict());
                 getAuthentication();
                 homegetSpecificAuthentication();
+                getPacketInfo();
             }
 //
 //
@@ -1073,8 +1077,13 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     String status = jsonObject.getString("status");
+                    AnimationDrawable animationDrawable = (AnimationDrawable) packetFlag.getDrawable();
+
                     if (status.equals("success")) {
                         String date = jsonObject.getString("data");
+                        animationDrawable.start();
+                    }else{
+                        animationDrawable.stop();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1088,7 +1097,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             }
         });
         request.putValue("userid", userInfo.getUserId());
-        request.putValue("city", "烟台市莱山区");
+        request.putValue("city", HelperApplication.getInstance().cityAndDistrict);
         SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
     }
 

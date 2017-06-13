@@ -87,7 +87,6 @@
                 android:layout_height="30dp"
                 android:layout_gravity="bottom|right"
                 android:src="@drawable/packet_anni"
-                android:visibility="invisible"
                 />
         </FrameLayout>
 
