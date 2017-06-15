@@ -252,7 +252,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
                 equals(userInfo.getUserId()))
 
         {
-            holder.iv_jubao.setVisibility(View.GONE);
+            holder.iv_jubao.setVisibility(View.INVISIBLE);
             holder.iv_shanchu.setVisibility(View.VISIBLE);
             holder.iv_shanchu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -303,7 +303,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         //显示举报按钮
         if (!convenience.getUserid().equals(userInfo.getUserId())) {
             holder.iv_jubao.setVisibility(View.VISIBLE);
-            holder.iv_shanchu.setVisibility(View.GONE);
+            holder.iv_shanchu.setVisibility(View.INVISIBLE);
             holder.iv_jubao.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -411,7 +411,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
                         } else {
                             //直接显示红包信息
                             Intent intent = new Intent(context, PacketDetailActivity.class);
-                            intent.putExtra("packet", packet);
+                            intent.putExtra("packetid", packet.getId());
                             context.startActivity(intent);
 
                         }

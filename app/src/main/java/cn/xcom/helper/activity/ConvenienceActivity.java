@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
     String msgCount;
     UserInfo user;
     String keyWord = "";
-
+    private CheckBox stateCb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +154,14 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         convenienceAdapter = new ConvenienceAdapter(addlist, context);
         xRecyclerView.setAdapter(convenienceAdapter);
         getMessage();
-
+        stateCb = (CheckBox) findViewById(R.id.cb_state);
+        stateCb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changePacketReceiveState();
+            }
+        });
+        getPacketReceiveState();
     }
 
     /*
@@ -370,4 +378,69 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         }
         return onTouchEvent(ev);
     }
+
+    private void getPacketReceiveState() {
+        String url = NetConstant.GET_PACKET_RECEIVER_STATE;
+        StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("success")) {
+                        String data = jsonObject.getString("data");
+                        if("1".equals(data)){
+                            stateCb.setChecked(true);
+                        }else{
+                            stateCb.setChecked(false);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtil.Toast(context, "网络错误，请检查");
+            }
+
+        });
+        request.putValue("userid", user.getUserId());
+        SingleVolleyRequest.getInstance(context).addToRequestQueue(request);
+
+    }
+
+    private void changePacketReceiveState() {
+        String url = NetConstant.CHANGE_PACKET_RECEIVER_STATE;
+        StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("success")) {
+                        String data = jsonObject.getString("data");
+                        if("1".equals(data)){
+                            stateCb.setChecked(true);
+                        }else{
+                            stateCb.setChecked(false);
+                        }
+                    }else{
+                        ToastUtil.Toast(context, "切换状态失败");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtil.Toast(context, "网络错误，请检查");
+            }
+        });
+        request.putValue("userid", user.getUserId());
+        SingleVolleyRequest.getInstance(context).addToRequestQueue(request);
+    }
+
 }

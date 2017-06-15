@@ -172,6 +172,7 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
     private List<MediaItem> mMediaSelectedList;
     private MediaController mediaController;
     private AlertView alertView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -421,10 +422,10 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
                     if (object.optString("status").equals("success")) {
                         JSONObject publishresult = object.getJSONObject("data");
                         payId = publishresult.optString("id");
+                        HelperApplication.getInstance().trendsBack = true;
                         if (publishresult.optString("status").equals("-2")) {
                             numDialog();
                         } else {
-                            HelperApplication.getInstance().trendsBack = true;
                             packetDailog(false);
                         }
                     } else {
@@ -755,12 +756,12 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
     }
 
     //弹出是否发红包dialog
-    private  void packetDailog(final boolean needBuyMore){
+    private void packetDailog(final boolean needBuyMore) {
         String[] items;
-        if(needBuyMore){
-            items = new String[] { "去发红包和发布此便民圈", "只发布便民圈，不发红包", "不发布此条便民圈"};
-        }else{
-            items = new String[] { "去发红包", "只发布便民圈，不发红包"};
+        if (needBuyMore) {
+            items = new String[]{"去发红包和发布此便民圈", "只发布便民圈，不发红包", "不发布此条便民圈"};
+        } else {
+            items = new String[]{"去发红包", "只发布便民圈，不发红包"};
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("系统提示");
@@ -769,25 +770,25 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case 0:
                         //红包+便民圈
-                        if(needBuyMore){
+                        if (needBuyMore) {
                             getMessagePrice(true);
-                        }else{
+                        } else {
                             //发红包页面
-                            Intent intent = new Intent(ReleaseConvenienceActivity.this,SendPacketActivity.class);
-                            intent.putExtra("mid",payId);
-                            intent.putExtra("messagePrice","0");//此条件下不需要支付便民圈费用
+                            Intent intent = new Intent(ReleaseConvenienceActivity.this, SendPacketActivity.class);
+                            intent.putExtra("mid", payId);
+                            intent.putExtra("messagePrice", "0");//此条件下不需要支付便民圈费用
                             startActivity(intent);
                             finish();
                         }
                         break;
                     case 1:
-                        if(needBuyMore){
+                        if (needBuyMore) {
                             //获取便民圈单价
                             getMessagePrice(false);
-                        }else{
+                        } else {
                             Toast.makeText(ReleaseConvenienceActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                             finish();
                         }
@@ -814,13 +815,13 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
                     JSONObject object = new JSONObject(s);
                     if (object.optString("status").equals("success")) {
                         String messagePrice = object.optString("data");
-                        if (needPacket){
+                        if (needPacket) {
                             //发红包页面
-                            Intent intent = new Intent(ReleaseConvenienceActivity.this,SendPacketActivity.class);
-                            intent.putExtra("mid",payId);
-                            intent.putExtra("messagePrice",messagePrice);//此条件下需要支付便民圈费用
+                            Intent intent = new Intent(ReleaseConvenienceActivity.this, SendPacketActivity.class);
+                            intent.putExtra("mid", payId);
+                            intent.putExtra("messagePrice", messagePrice);//此条件下需要支付便民圈费用
                             startActivity(intent);
-                        }else{
+                        } else {
                             Intent payIntent = new Intent(ReleaseConvenienceActivity.this, PaymentActivity.class);
                             payIntent.putExtra("paytype", "ConveniencePay");
                             payIntent.putExtra("body", "便民圈");

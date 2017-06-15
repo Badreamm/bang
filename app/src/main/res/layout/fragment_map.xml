@@ -87,7 +87,9 @@
                 android:id="@+id/packet_flag"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="bottom|right"/>
+                android:layout_gravity="bottom|right"
+                android:layout_margin="25dp"
+                />
         </FrameLayout>
 
 
@@ -152,6 +154,17 @@
             android:layout_alignParentRight="true"
             android:padding="5dp"
             android:background="@color/divider"
+            />
+        <TextView
+            android:id="@+id/tv_publish_ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我也要发布属于自己的广告"
+            android:layout_above="@id/banner"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/msg_red"
+            android:layout_toLeftOf="@id/tv_hide"
+            android:padding="5dp"
             />
     </RelativeLayout>
 </LinearLayout>

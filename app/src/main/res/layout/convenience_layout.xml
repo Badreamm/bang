@@ -50,9 +50,8 @@
                 android:id="@+id/iv_jubao"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignLeft="@+id/iv_shanchu"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/iv_shanchu"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/convenience_message"
                 android:src="@drawable/ic_jubao" />
 
             <ImageView
@@ -77,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/iv_jubao"
+                android:layout_toLeftOf="@id/iv_share"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="51-证"

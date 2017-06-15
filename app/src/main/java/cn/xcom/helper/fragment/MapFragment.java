@@ -1,5 +1,9 @@
 package cn.xcom.helper.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -90,6 +95,7 @@ import cn.xcom.helper.activity.DetailAuthenticatinActivity;
 import cn.xcom.helper.activity.HelpMeActivity;
 import cn.xcom.helper.activity.HomeActivity;
 import cn.xcom.helper.activity.MyCitySelectActivity;
+import cn.xcom.helper.activity.ReleaseAdvertisingActivity;
 import cn.xcom.helper.bean.ADDetial;
 import cn.xcom.helper.bean.AuthenticationList;
 import cn.xcom.helper.bean.UserInfo;
@@ -128,18 +134,13 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     MyLocationData locData;
     GeoCoder mSearch = null; // 搜索模块，也可去掉地图模块独立使用
     private KProgressHUD hud;
-    /**
-     * 当前地点击点
-     */
-    private LatLng currentPt;
+    private LatLng currentPt;//当前地点击点
     private Marker marker;
     private boolean isResult;
     private double mLatitude, mLongtitude;
     private boolean isFirstIn = true;
     private String status;
-
     private NiceDialog mDialog;
-
     private HomeActivity homeActivity;
     private UserInfo userInfo;
     String markerId;
@@ -153,10 +154,13 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     LinearLayout mapLayout;
     private ImageView packetFlag;
     private Banner banner;
-    private TextView hideTv;
+    private TextView hideTv,publishAdTv;
     private boolean smallFlag = false;//广告是否缩小
     private ScaleAnimation animation;
     private List<ADDetial> adDetials;
+    private int bannerTransHeight;
+    private int bannerTransWidth;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -320,6 +324,8 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         mMapView = (MapView) getView().findViewById(R.id.mapView_fragment_map);
         mapLayout = (LinearLayout) getView().findViewById(R.id.map_layout);
         mBaiduMap = mMapView.getMap();
+        // 不显示地图缩放控件（按钮控制栏）
+        mMapView.showZoomControls(false);
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
 
@@ -355,14 +361,13 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         banner.setImageLoader(new GlideImageLoader());
         hideTv = (TextView) getView().findViewById(R.id.tv_hide);
         hideTv.setOnClickListener(this);
-
+        publishAdTv = (TextView) getView().findViewById(R.id.tv_publish_ad);
+        publishAdTv.setOnClickListener(this);
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
                 if (smallFlag) {
-                    smallFlag = false;
-                    hideTv.setVisibility(View.VISIBLE);
-                    animation.cancel();
+                    scaleBanner();
                 }else{
                     if(position >=  adDetials.size()){
                         return;
@@ -395,7 +400,10 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 }
             }
         });
+        bannerTransHeight = banner.getLayoutParams().height/3;
+        bannerTransWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth()/3;
     }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -684,18 +692,48 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 startActivity(new Intent(mContext, ConvenienceActivity.class));
                 break;
             case R.id.tv_hide:
-                animation = new ScaleAnimation(1.0f, 0.3f, 1.0f, 0.3f,
-                        Animation.RELATIVE_TO_SELF, 0.8f, Animation.RELATIVE_TO_SELF, 0.8f);
-                animation.setDuration(1000);//设置动画持续时间
-                animation.setFillAfter(true);
-                banner.setAnimation(animation);
-                animation.start();
-                smallFlag = true;
-                hideTv.setVisibility(View.GONE);
+                scaleBanner();
+                break;
+            case R.id.tv_publish_ad:
+                HelperApplication.getInstance().type = "6";
+                HelperApplication.getInstance().conAdv = true;
+                startActivity(new Intent(getContext(), ReleaseAdvertisingActivity.class));
                 break;
         }
 
     }
+    private void scaleBanner(){
+        AnimatorSet smallAnimatorSet = new AnimatorSet();//缩小动画
+        AnimatorSet bigAnimatorSet = new AnimatorSet();//放大动画
+        if(!smallFlag){
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(banner, "scaleX", 1f, 0.2f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(banner, "scaleY", 1f, 0.2f);
+            ObjectAnimator tranX = ObjectAnimator.ofFloat(banner,"translationX",0,bannerTransWidth);
+            ObjectAnimator tranY = ObjectAnimator.ofFloat(banner,"translationY",0,bannerTransHeight);
+
+            smallAnimatorSet.setDuration(500);
+            smallAnimatorSet.setInterpolator(new DecelerateInterpolator());
+            smallAnimatorSet.play(scaleX).with(scaleY).with(tranX).with(tranY);//两个动画同时开始
+            smallAnimatorSet.start();
+            smallFlag = true;
+            hideTv.setVisibility(View.GONE);
+            publishAdTv.setVisibility(View.GONE);
+        }else{
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(banner, "scaleX", 0.2f, 1f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(banner, "scaleY", 0.2f, 1f);
+            ObjectAnimator tranX = ObjectAnimator.ofFloat(banner,"translationX",bannerTransWidth,0);
+            ObjectAnimator tranY = ObjectAnimator.ofFloat(banner,"translationY",bannerTransHeight,0);
+            bigAnimatorSet.setDuration(500);
+            bigAnimatorSet.setInterpolator(new DecelerateInterpolator());
+            bigAnimatorSet.play(scaleX).with(scaleY).with(tranX).with(tranY);//两个动画同时开始
+            bigAnimatorSet.start();
+            smallFlag = false;
+            hideTv.setVisibility(View.VISIBLE);
+            publishAdTv.setVisibility(View.VISIBLE);
+
+        }
+    }
+
 
     @Override
     public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {

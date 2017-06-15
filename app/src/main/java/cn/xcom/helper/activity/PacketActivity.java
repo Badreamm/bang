@@ -1,6 +1,10 @@
 package cn.xcom.helper.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -13,6 +17,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import cn.xcom.helper.HelperApplication;
 import cn.xcom.helper.R;
 import cn.xcom.helper.bean.Packet;
 import cn.xcom.helper.bean.UserInfo;
@@ -29,6 +36,8 @@ public class PacketActivity extends BaseActivity {
     private ImageView chaiIv,closeIv;
     private String packetId;
     private UserInfo userInfo;
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +61,9 @@ public class PacketActivity extends BaseActivity {
                 finish();
             }
         });
+        mediaPlayer = new MediaPlayer();
+
+
     }
 
     private void getPacket(){
@@ -67,9 +79,10 @@ public class PacketActivity extends BaseActivity {
                         Gson gson = new Gson();
                         Packet packet = gson.fromJson(date,Packet.class);
                         Intent intent = new Intent(PacketActivity.this, PacketDetailActivity.class);
-                        intent.putExtra("packet",packet);
-                        intent.putExtra("from","touch");
+                        intent.putExtra("packetid",packet.getMid());
                         startActivity(intent);
+                        playMusic(PacketActivity.this);
+                        HelperApplication.getInstance().trendsBack = true;
                         finish();
                     }
                 } catch (JSONException e) {
@@ -86,5 +99,42 @@ public class PacketActivity extends BaseActivity {
         request.putValue("userid", userInfo.getUserId());
         request.putValue("packetid", packetId);
         SingleVolleyRequest.getInstance(this).addToRequestQueue(request);
+    }
+
+    /**
+     * 播放提示音
+     * @param context
+     */
+    protected void playMusic(Context context) {
+        if(mediaPlayer == null){
+            return;
+        }
+        AssetManager assetManager = context.getAssets();
+        AssetFileDescriptor fileDescriptor = null;
+        try {
+            fileDescriptor = assetManager.openFd("openPicket.mp3");
+
+            mediaPlayer
+                    .setDataSource(fileDescriptor.getFileDescriptor(),
+                            fileDescriptor.getStartOffset(),
+                            fileDescriptor.getLength());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            mediaPlayer
+                    .setOnCompletionListener(new MediaPlayer.OnCompletionListener() {//播出完毕事件
+                        @Override
+                        public void onCompletion(MediaPlayer arg0) {
+                            mediaPlayer.stop();
+                            mediaPlayer.reset();
+                            mediaPlayer.release();
+                        }
+                    });
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

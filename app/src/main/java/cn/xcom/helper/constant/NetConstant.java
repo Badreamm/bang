@@ -519,4 +519,15 @@ public interface NetConstant extends HelperConstant {
      * 判断首页是否显示红包标志
      */
     String GET_HOME_PACKET_FLAG = NET_HOST_PREFIX + "a=getCanBePacket";
+
+
+    /**
+     * 关闭打开红包推送
+     */
+    String CHANGE_PACKET_RECEIVER_STATE = NET_HOST_PREFIX + "a=isrReceivePacketMessage";
+
+    /**
+     * 获取红包推送状态 0 关闭 1打开
+     */
+    String GET_PACKET_RECEIVER_STATE = NET_HOST_PREFIX + "a=GetIsReceiveState";
 }

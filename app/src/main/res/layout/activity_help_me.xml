@@ -56,7 +56,7 @@
                 android:layout_height="100dip"
                 android:background="@color/colorTextWhite"
                 android:gravity="center_horizontal|left"
-                android:hint="@string/et_help_me_content_hint"
+                android:hint="@string/tv_i_convenience_hint"
                 android:padding="10dip"
                 android:textSize="15sp" />
 
