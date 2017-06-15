@@ -757,49 +757,57 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
 
     //弹出是否发红包dialog
     private void packetDailog(final boolean needBuyMore) {
-        String[] items;
+        String posiStr="",nagvStr="",neuStr="";
         if (needBuyMore) {
-            items = new String[]{"去发红包和发布此便民圈", "只发布便民圈，不发红包", "不发布此条便民圈"};
+            posiStr = "去发红包和发布此便民圈";
+            nagvStr = "只发布便民圈，不发红包";
+            neuStr = "不发布此条便民圈";
         } else {
-            items = new String[]{"去发红包", "只发布便民圈，不发红包"};
+            posiStr = "去发红包";
+            nagvStr = "只发布便民圈，不发红包";
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("系统提示");
-//        builder.setMessage("便民圈可以发红包啦！发红包能让更多的人关注您的便民全，而且在全国展示呦！是否要发红包？");
+        builder.setMessage("便民圈可以发红包啦！发红包能让更多的人关注您的便民圈，而且在全国展示呦！是否要发红包？");
         builder.setCancelable(false);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(posiStr, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        //红包+便民圈
-                        if (needBuyMore) {
-                            getMessagePrice(true);
-                        } else {
-                            //发红包页面
-                            Intent intent = new Intent(ReleaseConvenienceActivity.this, SendPacketActivity.class);
-                            intent.putExtra("mid", payId);
-                            intent.putExtra("messagePrice", "0");//此条件下不需要支付便民圈费用
-                            startActivity(intent);
-                            finish();
-                        }
-                        break;
-                    case 1:
-                        if (needBuyMore) {
-                            //获取便民圈单价
-                            getMessagePrice(false);
-                        } else {
-                            Toast.makeText(ReleaseConvenienceActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                        break;
-                    case 2:
-                        finish();
-                        startActivity(new Intent(ReleaseConvenienceActivity.this, MyMessageActivity.class));
-                        break;
+                //红包+便民圈
+                if (needBuyMore) {
+                    getMessagePrice(true);
+                } else {
+                    //发红包页面
+                    Intent intent = new Intent(ReleaseConvenienceActivity.this, SendPacketActivity.class);
+                    intent.putExtra("mid", payId);
+                    intent.putExtra("messagePrice", "0");//此条件下不需要支付便民圈费用
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
+        builder.setNegativeButton(nagvStr, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (needBuyMore) {
+                    //获取便民圈单价
+                    getMessagePrice(false);
+                } else {
+                    Toast.makeText(ReleaseConvenienceActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
+        if(!TextUtils.isEmpty(neuStr)){
+            builder.setNeutralButton(neuStr, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                    startActivity(new Intent(ReleaseConvenienceActivity.this, MyMessageActivity.class));
+                }
+            });
+        }
+
         builder.show();
     }
 

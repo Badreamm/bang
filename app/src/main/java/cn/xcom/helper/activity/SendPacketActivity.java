@@ -91,11 +91,16 @@ public class SendPacketActivity extends BaseActivity {
         }
         if(TextUtils.isEmpty(num) || "0".equals(num)){
             ToastUtils.showToast(this,"份数不能为空");
+            return;
+        }
+        if(Integer.valueOf(money) < 1){
+            ToastUtils.showToast(this,"金额不能小于1元");
+            return;
         }
         if(Integer.valueOf(num) > 60){
             ToastUtils.showToast(this,"最多为60个");
+            return;
         }
-
         String url = NetConstant.SEND_PACKET;
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
             @Override

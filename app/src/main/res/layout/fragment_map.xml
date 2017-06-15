@@ -121,50 +121,63 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.baidu.mapapi.map.MapView
             android:id="@+id/mapView_fragment_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true"/>
+            android:clickable="true" />
+
         <ImageView
             android:id="@+id/btn_location"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/sign"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
             android:layout_marginBottom="70dp"
-            />
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/sign" />
+
         <com.youth.banner.Banner
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:image_scale_type="center_inside"
-            android:background="@color/divider"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:background="#f3f3f3"
+            app:image_scale_type="center_inside" />
+
         <TextView
             android:id="@+id/tv_hide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="隐藏"
             android:layout_above="@id/banner"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
             android:background="@color/divider"
+            android:padding="5dp"
+            android:text="隐藏"
+            android:visibility="invisible"
             />
+
         <TextView
             android:id="@+id/tv_publish_ad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我也要发布属于自己的广告"
             android:layout_above="@id/banner"
             android:layout_alignParentLeft="true"
-            android:textColor="@color/msg_red"
             android:layout_toLeftOf="@id/tv_hide"
             android:padding="5dp"
-            />
+            android:text="我也要发布属于自己的广告"
+            android:textColor="@color/msg_red" />
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/banner"
+            android:layout_alignParentRight="true"
+            android:background="@color/divider"
+            android:padding="5dp"
+            android:text="5秒后可隐藏" />
     </RelativeLayout>
 </LinearLayout>

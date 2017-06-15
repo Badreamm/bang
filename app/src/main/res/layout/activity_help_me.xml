@@ -53,7 +53,7 @@
             <EditText
                 android:id="@+id/et_help_me_content"
                 android:layout_width="match_parent"
-                android:layout_height="100dip"
+                android:layout_height="150dip"
                 android:background="@color/colorTextWhite"
                 android:gravity="center_horizontal|left"
                 android:hint="@string/tv_i_convenience_hint"

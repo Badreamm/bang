@@ -55,20 +55,21 @@
                 android:src="@drawable/ic_jubao" />
 
             <ImageView
-                android:id="@+id/packet_flag"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/iv_shanchu"
-                android:src="@drawable/packet_anni" />
-
-            <ImageView
                 android:id="@+id/iv_share"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/packet_flag"
+                android:layout_toLeftOf="@id/iv_shanchu"
                 android:src="@drawable/share_btn" />
+
+            <ImageView
+                android:id="@+id/packet_flag"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/iv_share"
+                android:src="@drawable/packet_anni" />
+
 
             <TextView
                 android:id="@+id/convenience_name"

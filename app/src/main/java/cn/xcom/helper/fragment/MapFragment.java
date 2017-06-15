@@ -21,6 +21,8 @@ import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -94,8 +96,10 @@ import cn.xcom.helper.activity.ConvenienceActivity;
 import cn.xcom.helper.activity.DetailAuthenticatinActivity;
 import cn.xcom.helper.activity.HelpMeActivity;
 import cn.xcom.helper.activity.HomeActivity;
+import cn.xcom.helper.activity.ImageDetailActivity;
 import cn.xcom.helper.activity.MyCitySelectActivity;
 import cn.xcom.helper.activity.ReleaseAdvertisingActivity;
+import cn.xcom.helper.activity.WebViewActivity;
 import cn.xcom.helper.bean.ADDetial;
 import cn.xcom.helper.bean.AuthenticationList;
 import cn.xcom.helper.bean.UserInfo;
@@ -154,18 +158,19 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     LinearLayout mapLayout;
     private ImageView packetFlag;
     private Banner banner;
-    private TextView hideTv,publishAdTv;
+    private TextView hideTv, publishAdTv;
     private boolean smallFlag = false;//广告是否缩小
     private ScaleAnimation animation;
     private List<ADDetial> adDetials;
     private int bannerTransHeight;
     private int bannerTransWidth;
+    private int countNum = 5;
+    private TextView countTv;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_map, container, false);
-
     }
 
     @Override
@@ -183,7 +188,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         initView();
         initLocation();
         initListener();
-        getCityId();
+        new Thread(new CountRunnable()).start();
     }
 
     @Override
@@ -365,11 +370,11 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         publishAdTv.setOnClickListener(this);
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
-            public void OnBannerClick(int position) {
+            public void OnBannerClick(final int position) {
                 if (smallFlag) {
                     scaleBanner();
-                }else{
-                    if(position >=  adDetials.size()){
+                } else {
+                    if (position >= adDetials.size()) {
                         return;
                     }
                     final ADDetial ad = adDetials.get(position);
@@ -379,29 +384,40 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                     builder.setPositiveButton("拨打电话", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ad.getPhone()));
+                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ad.getPhone()));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
                     });
-                    if (!TextUtils.isEmpty(ad.getSlide_url())){
+                    if (!TextUtils.isEmpty(ad.getSlide_url())) {
                         builder.setNegativeButton("访问网址", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Uri uri=Uri.parse(ad.getSlide_url());   //指定网址
-                                Intent intent=new Intent();
-                                intent.setAction(Intent.ACTION_VIEW);           //指定Action
-                                intent.setData(uri);
-                                startActivity(intent);
+                                Uri uri = Uri.parse("http://"+ad.getSlide_url());
+                                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(it);
                             }
                         });
                     }
+                    builder.setNeutralButton("查看大图", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent();
+                            intent.setClass(mContext, ImageDetailActivity.class);
+                            ArrayList<String> imgsList = new ArrayList<>();
+                            imgsList.add(ad.getSlide_pic());
+                            intent.putStringArrayListExtra("Imgs", imgsList);
+                            mContext.startActivity(intent);
+                        }
+                    });
+
                     builder.show();
                 }
             }
         });
-        bannerTransHeight = banner.getLayoutParams().height/3;
-        bannerTransWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth()/3;
+        bannerTransHeight = banner.getLayoutParams().height / 3;
+        bannerTransWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth() / 3;
+        countTv = (TextView) getView().findViewById(R.id.tv_count);
     }
 
 
@@ -449,7 +465,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             getAuthentication();
             homegetSpecificAuthentication();
         }
-        getCityId();
         mMapView.onResume();
         //第一次进入应用 上传位置
 //        if (HelperApplication.getInstance().needUploadLocation) {
@@ -457,7 +472,8 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 //            getWorkingState();
 //        }
         getPacketInfo();
-        getImg();
+        getCityId();
+
     }
 
     /**
@@ -702,35 +718,35 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         }
 
     }
-    private void scaleBanner(){
+
+    private void scaleBanner() {
         AnimatorSet smallAnimatorSet = new AnimatorSet();//缩小动画
         AnimatorSet bigAnimatorSet = new AnimatorSet();//放大动画
-        if(!smallFlag){
+        if (!smallFlag) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(banner, "scaleX", 1f, 0.2f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(banner, "scaleY", 1f, 0.2f);
-            ObjectAnimator tranX = ObjectAnimator.ofFloat(banner,"translationX",0,bannerTransWidth);
-            ObjectAnimator tranY = ObjectAnimator.ofFloat(banner,"translationY",0,bannerTransHeight);
+            ObjectAnimator tranX = ObjectAnimator.ofFloat(banner, "translationX", 0, bannerTransWidth);
+            ObjectAnimator tranY = ObjectAnimator.ofFloat(banner, "translationY", 0, bannerTransHeight);
 
-            smallAnimatorSet.setDuration(500);
+            smallAnimatorSet.setDuration(300);
             smallAnimatorSet.setInterpolator(new DecelerateInterpolator());
             smallAnimatorSet.play(scaleX).with(scaleY).with(tranX).with(tranY);//两个动画同时开始
             smallAnimatorSet.start();
             smallFlag = true;
             hideTv.setVisibility(View.GONE);
             publishAdTv.setVisibility(View.GONE);
-        }else{
+        } else {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(banner, "scaleX", 0.2f, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(banner, "scaleY", 0.2f, 1f);
-            ObjectAnimator tranX = ObjectAnimator.ofFloat(banner,"translationX",bannerTransWidth,0);
-            ObjectAnimator tranY = ObjectAnimator.ofFloat(banner,"translationY",bannerTransHeight,0);
-            bigAnimatorSet.setDuration(500);
+            ObjectAnimator tranX = ObjectAnimator.ofFloat(banner, "translationX", bannerTransWidth, 0);
+            ObjectAnimator tranY = ObjectAnimator.ofFloat(banner, "translationY", bannerTransHeight, 0);
+            bigAnimatorSet.setDuration(300);
             bigAnimatorSet.setInterpolator(new DecelerateInterpolator());
             bigAnimatorSet.play(scaleX).with(scaleY).with(tranX).with(tranY);//两个动画同时开始
             bigAnimatorSet.start();
             smallFlag = false;
             hideTv.setVisibility(View.VISIBLE);
             publishAdTv.setVisibility(View.VISIBLE);
-
         }
     }
 
@@ -835,11 +851,10 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             mLatitude = location.getLatitude();
             mLongtitude = location.getLongitude();
             //currentLocPt = new LatLng(location.getLatitude(),location.getLongitude());
-            HelperApplication.getInstance().mLocLat = location.getLatitude();
-            HelperApplication.getInstance().mLocLon = location.getLongitude();
-            HelperApplication.getInstance().mLocAddress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
-            HelperApplication.getInstance().mDistrict = location.getDistrict();
-            HelperApplication.getInstance().provinceCityDistrict = location.getAddrStr();
+//            HelperApplication.getInstance().mLocLat = location.getLatitude();
+//            HelperApplication.getInstance().mLocLon = location.getLongitude();
+//            HelperApplication.getInstance().mLocAddress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
+//            HelperApplication.getInstance().mDistrict = location.getDistrict();
             if (isFirstIn) {
                 LatLng ll = new LatLng(mLatitude, mLongtitude);
                 MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngZoom(ll, 18.0f);
@@ -849,12 +864,14 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 HelperApplication.getInstance().mCurrentLocLon = location.getLongitude();
                 HelperApplication.getInstance().mCurrentAddress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
                 HelperApplication.getInstance().mDistrict = location.getDistrict();
+                HelperApplication.getInstance().provinceCityDistrict = location.getAddrStr();
+
                 locate_district.setText(location.getDistrict());
                 getAuthentication();
                 homegetSpecificAuthentication();
                 getPacketInfo();
+                getCityId();
             }
-            getCityId();
         }
     }
 
@@ -1134,6 +1151,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                     if (state.equals("success")) {
                         String jsonObject1 = jsonObject.getString("data");
                         HelperApplication.getInstance().mLocaddresscityid = jsonObject1;
+                        getAds();
                     } else {
 
                     }
@@ -1155,6 +1173,8 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
     }
 
+    AnimationDrawable animationDrawable;
+
     private void getPacketInfo() {
         if ("".equals(HelperApplication.getInstance().mDistrict)) {
             return;
@@ -1166,17 +1186,19 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     String status = jsonObject.getString("status");
-                    packetFlag.setImageResource(R.drawable.packet_anni);
-                    AnimationDrawable animationDrawable = (AnimationDrawable) packetFlag.getDrawable();
+
                     if (status.equals("success")) {
                         String date = jsonObject.getString("data");
                         if ("0".equals(date)) {
-                            if (animationDrawable.isRunning()) {
+                            if (animationDrawable != null && animationDrawable.isRunning()) {
                                 animationDrawable.stop();
                                 packetFlag.setBackgroundDrawable(null);
-                                packetFlag.setImageResource(R.drawable.packet_anni);
+                                packetFlag.setVisibility(View.INVISIBLE);
                             }
                         } else {
+                            packetFlag.setVisibility(View.VISIBLE);
+                            packetFlag.setImageResource(R.drawable.packet_anni);
+                            animationDrawable = (AnimationDrawable) packetFlag.getDrawable();
                             animationDrawable.start();
                         }
                     }
@@ -1200,7 +1222,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     /*
     * 获取广告图片
     * */
-    private void getImg() {
+    private void getAds() {
         String url = NetConstant.GET_SLIDE_LIST_NEW;
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
             @Override
@@ -1222,9 +1244,16 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                             ads.add(NetConstant.NET_DISPLAY_IMG + imgs.get(i).getSlide_pic());
                         }
                         for (int i = 0; i < 3 - ads.size(); i++) {
-                            ads.add(NetConstant.NET_DISPLAY_IMG + "yyy39501497369019325.jpg");
+                            ads.add("http://www.my51bang.com/public/images/14022661085665377.jpg");
                         }
-                        banner.setImages(ads);
+                        banner.update(ads);
+                        banner.start();
+                    }else{
+                        List<String> ads = new ArrayList<>();
+                        for (int i = 0; i < 3 - ads.size(); i++) {
+                            ads.add("http://www.my51bang.com/public/images/14022661085665377.jpg");
+                        }
+                        banner.update(ads);
                         banner.start();
                     }
                 } catch (JSONException e) {
@@ -1243,5 +1272,40 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 //        request.putValue("cityid", "44");
         request.putValue("cityid", HelperApplication.getInstance().mLocaddresscityid);
         SingleVolleyRequest.getInstance(getContext()).addToRequestQueue(request);
+    }
+
+    // handler类接收数据
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                if(countNum <= 0){
+                    countTv.setVisibility(View.INVISIBLE);
+                    hideTv.setVisibility(View.VISIBLE);
+                }else{
+                    countTv.setText(countNum + "后可隐藏");
+
+                }
+            }
+        }
+
+        ;
+    };
+
+    class CountRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            while (countNum >= 0) {
+                try {
+                    Thread.sleep(1000);
+                    countNum--;
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
