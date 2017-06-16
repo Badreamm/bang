@@ -121,9 +121,8 @@ public class SendPacketActivity extends BaseActivity {
                         payIntent.putExtra("tradeNo", tradeNo);
                         payIntent.putExtra("body", "便民圈");
                         int price = Integer.valueOf(messagePrice) + Integer.valueOf(moneyEt.getText().toString());
-                        //TODO 改为传进来的值 测试只是显示用
-                        //        payIntent.putExtra("price",String.valueOf(price));
-                        payIntent.putExtra("price","0.01");
+                        payIntent.putExtra("price",String.valueOf(price));
+//                        payIntent.putExtra("price","0.01");
                         payIntent.putExtra("type", "3");
                         startActivity(payIntent);
                         finish();
