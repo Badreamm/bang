@@ -64,13 +64,10 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
     public BDLocationListener myListener = new MyLocationListener();
     private double mLocLat, mLocLon;
     private String mLocDistict;
-
-    GeoCoder mSearch = null; // 搜索模块，也可去掉地图模块独立使用
     //定位市区
     private String mLocaddress;
 
-    //全局详细地址
-    private String mLocateAddress;
+    GeoCoder mSearch = null; // 搜索模块，也可去掉地图模块独立使用
 
 
     private KProgressHUD hud, locatehud;
@@ -126,10 +123,11 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
             public void onClick(View v) {
                 HelperApplication.getInstance().mCurrentLocLat = mLocLat;
                 HelperApplication.getInstance().mCurrentLocLon = mLocLon;
-                HelperApplication.getInstance().mCurrentAddress = mLocateAddress;
+                HelperApplication.getInstance().detailCityAdress = mLocaddress;
+                HelperApplication.getInstance().mDistrict = mLocDistict;
+
                 HelperApplication.getInstance().status = "1";
                 Log.e("result_ok", "yes");
-                HelperApplication.getInstance().mDistrict = mLocDistict;
                 setResult(RESULT_OK);
                 finish();
             }
@@ -294,14 +292,19 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
             locatehud.dismiss();
         }
         Log.e("city", result.getLocation().toString());
-        HelperApplication.getInstance().mCurrentLocLat = result.getLocation().latitude;
-        HelperApplication.getInstance().mCurrentLocLon = result.getLocation().longitude;
-        HelperApplication.getInstance().mCurrentAddress = result.getAddress();
+        mLocLat= result.getLocation().latitude;
+        mLocLon = result.getLocation().longitude;
+        mLocaddress = result.getAddress();
+
+        HelperApplication.getInstance().mCurrentLocLat = mLocLat;
+        HelperApplication.getInstance().mCurrentLocLon = mLocLon;
+        HelperApplication.getInstance().detailCityAdress = mLocaddress;
+        HelperApplication.getInstance().mDistrict = city3;
         HelperApplication.getInstance().status = "1";
         Log.e("result_ok", "yes");
-        HelperApplication.getInstance().mDistrict = city3;
         setResult(RESULT_OK);
         finish();
+
     }
 
     @Override
@@ -309,12 +312,11 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
         if (result == null) {
             return;
         }
-        mLocaddress = result.getAddressDetail().province + result.getAddressDetail().city + result.getAddressDetail().district;
+        mLocaddress = result.getAddressDetail().city + result.getAddressDetail().district;
         tv_location.setText(mLocaddress);
         if (result.getPoiList() == null || result.getPoiList().size() == 0) {
             return;
         }
-        mLocateAddress = result.getAddressDetail().city + result.getAddressDetail().district + result.getPoiList().get(0).name;
         mLocDistict = result.getAddressDetail().district;
         if (hud != null) {
             hud.dismiss();
@@ -434,6 +436,9 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
                     .location(new LatLng(location.getLatitude(), location.getLongitude())));
             mLocLat = location.getLatitude();
             mLocLon = location.getLongitude();
+            mLocaddress= location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
+            mLocDistict = location.getDistrict();
+
             mLocationClient.stop();
         }
     }

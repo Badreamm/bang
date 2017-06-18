@@ -152,8 +152,8 @@ public class AuthenticationActivity extends BaseActivity {
             }
         });
         request.putValue("cityname", HelperApplication.getInstance().mDistrict);
-        request.putValue("latitude", HelperApplication.getInstance().mLocLat + "");
-        request.putValue("longitude", HelperApplication.getInstance().mLocLon + "");
+        request.putValue("latitude", HelperApplication.getInstance().mCurrentLocLat + "");
+        request.putValue("longitude", HelperApplication.getInstance().mCurrentLocLon + "");
         request.putValue("sort", sort);
         request.putValue("type", type);
         request.putValue("beginid", "0");
@@ -199,8 +199,8 @@ public class AuthenticationActivity extends BaseActivity {
             }
         });
         request.putValue("cityname", HelperApplication.getInstance().mDistrict);
-        request.putValue("latitude", HelperApplication.getInstance().mLocLat + "");
-        request.putValue("longitude", HelperApplication.getInstance().mLocLon + "");
+        request.putValue("latitude", HelperApplication.getInstance().mCurrentLocLat + "");
+        request.putValue("longitude", HelperApplication.getInstance().mCurrentLocLon + "");
         request.putValue("sort", sort);
         request.putValue("type", type);
         request.putValue("online",onlineType);

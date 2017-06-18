@@ -385,7 +385,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             @Override
             public void onClick(View v) {
                 showPopFormBottom();
-                shaerText = convenience.getContent()+"（要想获取更多信息，请下载51帮App）";
+                shaerText = convenience.getContent()+"（要想获取更多信息，请下载51帮APP:www.my51bang.com）";
             }
         });
     }

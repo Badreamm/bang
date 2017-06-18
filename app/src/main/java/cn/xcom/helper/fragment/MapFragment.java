@@ -451,16 +451,11 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         Log.e("resume", "yes");
         Log.e("当前定位坐标", HelperApplication.getInstance().mCurrentLocLat + "," + HelperApplication.getInstance().mCurrentLocLon);
 
-        if (HelperApplication.getInstance().mCurrentLocLon != 0) {
+        if (!TextUtils.isEmpty(HelperApplication.getInstance().mDistrict)) {
             currentPt = new LatLng(HelperApplication.getInstance().mCurrentLocLat, HelperApplication.getInstance().mCurrentLocLon);
             MapStatusUpdate msu = MapStatusUpdateFactory.newLatLngZoom(currentPt, 18.0f);
             mBaiduMap.animateMapStatus(msu);
             locate_district.setText(HelperApplication.getInstance().mDistrict);
-            getWorkingState();
-            getAuthentication();
-            homegetSpecificAuthentication();
-        }
-        if (!"".equals(HelperApplication.getInstance().mDistrict)) {
             getWorkingState();
             getAuthentication();
             homegetSpecificAuthentication();
@@ -473,7 +468,10 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
 //        }
         getPacketInfo();
         getCityId();
-
+        //切换页面后 如果广告页面被最小化了放大
+        if(smallFlag){
+            scaleBanner();
+        }
     }
 
     /**
@@ -542,9 +540,9 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     private void uploadLocation() {
         RequestParams params = new RequestParams();
         params.put("userid", userInfo.getUserId());
-        params.put("address", HelperApplication.getInstance().mLocAddress);
-        params.put("longitude", HelperApplication.getInstance().mLocLon);
-        params.put("latitude", HelperApplication.getInstance().mLocLat);
+        params.put("address", HelperApplication.getInstance().detailCityAdress);
+        params.put("longitude", HelperApplication.getInstance().mCurrentLocLon);
+        params.put("latitude", HelperApplication.getInstance().mCurrentLocLat);
         params.put("isworking", "1");
         HelperAsyncHttpClient.get(NetConstant.CHANGE_WORKING_STATE, params, new JsonHttpResponseHandler() {
             @Override
@@ -723,6 +721,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
         AnimatorSet smallAnimatorSet = new AnimatorSet();//缩小动画
         AnimatorSet bigAnimatorSet = new AnimatorSet();//放大动画
         if (!smallFlag) {
+            //缩小
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(banner, "scaleX", 1f, 0.2f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(banner, "scaleY", 1f, 0.2f);
             ObjectAnimator tranX = ObjectAnimator.ofFloat(banner, "translationX", 0, bannerTransWidth);
@@ -736,6 +735,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             hideTv.setVisibility(View.GONE);
             publishAdTv.setVisibility(View.GONE);
         } else {
+            //放大
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(banner, "scaleX", 0.2f, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(banner, "scaleY", 0.2f, 1f);
             ObjectAnimator tranX = ObjectAnimator.ofFloat(banner, "translationX", bannerTransWidth, 0);
@@ -853,7 +853,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             //currentLocPt = new LatLng(location.getLatitude(),location.getLongitude());
 //            HelperApplication.getInstance().mLocLat = location.getLatitude();
 //            HelperApplication.getInstance().mLocLon = location.getLongitude();
-//            HelperApplication.getInstance().mLocAddress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
 //            HelperApplication.getInstance().mDistrict = location.getDistrict();
             if (isFirstIn) {
                 LatLng ll = new LatLng(mLatitude, mLongtitude);
@@ -862,9 +861,8 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 isFirstIn = false;
                 HelperApplication.getInstance().mCurrentLocLat = location.getLatitude();
                 HelperApplication.getInstance().mCurrentLocLon = location.getLongitude();
-                HelperApplication.getInstance().mCurrentAddress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
+                HelperApplication.getInstance().detailCityAdress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
                 HelperApplication.getInstance().mDistrict = location.getDistrict();
-                HelperApplication.getInstance().provinceCityDistrict = location.getAddrStr();
 
                 locate_district.setText(location.getDistrict());
                 getAuthentication();

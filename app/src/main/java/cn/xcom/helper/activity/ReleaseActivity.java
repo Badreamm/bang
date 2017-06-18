@@ -167,7 +167,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         text_transport = (TextView) findViewById(R.id.text_transport);
         ed_location = (TextView) findViewById(R.id.ed_location);
         //初始化当前位置信息
-        ed_location.setText(HelperApplication.getInstance().mCurrentAddress);
+        ed_location.setText(HelperApplication.getInstance().detailCityAdress);
         mSiteLat = HelperApplication.getInstance().mCurrentLocLat;
         mSiteLon = HelperApplication.getInstance().mCurrentLocLon;
         //  delete= (ImageView) findViewById(R.id.delete);
@@ -432,9 +432,9 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 request.putValue("longitude", String.valueOf(mSiteLon));
                 request.putValue("latitude", String.valueOf(mSiteLat));
                 request.putValue("delivery", text_transport.getText().toString());
-                request.putValue("UserLatitude", String.valueOf(HelperApplication.getInstance().mLocLat));
-                request.putValue("UserLongitude", String.valueOf(HelperApplication.getInstance().mLocLon));
-                request.putValue("UserLocation", HelperApplication.getInstance().mLocAddress);
+                request.putValue("UserLatitude", String.valueOf(HelperApplication.getInstance().mCurrentLocLat));
+                request.putValue("UserLongitude", String.valueOf(HelperApplication.getInstance().mCurrentLocLon));
+                request.putValue("UserLocation", HelperApplication.getInstance().detailCityAdress);
                 SingleVolleyRequest.getInstance(getApplication()).addToRequestQueue(request);
             }
 

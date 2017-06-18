@@ -46,15 +46,13 @@ public class HelperApplication extends Application {
     //切换城市信息
     public double mCurrentLocLat = 0;
     public double mCurrentLocLon = 0;
-    public String mCurrentAddress = "";
+    public String detailCityAdress = "";//从市开始的详细地址
+    public String detailProvAdress = "";//从省开始的详细地址
     public String status = "";
     public String mDistrict = "";
-    public String mLocaddresscity = "";
     public String mLocaddresscityid = "";
-    public String provinceCityDistrict = "";
     //实时定位坐标和地址
-    public double mLocLat, mLocLon;
-    public String mLocAddress;
+//    public double mLocLat, mLocLon;
 
     //支付相关参数
     public String tradeNo;

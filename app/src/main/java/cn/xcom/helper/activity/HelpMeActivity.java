@@ -181,8 +181,8 @@ public class HelpMeActivity extends BaseActivity implements View.OnClickListener
         lon = getIntent().getDoubleExtra("lon", 0);
         postions = getIntent().getStringExtra("postion");
         if (lat == 0 || lon == 0) {
-            lon = HelperApplication.getInstance().mLocLon;
-            lat = HelperApplication.getInstance().mLocLat;
+            lon = HelperApplication.getInstance().mCurrentLocLon;
+            lat = HelperApplication.getInstance().mCurrentLocLat;
         }
         mServiceLat = lat;
         mSiteLat = lat;
@@ -942,8 +942,8 @@ public class HelpMeActivity extends BaseActivity implements View.OnClickListener
             }
         } catch (NullPointerException e) {
             if (type == 1) {
-                et_service_location.setText(HelperApplication.getInstance().mCurrentAddress);
-                et_site_location.setText(HelperApplication.getInstance().mCurrentAddress);
+                et_service_location.setText(HelperApplication.getInstance().detailCityAdress);
+                et_site_location.setText(HelperApplication.getInstance().detailCityAdress);
                 mSiteLat = HelperApplication.getInstance().mCurrentLocLat;
                 mSiteLon = HelperApplication.getInstance().mCurrentLocLon;
                 mServiceLat = HelperApplication.getInstance().mCurrentLocLat;

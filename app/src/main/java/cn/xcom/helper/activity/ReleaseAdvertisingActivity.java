@@ -98,7 +98,7 @@ public class ReleaseAdvertisingActivity extends BaseActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_advertising);
-        city = HelperApplication.getInstance().mLocaddresscity;
+        city = HelperApplication.getInstance().detailCityAdress;
         userInfo = new UserInfo(this);
         df = new java.text.DecimalFormat("#0.00");
         try {

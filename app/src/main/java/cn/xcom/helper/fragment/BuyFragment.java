@@ -365,9 +365,9 @@ public class BuyFragment extends Fragment implements View.OnClickListener {
         hud.show();
         RequestParams params = new RequestParams();
         params.put("userid", userInfo.getUserId());
-        params.put("address", HelperApplication.getInstance().mLocAddress);
-        params.put("longitude", HelperApplication.getInstance().mLocLon);
-        params.put("latitude", HelperApplication.getInstance().mLocLat);
+        params.put("address", HelperApplication.getInstance().detailCityAdress);
+        params.put("longitude", HelperApplication.getInstance().mCurrentLocLon);
+        params.put("latitude", HelperApplication.getInstance().mCurrentLocLat);
         params.put("isworking", state);
         HelperAsyncHttpClient.get(NetConstant.CHANGE_WORKING_STATE, params, new JsonHttpResponseHandler() {
             @Override

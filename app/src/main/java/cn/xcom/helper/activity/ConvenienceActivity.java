@@ -350,7 +350,7 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         request.putValue("userid", user.getUserId());
         request.putValue("beginid", lastConV.getMid());
         request.putValue("type", "1");
-        request.putValue("city", HelperApplication.getInstance().mDistrict);
+        request.putValue("city", city);
         request.putValue("keyword", keyWord);
         SingleVolleyRequest.getInstance(context).addToRequestQueue(request);
 

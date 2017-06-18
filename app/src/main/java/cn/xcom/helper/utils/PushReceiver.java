@@ -144,7 +144,8 @@ public class PushReceiver extends BroadcastReceiver {
                     popDialog(title,message);
                     break;
                 case "bbspushwithcityname":
-                    popDialog(title,message);
+//                    popDialog(title,message);
+                    popPacketDialog(title,message,v);
                     break;
             }
 
@@ -288,6 +289,37 @@ public class PushReceiver extends BroadcastReceiver {
                 JPushInterface.stopPush(activity);
                 activity.startActivity(new Intent(activity, LoginActivity.class));
                 HelperApplication.getInstance().onTerminate();
+            }
+        });
+        builder.show();
+
+    }
+
+
+    private void popPacketDialog(String title, String message, final String city) {
+        List<Activity> activities = HelperApplication.getInstance().getActivities();
+        if (activities.size() == 0) {
+            return;
+        }
+        final Activity activity = activities.get(activities.size() - 1);
+        if (activity == null) {
+            return;
+        }
+        if(StringUtils.isEmpty(title)){
+            return;
+        }
+        if(StringUtils.isEmpty(message)){
+            message = "";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title).setMessage(message).setCancelable(true).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(activity, ConvenienceActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("city", city);
+                activity.startActivity(intent);
             }
         });
         builder.show();

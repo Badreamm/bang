@@ -190,16 +190,16 @@ public class SaleDetailActivity extends BaseActivity implements View.OnClickList
         price.setText("￥" + shopGoodInfo.getPrice());
         tvprice.setText("￥" + shopGoodInfo.getPrice());
         tv_city_name.setText(shopGoodInfo.getAddress());
-        if (!shopGoodInfo.getLongitude().equals("") && !shopGoodInfo.getLatitude().equals("") && !String.valueOf(HelperApplication.getInstance().mLocLat).equals("") && !String.valueOf(HelperApplication.getInstance().mLocLon).equals("")) {
+        if (!shopGoodInfo.getLongitude().equals("") && !shopGoodInfo.getLatitude().equals("") && !String.valueOf(HelperApplication.getInstance().mCurrentLocLat).equals("") && !String.valueOf(HelperApplication.getInstance().mCurrentLocLon).equals("")) {
             adress.setText((int) DistanceUtil.getDistance(
                     new LatLng(Double.parseDouble(shopGoodInfo.getLatitude()),
                             Double.parseDouble(shopGoodInfo.getLongitude())),
-                    new LatLng(HelperApplication.getInstance().mLocLat,
-                            HelperApplication.getInstance().mLocLon)) + "米");
+                    new LatLng(HelperApplication.getInstance().mCurrentLocLat,
+                            HelperApplication.getInstance().mCurrentLocLon)) + "米");
             tv_city_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startRoutePlanDriving(String.valueOf(HelperApplication.getInstance().mLocLat), String.valueOf(HelperApplication.getInstance().mLocLon), HelperApplication.getInstance().mLocAddress
+                    startRoutePlanDriving(String.valueOf(HelperApplication.getInstance().mCurrentLocLat), String.valueOf(HelperApplication.getInstance().mCurrentLocLon), HelperApplication.getInstance().detailCityAdress
                             , shopGoodInfo.getLatitude(), shopGoodInfo.getLongitude(), shopGoodInfo.getAddress());
                 }
             });
