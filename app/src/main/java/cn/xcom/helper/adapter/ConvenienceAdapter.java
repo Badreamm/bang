@@ -385,7 +385,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             @Override
             public void onClick(View v) {
                 showPopFormBottom();
-                shaerText = convenience.getContent()+"（要想获取更多信息，请下载51帮APP:www.my51bang.com）";
+                shaerText = convenience.getContent()+"（要想获取更多信息，请下载51帮APP:http://www.my51bang.com）";
             }
         });
     }
@@ -545,6 +545,18 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         req.message = msg;
         req.scene = wxflag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         msgApi.sendReq(req);
+
+//        WXWebpageObject webpageObject = new WXWebpageObject();
+//        webpageObject.webpageUrl = "www.my51bang.com";
+//        WXMediaMessage msg = new WXMediaMessage(webpageObject);
+//        msg.title = "51帮";
+//        msg.description = text;
+//
+//        SendMessageToWX.Req req = new SendMessageToWX.Req();
+//        req.transaction = String.valueOf(new Date().getTime());
+//        req.message = msg;
+//        req.scene = wxflag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+//        msgApi.sendReq(req);
     }
 
     private void shareToQQ(String text) {
