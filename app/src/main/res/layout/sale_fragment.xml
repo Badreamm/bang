@@ -53,7 +53,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textIsSelectable="true"
             android:text="单人自助餐，可享受大量优惠"
             android:textSize="14sp" />

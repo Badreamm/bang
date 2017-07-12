@@ -186,6 +186,10 @@
         <activity android:name=".activity.SendPacketActivity"/>
         <activity android:name=".activity.PacketDetailActivity"/>
         <activity android:name=".activity.PacketActivity"/>
+        <activity android:name=".activity.OybGoodDetailActivity"/>
+        <activity android:name=".activity.OybMyOrderActivity"/>
+        <activity android:name=".activity.OybWinRecordActivity"/>
+        <activity android:name=".activity.OybPublishCommentActivity"/>
         <activity
             android:name=".record.RecordActivity"
             android:theme="@style/translucent" />

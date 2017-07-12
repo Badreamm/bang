@@ -36,6 +36,10 @@ public class TimeUtils {
         sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sf.format(d);
         }
+
+    public static String newChangeTime(long time){
+        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(time * 1000));
+    }
     /**
      * 格式化时间
      *

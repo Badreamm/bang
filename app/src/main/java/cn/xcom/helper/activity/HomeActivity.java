@@ -30,6 +30,7 @@ import cn.xcom.helper.constant.NetConstant;
 import cn.xcom.helper.fragment.BuyFragment;
 import cn.xcom.helper.fragment.MapFragment;
 import cn.xcom.helper.fragment.MeFragment;
+import cn.xcom.helper.fragment.OneYuanBuyFragment;
 import cn.xcom.helper.fragment.SaleFragment;
 import cn.xcom.helper.net.HelperAsyncHttpClient;
 import cn.xcom.helper.service.OrderService;
@@ -45,9 +46,10 @@ public class HomeActivity extends AppCompatActivity {
     private Button[] mTabs;
     private TextView unReadMap, unReadBuy, unReadSale, unReadMe;
     private MapFragment mapFragment;
-    private BuyFragment buyFragment;
+//    private BuyFragment buyFragment;
     private SaleFragment saleFragment;
     private MeFragment meFragment;
+    private OneYuanBuyFragment oneYuanBuyFragment;
     private Fragment[] fragments;
     private UserInfo userInfo;
     private int a = 0;
@@ -94,33 +96,34 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initFragment() {
         mapFragment = new MapFragment();
-        buyFragment = new BuyFragment();
+//        buyFragment = new BuyFragment();
         saleFragment = new SaleFragment();
         meFragment = new MeFragment();
-        fragments = new Fragment[]{mapFragment, buyFragment, saleFragment, meFragment};
+        oneYuanBuyFragment = new OneYuanBuyFragment();
+        fragments = new Fragment[]{mapFragment, oneYuanBuyFragment, saleFragment, meFragment};
         switch (a) {
             case 0:
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.rl_home_fragment_container, mapFragment)
-                        .add(R.id.rl_home_fragment_container, buyFragment)
-                        .hide(buyFragment)
+                        .add(R.id.rl_home_fragment_container, oneYuanBuyFragment)
+                        .hide(oneYuanBuyFragment)
                         .show(mapFragment).commit();
                 break;
             case 1:
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.rl_home_fragment_container, mapFragment)
-                        .add(R.id.rl_home_fragment_container, buyFragment)
+                        .add(R.id.rl_home_fragment_container, oneYuanBuyFragment)
                         .add(R.id.rl_home_fragment_container, saleFragment)
                         .hide(mapFragment)
-                        .show(buyFragment)
+                        .show(oneYuanBuyFragment)
                         .hide(saleFragment).commit();
                 break;
             case 2:
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.rl_home_fragment_container, buyFragment)
+                        .add(R.id.rl_home_fragment_container, oneYuanBuyFragment)
                         .add(R.id.rl_home_fragment_container, saleFragment)
                         .add(R.id.rl_home_fragment_container, meFragment)
-                        .hide(buyFragment)
+                        .hide(oneYuanBuyFragment)
                         .show(saleFragment)
                         .hide(meFragment).commit();
                 break;

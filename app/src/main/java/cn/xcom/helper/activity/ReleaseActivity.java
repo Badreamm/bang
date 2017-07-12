@@ -526,7 +526,9 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
                 //  photoWithPaths.clear();
-                addImageList.clear();
+                if (reqeustCode == REQUEST_CODE_GALLERY) {
+                    addImageList.clear();
+                }
                 addImageList.addAll(resultList);
                 //  photoWithPaths.addAll(GetImageUtil.getImgWithPaths(resultList));
                 Log.d("======haha", addImageList.size() + "");

@@ -36,6 +36,8 @@ public interface NetConstant extends HelperConstant {
      * 图片路径
      */
     String NET_DISPLAY_IMG = "http://www.my51bang.com/uploads/images/";
+
+    String NEW_IMG_DISPLAY = "http://www.my51bang.com/data/upload/";
     /**
      * 修改头像
      */
@@ -530,4 +532,34 @@ public interface NetConstant extends HelperConstant {
      * 获取红包推送状态 0 关闭 1打开
      */
     String GET_PACKET_RECEIVER_STATE = NET_HOST_PREFIX + "a=GetIsReceiveState";
+
+    /**
+     * 获取一元购
+     */
+    String GET_OYB_GOODS = NET_HOST_PREFIX + "a=GetNoFinishiEasyBuy";
+
+    /**
+     * 获取一元购待揭晓
+     */
+    String GET_OYB_WAIT = NET_HOST_PREFIX + "a=GetReadyPrize";
+
+    /**
+     * 获取一元购已揭晓
+     */
+    String GET_ANNO_GODD = NET_HOST_PREFIX + "a=GetBeenPrize";
+
+    /**
+     * 获取一元购我的订单
+     */
+    String GET_OYB_MY_ORDER = NET_HOST_PREFIX + "a=GetMyEasyBuyOrder";
+
+    /**
+     * 获取一元购 中奖几率
+     */
+    String GET_OYB_WIN_RECORD = NET_HOST_PREFIX + "a=GetMyPrize";
+
+    /**
+     * 一元购发布评论
+     */
+    String PUBLISH_OYB_COMMENT = NET_HOST_PREFIX + "a=EasyBuyComments";
 }
