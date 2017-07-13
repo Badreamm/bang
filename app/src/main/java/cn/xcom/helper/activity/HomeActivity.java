@@ -71,9 +71,9 @@ public class HomeActivity extends AppCompatActivity {
         initFragment();
         state = SPUtils.get(mContext,HelperConstant.IS_HAD_AUTHENTICATION,"").toString();
         if(state.equals("0")){
-            mTabs[1].setText("抢单");
+            mTabs[1].setText("夺宝");
         }else if(state.equals("1")){
-            mTabs[1].setText("抢单");
+            mTabs[1].setText("夺宝");
         }
 //        Intent intent = new Intent(this, OrderService.class);
 //        startService(intent);
@@ -158,7 +158,7 @@ public class HomeActivity extends AppCompatActivity {
             if(index == 1 && state != SPUtils.get(mContext,HelperConstant.IS_HAD_AUTHENTICATION,"").toString()&&flag==0){
                 flag = 1;
                 fragments[1] = new BuyFragment();
-                mTabs[1].setText("抢单");
+                mTabs[1].setText("夺宝");
             }
             FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
             trx.hide(fragments[currentTanIndex]);
@@ -231,8 +231,8 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Intent stopintent = new Intent(this, OrderService.class);
-        stopService(stopintent);
+//        Intent stopintent = new Intent(this, OrderService.class);
+//        stopService(stopintent);
         super.onDestroy();
     }
     private void getOrder(final String userId) {

@@ -34,5 +34,42 @@
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#eeeeee"
+        >
+        <TextView
+            android:id="@+id/flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="数量:"
+            android:layout_margin="10dp"
+            android:textColor="@color/text_black"
+            />
+        <me.himanshusoni.quantityview.QuantityView
+            android:id="@+id/quantity_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/flag"
+            android:layout_marginLeft="5dp"
+            />
+        <TextView
+            android:id="@+id/buy_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/quantity_view"
+            android:background="@color/orange"
+            android:layout_marginLeft="20dp"
+            android:text="立即参与"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+
+    </RelativeLayout>
 </LinearLayout>

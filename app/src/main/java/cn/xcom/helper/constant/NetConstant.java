@@ -1,5 +1,7 @@
 package cn.xcom.helper.constant;
 
+import cz.msebera.android.httpclient.extras.PRNGFixes;
+
 /**
  * Created by zhuchongkun on 16/5/29.
  */
@@ -500,7 +502,7 @@ public interface NetConstant extends HelperConstant {
     /*
     * 用户协议地址
     * */
-    String USER_PROTOCOL ="http://www.my51bang.com/index.php?g=portal&m=article&a=index&id=4" ;
+    String USER_PROTOCOL = "http://www.my51bang.com/index.php?g=portal&m=article&a=index&id=4";
 
     /**
      * 发送红包
@@ -562,4 +564,14 @@ public interface NetConstant extends HelperConstant {
      * 一元购发布评论
      */
     String PUBLISH_OYB_COMMENT = NET_HOST_PREFIX + "a=EasyBuyComments";
+
+    /**
+     * 获取一元购详情
+     */
+    String GET_OYB_DETAIL = NET_HOST_PREFIX + "a=GetSameGoodsInfo";
+
+    /**
+     * 购买一元购商品
+     */
+    String BUY_OYB_GOOD = NET_HOST_PREFIX + "a=BuyTheGoods";
 }

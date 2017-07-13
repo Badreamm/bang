@@ -85,7 +85,7 @@ public class OybMyOrderActivity extends BaseActivity {
 
             @Override
             public void onLoadMore() {
-
+                xRecyclerView.loadMoreComplete();
             }
         });
         resultArray = new JSONArray();
@@ -141,7 +141,12 @@ public class OybMyOrderActivity extends BaseActivity {
             JSONObject resultJs = null;
             try {
                 resultJs = resultArray.getJSONObject(position);
-                String js = resultJs.getString("goods");
+                JSONObject jsonObject = resultJs.getJSONObject("goods");
+                if(jsonObject.opt("smeta").equals("")){
+                    jsonObject.put("smeta",null);
+                }
+                String js = jsonObject.toString();
+
                 final OybGood good = new Gson().fromJson(js, new TypeToken<OybGood>() {
                 }.getType());
                 holder.titleTv.setText(good.getTitle());
@@ -220,6 +225,15 @@ public class OybMyOrderActivity extends BaseActivity {
                                         dialog.dismiss();
                                     }
                                 }).show();
+                    }
+                });
+
+                holder.buyMoreBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(OybMyOrderActivity.this, OybGoodDetailActivity.class);
+                        intent.putExtra("mark",good.getMark());
+                        startActivity(intent);
                     }
                 });
 

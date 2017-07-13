@@ -18,10 +18,13 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -96,7 +99,14 @@ public class OybWinRecordActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(s);
                     String state = jsonObject.getString("status");
                     if (state.equals("success")) {
-                        String data = jsonObject.getString("data");
+                        JSONArray arr = jsonObject.getJSONArray("data");
+                        for(int i = 0;i<arr.length();i++){
+                            JSONObject object = arr.getJSONObject(i);
+                            if(object.opt("smeta").equals("")){
+                                object.put("smeta",null);
+                            }
+                        }
+                        String data = arr.toString();
                         goodLists = new Gson().fromJson(data,new TypeToken<ArrayList<OybGood>>() {
                         }.getType());
                         adapter = new OrderAdapter();

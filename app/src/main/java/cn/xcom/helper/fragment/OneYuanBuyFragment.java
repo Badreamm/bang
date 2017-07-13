@@ -1,5 +1,7 @@
 package cn.xcom.helper.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,7 +52,14 @@ public class OneYuanBuyFragment extends Fragment {
         slidingTab.setViewPager(viewPager);
         alwaysMarqueeTextView = (AlwaysMarqueeTextView) view.findViewById(R.id.item_title);
         alwaysMarqueeTextView.setText("本活动所有开奖结果皆由重庆时时彩获取，按开奖号码位数加1，保证公平性，点击查看");
-
+        alwaysMarqueeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("http://buy.cqcp.net/gamedraw/ssc/open.shtml");
+                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(it);
+            }
+        });
     }
 
     private class FragmentAdapter extends FragmentPagerAdapter{

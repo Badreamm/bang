@@ -41,6 +41,35 @@ public class OybGood {
     private String phone;//中奖人的手机号
     private String iscomment;//中奖后是否评论
 
+    private long countTime;//活动时间与当前时间的时间差
+    private String showTime;//用于显示的倒计时时间
+
+
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
+    }
+
+    public long getCountTime() {
+        return countTime;
+    }
+
+    public void setCountTime(long countTime) {
+        this.countTime = countTime;
+    }
+
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public String getIscomment() {
         return iscomment;
@@ -175,4 +204,108 @@ public class OybGood {
         }
     }
 
+    public class Comment{
+        private String id;
+        private String mid;
+        private String userid;
+        private String phone;
+        private String content;
+        private String address;
+        private long create_time;
+        private String photo;
+        private String name;
+        private List<CommentPic> pic;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getMid() {
+            return mid;
+        }
+
+        public void setMid(String mid) {
+            this.mid = mid;
+        }
+
+        public String getUserid() {
+            return userid;
+        }
+
+        public void setUserid(String userid) {
+            this.userid = userid;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public long getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(long create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getPhoto() {
+            return photo;
+        }
+
+        public void setPhoto(String photo) {
+            this.photo = photo;
+        }
+
+        public List<CommentPic> getPic() {
+            return pic;
+        }
+
+        public void setPic(List<CommentPic> pic) {
+            this.pic = pic;
+        }
+    }
+
+    public class CommentPic{
+        String pictureurl;
+
+        public String getPictureurl() {
+            return pictureurl;
+        }
+
+        public void setPictureurl(String pictureurl) {
+            this.pictureurl = pictureurl;
+        }
+    }
 }

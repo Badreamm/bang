@@ -1,6 +1,8 @@
 package cn.xcom.helper.fragment.onyuanbuy;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,7 +17,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import cn.xcom.helper.adapter.OybGoodAdapter;
 import cn.xcom.helper.bean.OybGood;
 import cn.xcom.helper.constant.NetConstant;
 import cn.xcom.helper.net.HelperAsyncHttpClient;
+import cn.xcom.helper.utils.TimeUtils;
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -42,6 +45,8 @@ public class OybGoodsFragment extends Fragment {
     private XRecyclerView recyclerView;
     private List<OybGood> goodLists;
     private OybGoodAdapter adapter;
+    private boolean endFlag;
+    private TimeThread timeThread;
 
     @Nullable
     @Override
@@ -80,6 +85,7 @@ public class OybGoodsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+
     private void getDate() {
         String url = "";
         switch (type){
@@ -105,15 +111,31 @@ public class OybGoodsFragment extends Fragment {
                             try {
                                 String state = response.getString("status");
                                 if (state.equals("success")) {
-                                    String data = response.getString("data");
+                                    JSONArray arr = response.getJSONArray("data");
+                                    for(int i = 0;i<arr.length();i++){
+                                        JSONObject object = arr.getJSONObject(i);
+                                        if(object.opt("smeta").equals("")){
+                                            object.put("smeta",null);
+                                        }
+                                    }
+                                    String data = arr.toString();
+
                                     List<OybGood> list = new Gson().fromJson(data,
                                             new TypeToken<List<OybGood>>() {
                                             }.getType());
                                     goodLists.clear();
                                     goodLists.addAll(list);
                                     adapter.notifyDataSetChanged();
+                                    if(type == WAIT_GOODS){
+                                        setTime();
+                                        if (timeThread == null){
+                                            timeThread = new TimeThread(goodLists);
+                                            timeThread.start();
+                                        }
+                                    }
+
                                 }
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -121,6 +143,75 @@ public class OybGoodsFragment extends Fragment {
                     }
                 });
     }
+
+    private void setTime() {
+        for (int i = 0; i < goodLists.size(); i++) {
+            OybGood good = goodLists.get(i);
+            if(type == OybGoodsFragment.WAIT_GOODS){
+                long count = TimeUtils.timeDifferent(good.getTime());
+                goodLists.get(i).setCountTime(count);
+            }
+        }
+    }
+
+    class TimeThread extends Thread {
+        //用来停止线程
+//        boolean endThread;
+        List<OybGood> goods;
+        public TimeThread(List<OybGood> goods){
+            this.goods = goods;
+        }
+        @Override
+        public void run() {
+            while(!Thread.interrupted()){
+                try{
+                    //线程每秒钟执行一次
+                    Thread.sleep(1000);
+                    //遍历商品列表
+                    for(int i = 0;i < goods.size();i++){
+                        //拿到每件商品的时间差，转化为具体的多少天多少小时多少分多少秒
+                        //并保存在商品time这个属性内
+                        if(type == OybGoodsFragment.WAIT_GOODS){
+                            long counttime = goods.get(i).getCountTime();
+                            long days = counttime / (1000 * 60 * 60 * 24);
+                            long hours = (counttime-days*(1000 * 60 * 60 * 24))/(1000* 60 * 60);
+                            long minutes = (counttime-days*(1000 * 60 * 60 * 24)
+                                    -hours*(1000* 60 * 60))/(1000* 60);
+                            long second = (counttime-days*(1000 * 60 * 60 * 24)
+                                    -hours*(1000* 60 * 60)-minutes*(1000*60))/1000;
+                            //并保存在商品time这个属性内
+                            String finaltime = days + "天" + hours + "时" + minutes + "分" + second + "秒";
+                            goods.get(i).setShowTime(finaltime);
+                            //如果时间差大于1秒钟，将每件商品的时间差减去一秒钟，
+                            // 并保存在每件商品的counttime属性内
+                            if(counttime > 1000) {
+                                goods.get(i).setCountTime(counttime - 1000);
+                            }
+                        }
+                    }
+                    Message message = new Message();
+                    message.what = 1;
+                    //发送信息给handler
+                    handler.sendMessage(message);
+                }catch (Exception e){
+                }
+            }
+        }
+
+
+    }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    adapter.notifyData();
+            }
+            super.handleMessage(msg);
+        }
+    };
+
 
     public static final OybGoodsFragment newInstance(int type){
         OybGoodsFragment fragment = new OybGoodsFragment();

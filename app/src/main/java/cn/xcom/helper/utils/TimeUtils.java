@@ -129,4 +129,9 @@ public class TimeUtils {
         }
         return result;
     }
+
+    public static long timeDifferent(long endTime){
+        Date endDate = new Date(endTime * 1000) ;
+        return endDate.getTime() - new Date().getTime();
+    }
 }
