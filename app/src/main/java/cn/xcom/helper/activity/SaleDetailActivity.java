@@ -83,7 +83,7 @@ import static com.tencent.connect.share.QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEX
 public class SaleDetailActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager vp;
     private ImageView imageView, collect;
-    private TextView tvContent, price, tvprice, adress, buy, tv_city_name,tv_title;
+    private TextView tvContent, price, tvprice, adress, buy, tv_city_name, tv_title;
     private RelativeLayout backImage;
     private RelativeLayout shopPublish;
     private List addViewList;//添加图片的list
@@ -199,7 +199,7 @@ public class SaleDetailActivity extends BaseActivity implements View.OnClickList
             tv_city_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startRoutePlanDriving(String.valueOf(HelperApplication.getInstance().mCurrentLocLat), String.valueOf(HelperApplication.getInstance().mCurrentLocLon), HelperApplication.getInstance().detailCityAdress
+                    startRoutePlanDriving(String.valueOf(HelperApplication.getInstance().mCurrentLocLat), String.valueOf(HelperApplication.getInstance().mCurrentLocLon), HelperApplication.getInstance().detailAdress
                             , shopGoodInfo.getLatitude(), shopGoodInfo.getLongitude(), shopGoodInfo.getAddress());
                 }
             });
@@ -291,7 +291,7 @@ public class SaleDetailActivity extends BaseActivity implements View.OnClickList
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                if(hud!=null){
+                if (hud != null) {
                     hud.dismiss();
                 }
                 try {
@@ -318,7 +318,7 @@ public class SaleDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 ToastUtils.showToast(context, "网络错误，请检查网络");
-                if(hud!=null){
+                if (hud != null) {
                     hud.dismiss();
                 }
             }

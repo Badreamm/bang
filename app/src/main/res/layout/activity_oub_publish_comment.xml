@@ -101,10 +101,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                >
+                android:minHeight="40dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -112,21 +112,23 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:text="电话" />
+
                 <EditText
                     android:id="@+id/phone_et"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:maxLength="11"
+                    android:layout_height="wrap_content"
                     android:digits="1234567890"
                     android:inputType="phone|number"
-                    />
+                    android:maxLength="11" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+
                 >
 
                 <TextView
@@ -135,33 +137,34 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:text="姓名" />
+
                 <EditText
                     android:id="@+id/name_et"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:maxLength="5"
-                    />
+                    android:layout_height="wrap_content"
+                    android:maxLength="5" />
             </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/address_rl"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:padding="10dp"
-                >
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:padding="10dp">
+
                 <TextView
                     android:id="@+id/address_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="请选择收货地址"
-                    />
+                    android:text="请选择收货地址" />
+
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/em_ic_right_arrow"
                     android:layout_centerVertical="true"
-                    />
+                    android:src="@drawable/em_ic_right_arrow" />
             </RelativeLayout>
         </LinearLayout>
 

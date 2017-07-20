@@ -2,10 +2,16 @@ package cn.xcom.helper.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +19,38 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alipay.share.sdk.openapi.APAPIFactory;
+import com.alipay.share.sdk.openapi.APMediaMessage;
+import com.alipay.share.sdk.openapi.APWebPageObject;
+import com.alipay.share.sdk.openapi.IAPApi;
+import com.alipay.share.sdk.openapi.SendMessageToZFB;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.tencent.connect.share.QQShare;
+import com.tencent.connect.share.QzoneShare;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.youth.banner.Banner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -36,6 +60,7 @@ import java.util.List;
 
 import cn.xcom.helper.HelperApplication;
 import cn.xcom.helper.R;
+import cn.xcom.helper.WXpay.Constants;
 import cn.xcom.helper.bean.OybGood;
 import cn.xcom.helper.bean.UserInfo;
 import cn.xcom.helper.constant.NetConstant;
@@ -46,7 +71,10 @@ import cn.xcom.helper.utils.StringPostRequest;
 import cn.xcom.helper.utils.TimeUtils;
 import cn.xcom.helper.utils.ToastUtils;
 import cn.xcom.helper.view.DividerItemDecoration;
-import me.himanshusoni.quantityview.QuantityView;
+import cn.xcom.helper.view.QuantityView;
+import cn.xcom.helper.view.SharePopupWindow;
+
+import static com.tencent.connect.share.QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT;
 
 /**
  * Created by hzh on 2017/7/8.
@@ -62,12 +90,34 @@ public class OybGoodDetailActivity extends BaseActivity {
     private QuantityView quantityView;
     private TextView buyTv;
     private OybGood oybGood;
+    private LinearLayout shareTv;
+    SharePopupWindow takePhotoPopWin;
+    private UserInfo userInfo;
+    private int wxflag = 0;
+    IWXAPI msgApi;
+    Bitmap bitmap;
+    Resources res;
+    private Tencent mTencent;
+    private BaseUiListener listener;
+    String thumbPath;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_oyb_good_detail);
         mark = getIntent().getStringExtra("mark");
         initView();
+        userInfo = new UserInfo(this);
+        msgApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
+        msgApi.registerApp(Constants.APP_ID);
+        res = getResources();
+        bitmap = BitmapFactory.decodeResource(res, R.drawable.ic_logo);
+        mTencent = Tencent.createInstance("1105802480", this.getApplicationContext());
+        listener = new BaseUiListener();
+
+        res = getResources();
+        bitmap = BitmapFactory.decodeResource(res, R.drawable.ic_logo);
+        thumbPath = convertIconToString(bitmap);
     }
 
     private void initView() {
@@ -80,6 +130,13 @@ public class OybGoodDetailActivity extends BaseActivity {
 
         xRecyclerView = (XRecyclerView) findViewById(R.id.recycler_view);
         View headView = LayoutInflater.from(this).inflate(R.layout.headviewt_oyb_good_detail, null);
+        shareTv = (LinearLayout) headView.findViewById(R.id.share_tv);
+        shareTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopFormBottom(v);
+            }
+        });
         banner = (Banner) headView.findViewById(R.id.banner);
         needTv = (TextView) headView.findViewById(R.id.need_count_tv);
         nowTv = (TextView) headView.findViewById(R.id.now_count_tv);
@@ -125,8 +182,8 @@ public class OybGoodDetailActivity extends BaseActivity {
                     String state = jsonObject.getString("status");
                     if (state.equals("success")) {
                         JSONObject j = jsonObject.getJSONObject("data");
-                        if(j.opt("smeta").equals("")){
-                            j.put("smeta",null);
+                        if (j.opt("smeta").equals("")) {
+                            j.put("smeta", null);
                         }
                         String data = j.toString();
                         oybGood = new Gson().fromJson(data, new TypeToken<OybGood>() {
@@ -182,9 +239,9 @@ public class OybGoodDetailActivity extends BaseActivity {
 
     }
 
-    private void buy(){
+    private void buy() {
         int count = quantityView.getQuantity();
-        if(count ==0){
+        if (count == 0) {
             ToastUtils.showToast(OybGoodDetailActivity.this, "请选择商品数量");
             return;
         }
@@ -197,14 +254,16 @@ public class OybGoodDetailActivity extends BaseActivity {
                     String state = jsonObject.getString("status");
                     if (state.equals("success")) {
                         String orderNumber = jsonObject.optString("data");
-                        HelperApplication.getInstance().type="";
-                        Intent intent = new Intent(OybGoodDetailActivity.this,PaymentActivity.class);
+                        HelperApplication.getInstance().type = "";
+                        Intent intent = new Intent(OybGoodDetailActivity.this, PaymentActivity.class);
                         intent.putExtra("price", "0.01");//以后改为count
                         intent.putExtra("tradeNo", orderNumber);
-                        intent.putExtra("body","一元购");
-                        intent.putExtra("type","3");
+                        intent.putExtra("body", "一元购");
+                        intent.putExtra("type", "7");
                         startActivity(intent);
                         finish();
+                    } else {
+                        ToastUtils.showToast(OybGoodDetailActivity.this, "提交订单失败");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -218,10 +277,11 @@ public class OybGoodDetailActivity extends BaseActivity {
             }
         });
         request.putValue("id", oybGood.getId());
-        request.putValue("userid",new UserInfo(OybGoodDetailActivity.this).getUserId());
-        request.putValue("price",String.valueOf(count));
+        request.putValue("userid", new UserInfo(OybGoodDetailActivity.this).getUserId());
+        request.putValue("price", String.valueOf(count));
         SingleVolleyRequest.getInstance(OybGoodDetailActivity.this).addToRequestQueue(request);
     }
+
 
     class CommentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -328,4 +388,162 @@ public class OybGoodDetailActivity extends BaseActivity {
         private ImageView imageView;
     }
 
+
+    public void showPopFormBottom(View view) {
+        takePhotoPopWin = new SharePopupWindow(this, onClickListener);
+        //SharePopupWindow takePhotoPopWin = new SharePopupWindow(this, onClickListener);
+        takePhotoPopWin.showAtLocation(findViewById(R.id.rl_bottom), Gravity.BOTTOM, 0, 0);
+    }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.haoyou:
+                    ToastUtils.showToast(OybGoodDetailActivity.this, "微信好友");
+                    setting();
+                    break;
+                case R.id.dongtai:
+                    ToastUtils.showToast(OybGoodDetailActivity.this, "微信朋友圈");
+                    history();
+                    break;
+                case R.id.qq:
+                    ToastUtils.showToast(OybGoodDetailActivity.this, "QQ");
+                    shareToQQ();
+                    takePhotoPopWin.dismiss();
+                    break;
+                case R.id.kongjian:
+                    ToastUtils.showToast(OybGoodDetailActivity.this, "QQ空间");
+                    shareToQzone();
+                    takePhotoPopWin.dismiss();
+                    break;
+                case R.id.zhifubao:
+                    ToastUtils.showToast(OybGoodDetailActivity.this, "支付宝");
+                    toAlipay();
+                    takePhotoPopWin.dismiss();
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 微信分享网页
+     */
+    private void shareWX() {
+        //创建一个WXWebPageObject对象，用于封装要发送的Url
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = NetConstant.SHARE_QRCODE_H5 + userInfo.getUserId();
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = "我参与了51帮夺宝活动，快来一起参加吧，分享有惊喜呦！";
+        msg.description = "基于同城个人，商户服务，夺宝活动，商品购买，给个人，商户提供交流与服务平台";
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_logo);
+        msg.setThumbImage(thumb);
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = "weiyi";
+        req.message = msg;
+        req.scene = wxflag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+        msgApi.sendReq(req);
+    }
+
+    /**
+     * 分享到微信好友
+     */
+    private void setting() {
+        //ToastUtils.ToastShort(this, "分享到微信好友");
+        wxflag = 0;
+        shareWX();
+        takePhotoPopWin.dismiss();
+
+    }
+
+    /**
+     * 分享到微信朋友圈
+     */
+    private void history() {
+        // ToastUtils.ToastShort(this, "分享到微信朋友圈");
+        wxflag = 1;
+        shareWX();
+        takePhotoPopWin.dismiss();
+    }
+
+    private void toAlipay() {
+        //创建工具对象实例，此处的APPID为上文提到的，申请应用生效后，在应用详情页中可以查到的支付宝应用唯一标识
+        IAPApi api = APAPIFactory.createZFBApi(getApplicationContext(), "2016083001821606", false);
+        APWebPageObject webPageObject = new APWebPageObject();
+        webPageObject.webpageUrl = NetConstant.SHARE_QRCODE_H5 + userInfo.getUserId();
+
+        //组装分享消息对象
+        APMediaMessage mediaMessage = new APMediaMessage();
+        mediaMessage.title = "我参与了51帮夺宝活动，快来一起参加吧，分享有惊喜呦！";
+        mediaMessage.description = "基于同城个人，商户服务，夺宝活动，商品购买，给个人，商户提供交流与服务平台";
+        mediaMessage.mediaObject = webPageObject;
+        mediaMessage.setThumbImage(bitmap);
+        //将分享消息对象包装成请求对象
+        SendMessageToZFB.Req req = new SendMessageToZFB.Req();
+        req.message = mediaMessage;
+        req.transaction = "WebShare" + String.valueOf(System.currentTimeMillis());
+        //发送请求
+        api.sendReq(req);
+
+    }
+
+
+    private void shareToQQ() {
+        Bundle params = new Bundle();
+        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+        params.putString(QQShare.SHARE_TO_QQ_TITLE, "我参与了51帮夺宝活动，快来一起参加吧，分享有惊喜呦！");
+        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "基于同城个人，商户服务，夺宝活动，商品购买，给个人，商户提供交流与服务平台");
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, NetConstant.SHARE_QRCODE_H5 + userInfo.getUserId());
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://www.my51bang.com/uploads/ic_logo.png");
+        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "51帮");
+        mTencent.shareToQQ(this, params, listener);
+    }
+
+    private void shareToQzone() {
+        Bundle params = new Bundle();
+        //分享类型
+        params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
+        params.putString(QzoneShare.SHARE_TO_QQ_TITLE, "我参与了51帮夺宝活动，快来一起参加吧，分享有惊喜呦！");//必填
+        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, "基于同城个人，商户服务，夺宝活动，商品购买，给个人，商户提供交流与服务平台");//选填
+        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, NetConstant.SHARE_QRCODE_H5 + userInfo.getUserId());//必填
+        ArrayList<String> images = new ArrayList<>();
+        images.add("http://www.my51bang.com/uploads/ic_logo.png");
+        params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, images);
+        mTencent.shareToQzone(OybGoodDetailActivity.this, params, listener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Tencent.onActivityResultData(requestCode, resultCode, data, listener);
+    }
+
+
+    private class BaseUiListener implements IUiListener {
+        @Override
+        public void onCancel() {
+            Toast.makeText(OybGoodDetailActivity.this, "取消分享", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(OybGoodDetailActivity.this, uiError.errorMessage + "\n" + uiError.errorDetail,
+                    Toast.LENGTH_SHORT)
+                    .show();
+            Log.d("QQshare", uiError.errorMessage + "\n" + uiError.errorDetail);
+        }
+
+        @Override
+        public void onComplete(Object o) {
+//            enableAction(enableActionShareQRCodeActivity.this.action);
+        }
+    }
+
+    public String convertIconToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] appicon = baos.toByteArray();// 转为byte数组
+        return Base64.encodeToString(appicon, Base64.DEFAULT);
+
+    }
 }

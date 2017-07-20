@@ -45,10 +45,12 @@ public class MapBottomPopWindow extends PopupWindow {
     private String taddress;
     private String tcount;
 
-    public MapBottomPopWindow(Context context,String name,String photoUrl,String address,String count,View.OnClickListener onClickListener) {
+    public MapBottomPopWindow(Context context,String name,String photoUrl,String address,String count,String distance,View.OnClickListener onClickListener) {
         super(context);
         this.mContext = context;
         this.view = LayoutInflater.from(context).inflate(R.layout.item_authentication_info, null);
+        tvDistanceNew = (TextView) view.findViewById(R.id.tv_distance_new);
+        tvDistanceNew.setText(distance);
         ivAvatar = (ImageView)view.findViewById(R.id.iv_avatar) ;
         tvName = (TextView) view.findViewById(R.id.tv_name) ;
         linearLayout = (LinearLayout)view.findViewById(R.id.bottom_pop_ly);

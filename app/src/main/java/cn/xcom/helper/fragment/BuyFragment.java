@@ -148,38 +148,6 @@ public class BuyFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         userInfo = new UserInfo(mContext);
-        /*if(SPUtils.get(getActivity(), HelperConstant.IS_HAD_AUTHENTICATION,"").equals("1")){
-            ll_task = (RelativeLayout) getView().findViewById(R.id.ll_task);
-            ll_task.setOnClickListener(this);
-            srl_task = (SwipeRefreshLayout) getView().findViewById(R.id.grab_task_srl);
-            lv_task = (ListView) getView().findViewById(R.id.grab_task_list);
-            sb_change = (SwitchButton) getView().findViewById(R.id.sb_fragment_buy);
-            srl_task.setColorSchemeResources(R.color.background_white);
-            srl_task.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.colorTheme));
-            srl_task.setProgressViewOffset(true, 10, 100);
-            srl_task.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    getData(HelperApplication.getInstance().mDistrict);
-                }
-            });
-            lv_task.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(mContext, TaskDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("taskInfo",taskInfos.get(position));
-                    intent.putExtras(bundle);
-                    //抢单列表
-                    intent.putExtra("type","1");
-                    mContext.startActivity(intent);
-                }
-            });
-        }else{
-            bt_authorized= (Button) getView().findViewById(R.id.bt_fragment_buy_authorized);
-            bt_authorized.setOnClickListener(this);
-            sb= (SwitchButton) getView().findViewById(R.id.sb_fragment_buy);
-        }*/
         ll_task = (RelativeLayout) getView().findViewById(R.id.ll_task);
         ll_task.setOnClickListener(this);
         sb_change = (SwitchButton) getView().findViewById(R.id.sb_fragment_buy);
@@ -365,7 +333,7 @@ public class BuyFragment extends Fragment implements View.OnClickListener {
         hud.show();
         RequestParams params = new RequestParams();
         params.put("userid", userInfo.getUserId());
-        params.put("address", HelperApplication.getInstance().detailCityAdress);
+        params.put("address", HelperApplication.getInstance().detailAdress);
         params.put("longitude", HelperApplication.getInstance().mCurrentLocLon);
         params.put("latitude", HelperApplication.getInstance().mCurrentLocLat);
         params.put("isworking", state);

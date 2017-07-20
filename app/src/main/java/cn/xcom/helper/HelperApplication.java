@@ -46,10 +46,10 @@ public class HelperApplication extends Application {
     //切换城市信息
     public double mCurrentLocLat = 0;
     public double mCurrentLocLon = 0;
-    public String detailCityAdress = "";//从市开始的详细地址
-    public String detailProvAdress = "";//从省开始的详细地址
+    public String detailAdress = "";//从市开始的详细地址
     public String status = "";
-    public String mDistrict = "";
+
+    public String mDistrict = "";//区
     public String mLocaddresscityid = "";
     //实时定位坐标和地址
 //    public double mLocLat, mLocLon;
@@ -59,6 +59,7 @@ public class HelperApplication extends Application {
     public String payType;
     public String type = "";
     public String wxpay = "";
+    public String wxpayType = "";//为了判断支付成功后的跳转页面
 
     //提现flag
     public boolean isBack = false;
@@ -104,8 +105,7 @@ public class HelperApplication extends Application {
         mContext = this;
         instance = this;
         taskTypes = new ArrayList<>();
-        //在这里初始化
-//        Bugtags.start("a0bfbbf506442a8f5ba633c758385d3c", this, Bugtags.BTGInvocationEventNone);
+
 
         //初始化极光
         setPush();

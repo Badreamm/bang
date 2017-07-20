@@ -77,11 +77,18 @@ public class EditAddressActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void addAdress() {
+        String headAddress = tv_city.getText().toString().trim();
+        if(TextUtils.isEmpty(headAddress)){
+            Toast.makeText(this, "请选择地址", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String detailAdress = et_detail.getText().toString().trim();
         if (TextUtils.isEmpty(detailAdress)) {
             Toast.makeText(this, "请填写详细地址", Toast.LENGTH_SHORT).show();
             return;
         }
+
         String url = NetConstant.ADD_ADRESS;
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
             @Override
@@ -96,7 +103,7 @@ public class EditAddressActivity extends BaseActivity implements View.OnClickLis
             }
         });
         request.putValue("userid", userInfo.getUserId());
-        request.putValue("address", detailAdress);
+        request.putValue("address", "中国"+headAddress+detailAdress);
         request.putValue("longitude", "123.1232");
         request.putValue("latitude", "123.1232");
         //   request.putValue("isdefault","1");

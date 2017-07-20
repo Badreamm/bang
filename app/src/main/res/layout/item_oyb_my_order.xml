@@ -209,6 +209,14 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/image_flag" />
+        <TextView
+            android:id="@+id/countTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/orange"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/text_flag_tv" />
 
         <Button
             android:id="@+id/my_num_btn"
@@ -218,7 +226,7 @@
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:text="我的号码"
-            android:layout_toRightOf="@id/text_flag_tv"
+            android:layout_toRightOf="@id/countTimeTv"
             android:layout_marginLeft="10dp"
             />
         <Button

@@ -8,9 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.lzy.widget.tab.PagerSlidingTabStrip;
 
@@ -18,10 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.xcom.helper.R;
-import cn.xcom.helper.adapter.ViewPageAdapter;
 import cn.xcom.helper.fragment.onyuanbuy.OybGoodsFragment;
 import cn.xcom.helper.fragment.onyuanbuy.OybMyOrderFragment;
-import cn.xcom.helper.view.AlwaysMarqueeTextView;
+import cn.xcom.helper.view.AutoScrollTextView;
 
 /**
  * Created by hzh on 2017/7/8.
@@ -31,7 +33,7 @@ public class OneYuanBuyFragment extends Fragment {
     private PagerSlidingTabStrip slidingTab;
     private ViewPager viewPager;
     private List<Fragment> fragments;
-    private AlwaysMarqueeTextView alwaysMarqueeTextView;
+    private AutoScrollTextView alwaysMarqueeTextView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,8 +52,9 @@ public class OneYuanBuyFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
         slidingTab.setViewPager(viewPager);
-        alwaysMarqueeTextView = (AlwaysMarqueeTextView) view.findViewById(R.id.item_title);
-        alwaysMarqueeTextView.setText("本活动所有开奖结果皆由重庆时时彩获取，按开奖号码位数加1，保证公平性，点击查看");
+        alwaysMarqueeTextView = (AutoScrollTextView) view.findViewById(R.id.item_title);
+        alwaysMarqueeTextView.init(getActivity().getWindowManager());
+        alwaysMarqueeTextView.startScroll();
         alwaysMarqueeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +64,8 @@ public class OneYuanBuyFragment extends Fragment {
             }
         });
     }
+
+
 
     private class FragmentAdapter extends FragmentPagerAdapter{
         private String titles[] = {"商品","待揭晓","已揭晓","我的订单"};

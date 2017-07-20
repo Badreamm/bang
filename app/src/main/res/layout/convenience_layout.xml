@@ -19,6 +19,7 @@
             android:src="@mipmap/morenimage" />
 
         <RelativeLayout
+            android:id="@+id/sss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/convenience_photo">
@@ -75,22 +76,23 @@
                 android:id="@+id/convenience_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/iv_share"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="51-证"
+                android:layout_toLeftOf="@id/packet_flag"
                 android:textColor="@color/colorTheme"
-                android:textSize="18sp" />
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/convenience_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/convenience_photo"
             android:layout_toRightOf="@id/convenience_photo"
+            android:layout_below="@id/sss"
             android:text="2012-06-12 15:20:03"
             android:textSize="14sp" />
     </RelativeLayout>

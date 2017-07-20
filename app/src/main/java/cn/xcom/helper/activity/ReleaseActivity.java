@@ -70,6 +70,9 @@ import cn.xcom.helper.utils.ToastUtil;
 import cn.xcom.helper.utils.WheelView;
 
 
+/**
+ * 发布特卖
+ */
 public class ReleaseActivity extends BaseActivity implements View.OnClickListener, OnGetGeoCoderResultListener {
     private Context context;
     private RelativeLayout rl_i_help_back, rl_select_address;
@@ -167,7 +170,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         text_transport = (TextView) findViewById(R.id.text_transport);
         ed_location = (TextView) findViewById(R.id.ed_location);
         //初始化当前位置信息
-        ed_location.setText(HelperApplication.getInstance().detailCityAdress);
+        ed_location.setText(HelperApplication.getInstance().detailAdress);
         mSiteLat = HelperApplication.getInstance().mCurrentLocLat;
         mSiteLon = HelperApplication.getInstance().mCurrentLocLon;
         //  delete= (ImageView) findViewById(R.id.delete);
@@ -282,7 +285,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
             return;
         }
         final String location = ed_location.getText().toString().trim();
-        if (TextUtils.isEmpty(oldprice)) {
+        if (TextUtils.isEmpty(location)) {
             Toast.makeText(this, "地址不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -434,7 +437,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 request.putValue("delivery", text_transport.getText().toString());
                 request.putValue("UserLatitude", String.valueOf(HelperApplication.getInstance().mCurrentLocLat));
                 request.putValue("UserLongitude", String.valueOf(HelperApplication.getInstance().mCurrentLocLon));
-                request.putValue("UserLocation", HelperApplication.getInstance().detailCityAdress);
+                request.putValue("UserLocation", HelperApplication.getInstance().detailAdress);
                 SingleVolleyRequest.getInstance(getApplication()).addToRequestQueue(request);
             }
 

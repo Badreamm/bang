@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -26,6 +28,9 @@ import cn.xcom.helper.bean.WalletInfo;
 import cn.xcom.helper.constant.NetConstant;
 import cn.xcom.helper.net.HelperAsyncHttpClient;
 import cn.xcom.helper.utils.LogUtils;
+import cn.xcom.helper.utils.SingleVolleyRequest;
+import cn.xcom.helper.utils.StringPostRequest;
+import cn.xcom.helper.utils.ToastUtil;
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -36,7 +41,7 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     private String TAG = "WalletActivity";
     private Context mContext;
     private RelativeLayout rl_back;
-    private TextView tv_momeny, tv_month_singular, tv_month_income, tv_all_singular, tv_all_income, tv_know_more;
+    private TextView tv_momeny, tv_month_singular, tv_month_income, tv_all_singular, tv_all_income, tv_know_more,work_count;
     private Button bt_present;
     private LinearLayout ll_present, ll_income, ll_my_work, ll_bind;
     private UserInfo userInfo;
@@ -73,12 +78,14 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
         tv_know_more.setOnClickListener(this);
         ll_bind = (LinearLayout) findViewById(R.id.ll_band_account);
         ll_bind.setOnClickListener(this);
+        work_count = (TextView) findViewById(R.id.work_count);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getWallet();
+        getMyIntroduceCount();
         if (HelperApplication.getInstance().isBack) {
             showDialog();
         }
@@ -161,6 +168,35 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
+    }
+
+    /**
+     * 获取我推荐的客户数量
+     */
+    private void getMyIntroduceCount() {
+        String url = NetConstant.GET_MY_INTRODUCE_COUNT;
+        StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("success")) {
+                        work_count.setText(jsonObject.getString("data"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+        request.putValue("userid", userInfo.getUserId());
+
+        SingleVolleyRequest.getInstance(WalletActivity.this).addToRequestQueue(request);
     }
 
     private void displayWallet() {

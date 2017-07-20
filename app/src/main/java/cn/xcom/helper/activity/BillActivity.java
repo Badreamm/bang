@@ -29,14 +29,16 @@ public class BillActivity extends BaseActivity implements View.OnClickListener{
     private PagerSlidingTabStrip pagerTitles;
     private ViewPager viewPager;
     private List<Fragment> fragments;
-
+    private int from;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_bill);
         mContext=this;
+        from = getIntent().getIntExtra("from",0);
         initView();
+
     }
 
     private void initView(){
@@ -58,8 +60,9 @@ public class BillActivity extends BaseActivity implements View.OnClickListener{
         PostedOrderAdapter adapter = new PostedOrderAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         pagerTitles.setViewPager(viewPager);
-
-
+        if(from == 1){
+            viewPager.setCurrentItem(1);
+        }
     }
     @Override
     public void onClick(View v) {

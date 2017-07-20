@@ -123,7 +123,7 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
             public void onClick(View v) {
                 HelperApplication.getInstance().mCurrentLocLat = mLocLat;
                 HelperApplication.getInstance().mCurrentLocLon = mLocLon;
-                HelperApplication.getInstance().detailCityAdress = mLocaddress;
+                HelperApplication.getInstance().detailAdress = mLocaddress;
                 HelperApplication.getInstance().mDistrict = mLocDistict;
 
                 HelperApplication.getInstance().status = "1";
@@ -294,11 +294,11 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
         Log.e("city", result.getLocation().toString());
         mLocLat= result.getLocation().latitude;
         mLocLon = result.getLocation().longitude;
-        mLocaddress = result.getAddress();
+        mLocaddress = "中国"+city1 + city2 + city3;
 
         HelperApplication.getInstance().mCurrentLocLat = mLocLat;
         HelperApplication.getInstance().mCurrentLocLon = mLocLon;
-        HelperApplication.getInstance().detailCityAdress = mLocaddress;
+        HelperApplication.getInstance().detailAdress = mLocaddress;
         HelperApplication.getInstance().mDistrict = city3;
         HelperApplication.getInstance().status = "1";
         Log.e("result_ok", "yes");
@@ -432,15 +432,14 @@ public class MyCitySelectActivity extends BaseActivity implements OnClickListene
                 }
             }
             Log.i("BaiduLocationApiDem", sb.toString());
-            mSearch.reverseGeoCode(new ReverseGeoCodeOption()
-                    .location(new LatLng(location.getLatitude(), location.getLongitude())));
-            mLocLat = location.getLatitude();
-            mLocLon = location.getLongitude();
-            mLocaddress= location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
-            mLocDistict = location.getDistrict();
-
-            mLocationClient.stop();
+            if (!firstIn){
+                mSearch.reverseGeoCode(new ReverseGeoCodeOption()
+                        .location(new LatLng(location.getLatitude(), location.getLongitude())));
+                firstIn = true;
+                mLocationClient.stop();
+            }
         }
     }
 
+    boolean firstIn;
 }

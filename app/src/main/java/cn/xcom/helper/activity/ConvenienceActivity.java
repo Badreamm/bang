@@ -309,7 +309,6 @@ public class ConvenienceActivity extends BaseActivity implements View.OnClickLis
         request.putValue("type", "1");
         request.putValue("keyword", keyWord);
         request.putValue("city", city);
-        Log.e("获取便民圈", HelperApplication.getInstance().mDistrict);
         SingleVolleyRequest.getInstance(context).addToRequestQueue(request);
     }
 

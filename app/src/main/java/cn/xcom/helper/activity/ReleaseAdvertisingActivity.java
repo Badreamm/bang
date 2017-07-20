@@ -98,7 +98,7 @@ public class ReleaseAdvertisingActivity extends BaseActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_advertising);
-        city = HelperApplication.getInstance().detailCityAdress;
+        city = HelperApplication.getInstance().detailAdress;
         userInfo = new UserInfo(this);
         df = new java.text.DecimalFormat("#0.00");
         try {
@@ -326,7 +326,9 @@ public class ReleaseAdvertisingActivity extends BaseActivity implements View.OnC
                 advImg.setVisibility(View.VISIBLE);
                 advNetAddressLy.setVisibility(View.VISIBLE);
                 advThemeLy.setVisibility(View.VISIBLE);
-                addImageList.clear();
+                if (reqeustCode == REQUEST_CODE_GALLERY) {
+                    addImageList.clear();
+                }
                 addImageList.addAll(resultList);
                 photopath = addImageList.get(0).getPhotoPath();
                 Glide
@@ -570,7 +572,7 @@ public class ReleaseAdvertisingActivity extends BaseActivity implements View.OnC
         String begintime = DateUtil.getStringToDate(startTime) + "";
         String endtime = DateUtil.getStringToDate(endTime) + "";
         request.putValue("begintime", begintime.substring(0, begintime.length() - 3));
-        request.putValue("endtime",endtime.substring(0, endtime.length() - 3));
+        request.putValue("endtime", endtime.substring(0, endtime.length() - 3));
 
         if (messagePrice.getText() == null) {
             request.putValue("price", "");
@@ -639,10 +641,10 @@ public class ReleaseAdvertisingActivity extends BaseActivity implements View.OnC
                 payIntent.putExtra("tradeNo", payId);
                 payIntent.putExtra("body", "广告发布");
                 payIntent.putExtra("price", messagePrice.getText().toString());
-                if (HelperApplication.getInstance().conAdv){
+                if (HelperApplication.getInstance().conAdv) {
                     payIntent.putExtra("type", "6");
-                    HelperApplication.getInstance().conAdv=false;
-                }else {
+                    HelperApplication.getInstance().conAdv = false;
+                } else {
                     payIntent.putExtra("type", "5");
                 }
 

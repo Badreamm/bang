@@ -160,7 +160,9 @@ public class AdvertisingEditActivity extends BaseActivity {
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
 
-                addImageList.clear();
+                if (reqeustCode == REQUEST_CODE_GALLERY) {
+                    addImageList.clear();
+                }
                 addImageList.addAll(resultList);
                 String photopath = addImageList.get(0).getPhotoPath();
                 Glide

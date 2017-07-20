@@ -52,7 +52,7 @@ public class OybGoodAdapter extends RecyclerView.Adapter<OybGoodAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHold holder, int position) {
         holder.setDataPosition(position);
-        if(!myViewHoldList.contains(holder)){
+        if (!myViewHoldList.contains(holder)) {
             myViewHoldList.add(holder);
         }
         final OybGood good = goods.get(position);
@@ -80,6 +80,9 @@ public class OybGoodAdapter extends RecyclerView.Adapter<OybGoodAdapter.ViewHold
                 String result = df.format(accuracy_num);
                 holder.progressTv.setText(result + "%");
                 holder.progressBar.setProgress((int) accuracy_num);
+            } else {
+                holder.progressTv.setText("0" + "%");
+                holder.progressBar.setProgress(0);
             }
         } else if (type == OybGoodsFragment.WAIT_GOODS) {
             holder.progressTag.setVisibility(View.GONE);
@@ -111,10 +114,20 @@ public class OybGoodAdapter extends RecyclerView.Adapter<OybGoodAdapter.ViewHold
 
     }
 
-    public void notifyData(){
-        for (int i = 0;i<myViewHoldList.size();i++){
-            if(type == OybGoodsFragment.WAIT_GOODS){
+    public void notifyData() {
+        for (int i = 0; i < myViewHoldList.size(); i++) {
+            if (type == OybGoodsFragment.WAIT_GOODS) {
+                if(goods.size() == 0){
+                    return;
+                }
+                if(myViewHoldList.get(i) == null){
+                    return;
+                }
+                if(goods.size() == myViewHoldList.get(i).position){
+                    return;
+                }
                 myViewHoldList.get(i).countTimeTv.setText(goods.get(myViewHoldList.get(i).position).getShowTime());
+
             }
         }
     }
@@ -133,6 +146,7 @@ public class OybGoodAdapter extends RecyclerView.Adapter<OybGoodAdapter.ViewHold
         private LinearLayout progressTag, waitFlag, annoFlag;
         private AlwaysMarqueeTextView annoTimeTv;
         private int position;
+
         public ViewHold(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
@@ -149,7 +163,7 @@ public class OybGoodAdapter extends RecyclerView.Adapter<OybGoodAdapter.ViewHold
             lunckNumTv = (TextView) itemView.findViewById(R.id.lucky_num_tv);
         }
 
-        private void setDataPosition(int position){
+        private void setDataPosition(int position) {
             this.position = position;
         }
     }

@@ -199,6 +199,7 @@
                 android:background="@color/colorTextWhite">
 
                 <TextView
+                    android:id="@+id/textView3"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dip"
@@ -207,8 +208,7 @@
                     android:drawablePadding="7dp"
                     android:gravity="center_vertical"
                     android:text="@string/tv_wallet_present_records"
-                    android:textSize="14dp"
-                    android:id="@+id/textView3" />
+                    android:textSize="14dp" />
 
                 <ImageView
                     android:layout_width="40dip"
@@ -288,12 +288,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dip"
                 android:background="@color/colorTextWhite">
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:src="@drawable/wodeyewu"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/wodeyewu" />
+
                 <TextView
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
@@ -301,9 +303,20 @@
                     android:layout_weight="1.0"
                     android:drawablePadding="7dip"
                     android:gravity="center_vertical"
-                    android:text="我的业务"
+                    android:text="我的邀请"
                     android:textSize="14dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总人数：" />
+
+                <TextView
+                    android:id="@+id/work_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/msg_red" />
                 <ImageView
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
@@ -331,8 +344,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/tv_wallet_warning"
-                android:textColor="@color/colorTextRed"
-                />
+                android:textColor="@color/colorTextRed" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

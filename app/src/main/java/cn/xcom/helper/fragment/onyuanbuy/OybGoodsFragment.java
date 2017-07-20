@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ import cz.msebera.android.httpclient.Header;
  * 一元购商品页面
  */
 
-public class OybGoodsFragment extends Fragment {
+public class OybGoodsFragment extends Fragment implements Runnable {
     public static final int ALL_GOODS = 111;//所有商品
     public static final int WAIT_GOODS = 122;//待揭晓
     public static final int ANNO_GOODS = 123;//已揭晓
@@ -45,8 +46,8 @@ public class OybGoodsFragment extends Fragment {
     private XRecyclerView recyclerView;
     private List<OybGood> goodLists;
     private OybGoodAdapter adapter;
-    private boolean endFlag;
-    private TimeThread timeThread;
+    private boolean isRunning;
+    private Thread thread;
 
     @Nullable
     @Override
@@ -81,14 +82,14 @@ public class OybGoodsFragment extends Fragment {
                 recyclerView.loadMoreComplete();
             }
         });
-        adapter = new OybGoodAdapter(getContext(),goodLists,type);
+        adapter = new OybGoodAdapter(getContext(), goodLists, type);
         recyclerView.setAdapter(adapter);
     }
 
 
     private void getDate() {
         String url = "";
-        switch (type){
+        switch (type) {
             case ALL_GOODS:
                 url = NetConstant.GET_OYB_GOODS;
                 break;
@@ -109,13 +110,14 @@ public class OybGoodsFragment extends Fragment {
                         super.onSuccess(statusCode, headers, response);
                         if (response != null) {
                             try {
+                                Log.e("oyb", type + ":" + response.toString());
                                 String state = response.getString("status");
                                 if (state.equals("success")) {
                                     JSONArray arr = response.getJSONArray("data");
-                                    for(int i = 0;i<arr.length();i++){
+                                    for (int i = 0; i < arr.length(); i++) {
                                         JSONObject object = arr.getJSONObject(i);
-                                        if(object.opt("smeta").equals("")){
-                                            object.put("smeta",null);
+                                        if (object.opt("smeta").equals("")) {
+                                            object.put("smeta", null);
                                         }
                                     }
                                     String data = arr.toString();
@@ -126,14 +128,16 @@ public class OybGoodsFragment extends Fragment {
                                     goodLists.clear();
                                     goodLists.addAll(list);
                                     adapter.notifyDataSetChanged();
-                                    if(type == WAIT_GOODS){
-                                        setTime();
-                                        if (timeThread == null){
-                                            timeThread = new TimeThread(goodLists);
-                                            timeThread.start();
-                                        }
+                                    setTime();
+                                    if (type == WAIT_GOODS && isRunning == false && goodLists.size() > 0) {
+                                        isRunning = true;
+                                        thread = new Thread(OybGoodsFragment.this);
+                                        thread.start();
                                     }
-
+                                } else {
+                                    isRunning = false;
+                                    goodLists.clear();
+                                    adapter.notifyDataSetChanged();
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -147,80 +151,89 @@ public class OybGoodsFragment extends Fragment {
     private void setTime() {
         for (int i = 0; i < goodLists.size(); i++) {
             OybGood good = goodLists.get(i);
-            if(type == OybGoodsFragment.WAIT_GOODS){
+            if (type == OybGoodsFragment.WAIT_GOODS) {
                 long count = TimeUtils.timeDifferent(good.getTime());
                 goodLists.get(i).setCountTime(count);
             }
         }
     }
 
-    class TimeThread extends Thread {
-        //用来停止线程
-//        boolean endThread;
-        List<OybGood> goods;
-        public TimeThread(List<OybGood> goods){
-            this.goods = goods;
-        }
-        @Override
-        public void run() {
-            while(!Thread.interrupted()){
-                try{
-                    //线程每秒钟执行一次
-                    Thread.sleep(1000);
-                    //遍历商品列表
-                    for(int i = 0;i < goods.size();i++){
-                        //拿到每件商品的时间差，转化为具体的多少天多少小时多少分多少秒
+    @Override
+    public void run() {
+        while (isRunning && type == WAIT_GOODS) {
+            try {
+                //线程每秒钟执行一次
+                Thread.sleep(1000);
+                //遍历商品列表
+                for (int i = 0; i < goodLists.size(); i++) {
+                    //拿到每件商品的时间差，转化为具体的多少天多少小时多少分多少秒
+                    //并保存在商品time这个属性内
+                    if (type == OybGoodsFragment.WAIT_GOODS) {
+                        long counttime = goodLists.get(i).getCountTime();
+                        long days = counttime / (1000 * 60 * 60 * 24);
+                        long hours = (counttime - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                        long minutes = (counttime - days * (1000 * 60 * 60 * 24)
+                                - hours * (1000 * 60 * 60)) / (1000 * 60);
+                        long second = (counttime - days * (1000 * 60 * 60 * 24)
+                                - hours * (1000 * 60 * 60) - minutes * (1000 * 60)) / 1000;
                         //并保存在商品time这个属性内
-                        if(type == OybGoodsFragment.WAIT_GOODS){
-                            long counttime = goods.get(i).getCountTime();
-                            long days = counttime / (1000 * 60 * 60 * 24);
-                            long hours = (counttime-days*(1000 * 60 * 60 * 24))/(1000* 60 * 60);
-                            long minutes = (counttime-days*(1000 * 60 * 60 * 24)
-                                    -hours*(1000* 60 * 60))/(1000* 60);
-                            long second = (counttime-days*(1000 * 60 * 60 * 24)
-                                    -hours*(1000* 60 * 60)-minutes*(1000*60))/1000;
-                            //并保存在商品time这个属性内
-                            String finaltime = days + "天" + hours + "时" + minutes + "分" + second + "秒";
-                            goods.get(i).setShowTime(finaltime);
-                            //如果时间差大于1秒钟，将每件商品的时间差减去一秒钟，
-                            // 并保存在每件商品的counttime属性内
-                            if(counttime > 1000) {
-                                goods.get(i).setCountTime(counttime - 1000);
-                            }
+                        String finaltime = days + "天" + hours + "时" + minutes + "分" + second + "秒";
+                        goodLists.get(i).setShowTime(finaltime);
+                        //如果时间差大于1秒钟，将每件商品的时间差减去一秒钟，
+                        // 并保存在每件商品的counttime属性内
+                        if (counttime > 1000 || second < 0) {
+                            goodLists.get(i).setCountTime(counttime - 1000);
+                        } else {
+                            Message message = new Message();
+                            message.what = 2;//更新数据
+                            //发送信息给handler
+                            handler.sendMessage(message);
+                            break;
                         }
                     }
-                    Message message = new Message();
-                    message.what = 1;
-                    //发送信息给handler
-                    handler.sendMessage(message);
-                }catch (Exception e){
                 }
+                Message message = new Message();
+                message.what = 1;
+                //发送信息给handler
+                handler.sendMessage(message);
+
+            } catch (Exception e) {
             }
         }
-
-
     }
 
-    Handler handler = new Handler(){
+
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     adapter.notifyData();
+                    break;
+                case 2:
+                    getDate();
+                    break;
             }
             super.handleMessage(msg);
         }
     };
 
 
-    public static final OybGoodsFragment newInstance(int type){
+    public static final OybGoodsFragment newInstance(int type) {
         OybGoodsFragment fragment = new OybGoodsFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("type",type);
+        bundle.putInt("type", type);
         fragment.setArguments(bundle);
-        return  fragment;
+        return fragment;
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isRunning = false;
+        if (thread != null && thread.isAlive()) {
+            thread.interrupt();
+            thread = null;
+        }
+    }
 }

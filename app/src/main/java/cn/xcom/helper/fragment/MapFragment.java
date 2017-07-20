@@ -83,6 +83,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +97,7 @@ import cn.xcom.helper.activity.ConvenienceActivity;
 import cn.xcom.helper.activity.DetailAuthenticatinActivity;
 import cn.xcom.helper.activity.HelpMeActivity;
 import cn.xcom.helper.activity.HomeActivity;
+import cn.xcom.helper.activity.IHelpActivity;
 import cn.xcom.helper.activity.ImageDetailActivity;
 import cn.xcom.helper.activity.MyCitySelectActivity;
 import cn.xcom.helper.activity.ReleaseAdvertisingActivity;
@@ -297,6 +299,11 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 startActivity(intent);
             }
         });
+        //设置当前位置,并上传 详细地址先不设置
+        HelperApplication.getInstance().mCurrentLocLat = mPt.latitude;
+        HelperApplication.getInstance().mCurrentLocLon = mPt.longitude;
+        uploadLocation();
+
         //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
         InfoWindow mInfoWindow = new InfoWindow(button, mPt, -47);
         //显示InfoWindow
@@ -540,7 +547,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
     private void uploadLocation() {
         RequestParams params = new RequestParams();
         params.put("userid", userInfo.getUserId());
-        params.put("address", HelperApplication.getInstance().detailCityAdress);
+        params.put("address", HelperApplication.getInstance().detailAdress);
         params.put("longitude", HelperApplication.getInstance().mCurrentLocLon);
         params.put("latitude", HelperApplication.getInstance().mCurrentLocLat);
         params.put("isworking", "1");
@@ -577,25 +584,26 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             Bitmap bitmaps = null;
 
             try {
+                if(android.text.TextUtils.isEmpty(lists.get(i).getPhone())){
+                    continue;
+                }
                 bitmaps = makeRoundCorner(GetLocalOrNetBitmap(NetConstant.NET_DISPLAY_IMG + lists.get(i).getPhoto()));
-            } catch (IOException e) {
+                Bitmap sbitmap = zoomImage(bitmaps, 90, 90);
+                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(sbitmap);
+
+                OverlayOptions options = new MarkerOptions()
+                        .position(latLng)//设置marker的位置
+                        .icon(bitmap)  //设置marker图标
+                        .zIndex(9) //设置marker所在层级
+                        .title(i + "")
+                        .draggable(true);  //设置手势拖拽
+                //将marker添加到地图上
+                Marker m = (Marker) (mBaiduMap.addOverlay(options));
+                markers.add(m);
+            } catch (Exception e) {
                 e.printStackTrace();
-                ToastUtil.showShort(mContext, "111");
             }
-            Bitmap sbitmap = zoomImage(bitmaps, 90, 90);
-            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(sbitmap);
-
-            OverlayOptions options = new MarkerOptions()
-                    .position(latLng)//设置marker的位置
-                    .icon(bitmap)  //设置marker图标
-                    .zIndex(9) //设置marker所在层级
-                    .title(i + "")
-                    .draggable(true);  //设置手势拖拽
-            //将marker添加到地图上
-            Marker m = (Marker) (mBaiduMap.addOverlay(options));
-            markers.add(m);
         }
-
     }
 
     /**
@@ -619,7 +627,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                     authenticationList.setStatus(object.optString("status"));
                     authenticationList.setUsertype(object.optString("usertype"));
                     authenticationList.setIsworking(object.optString("isworking"));
-                    authenticationList.setServiceCount(object.optString("serviceCount"));
+                    authenticationList.setServiceCount(object.optString("servicecount"));
                     authenticationList.setLongitude(object.optString("longitude"));
                     authenticationList.setLatitude(object.optString("latitude"));
 //                    authenticationList.setDistance(Long.parseLong(object.optString("distance")));
@@ -691,8 +699,8 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 startActivity(new Intent(mContext, AuthenticationActivity.class));
                 break;
             case R.id.tv_fragment_map_I_help:
-                homeActivity.checkToSecond();
-                //startActivity(new Intent(mContext, IHelpActivity.class));
+//                homeActivity.checkToSecond();
+                startActivity(new Intent(mContext, IHelpActivity.class));
                 break;
             case R.id.tv_fragment_map_help_me:
                 Intent intent = new Intent(mContext, HelpMeActivity.class);
@@ -861,7 +869,8 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 isFirstIn = false;
                 HelperApplication.getInstance().mCurrentLocLat = location.getLatitude();
                 HelperApplication.getInstance().mCurrentLocLon = location.getLongitude();
-                HelperApplication.getInstance().detailCityAdress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
+//                HelperApplication.getInstance().detailCityAdress = location.getCity() + location.getDistrict() + location.getPoiList().get(0).getName();
+                HelperApplication.getInstance().detailAdress = location.getAddress().address;
                 HelperApplication.getInstance().mDistrict = location.getDistrict();
 
                 locate_district.setText(location.getDistrict());
@@ -1018,20 +1027,18 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                         List<AuthenticationList> lis = gson.fromJson(data, new TypeToken<List<AuthenticationList>>() {
                         }.getType());
                         skill.add(lis.get(0));
-//                        Intent intent = new Intent(getActivity(), DetailAuthenticatinActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("authentication", skill.get(0));
-//                        intent.putExtras(bundle);
-//                        getActivity().startActivity(intent);
                         markerName = skill.get(0).getName();
                         photoUrl = skill.get(0).getPhoto();
                         address = skill.get(0).getAddress();
-                        if (count != null) {
-                            count = skill.get(0).getRanking();
+                        String juli = getDistance(HelperApplication.getInstance().mCurrentLocLat,HelperApplication.getInstance().mCurrentLocLon,
+                                Double.valueOf(skill.get(0).getLatitude()),Double.valueOf(skill.get(0).getLongitude()));
+
+                        if (skill.get(0).getServiceCount() != null) {
+                            count = skill.get(0).getServiceCount();
                         } else {
                             count = "0";
                         }
-                        mapBottomPopWindow = new MapBottomPopWindow(getActivity(), markerName, photoUrl, address, count, new View.OnClickListener() {
+                        mapBottomPopWindow = new MapBottomPopWindow(getActivity(), markerName, photoUrl, address, count,juli, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 switch (v.getId()) {
@@ -1248,7 +1255,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                         banner.start();
                     }else{
                         List<String> ads = new ArrayList<>();
-                        for (int i = 0; i < 3 - ads.size(); i++) {
+                        for (int i = 0; i < 3; i++) {
                             ads.add("http://www.my51bang.com/public/images/14022661085665377.jpg");
                         }
                         banner.update(ads);
@@ -1305,5 +1312,23 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                 }
             }
         }
+    }
+
+    /**
+     * 返回km
+     */
+    public static String getDistance(double lat_a, double lng_a, double lat_b, double lng_b){
+        double pk = 180 / 3.14169;
+        double a1 = lat_a / pk;
+        double a2 = lng_a / pk;
+        double b1 = lat_b / pk;
+        double b2 = lng_b / pk;
+        double t1 = Math.cos(a1) * Math.cos(a2) * Math.cos(b1) * Math.cos(b2);
+        double t2 = Math.cos(a1) * Math.sin(a2) * Math.cos(b1) * Math.sin(b2);
+        double t3 = Math.sin(a1) * Math.sin(b1);
+        double tt = Math.acos(t1 + t2 + t3);
+        DecimalFormat df   = new DecimalFormat("######0.00");
+        double result = 6371000 * tt / 1000;
+        return df.format(result)+"km";
     }
 }

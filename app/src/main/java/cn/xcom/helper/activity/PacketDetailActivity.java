@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import cn.xcom.helper.R;
@@ -58,14 +59,16 @@ public class PacketDetailActivity extends BaseActivity {
         getPacketState(packetId);
     }
 
-    private void setData(Packet packet){
+    private void setData(Packet packet) {
         MyImageLoader.display(NetConstant.NET_DISPLAY_IMG + packet.getPhoto(), avatarIv);
         if (packet.getIspacket() != null && packet.getIspacket().size() > 0) {
             messageTv.setText("已领取" + packet.getIspacket().size() + "/" + packet.getCount() + ",剩" + packet.getLeft_money() + "/" + packet.getMoney() + "元");
             recordLv.setAdapter(new DetailAdapter(this, packet.getIspacket()));
             for (PacketRecord record : packet.getIspacket()) {
-                if(record.getName().equals(user.getUserName())){
-                    totalMoneyTv.setText(record.getMoney()+"元");
+                if (record.getName().equals(user.getUserName())) {
+                    double money = Double.valueOf(record.getMoney());
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    totalMoneyTv.setText(df.format(money) + "元");
                     break;
                 }
             }
@@ -143,7 +146,10 @@ public class PacketDetailActivity extends BaseActivity {
             }
             PacketRecord packetRecord = records.get(position);
             holder.nameTv.setText(packetRecord.getName());
-            holder.moneyTv.setText(packetRecord.getMoney()+"元");
+
+            double money = Double.valueOf(packetRecord.getMoney());
+            DecimalFormat df = new DecimalFormat("#.##");
+            holder.moneyTv.setText(df.format(money) + "元");
             holder.timeTv.setText(TimeUtils.getDateToString(packetRecord.getCreate_time() * 1000));
             return convertView;
         }

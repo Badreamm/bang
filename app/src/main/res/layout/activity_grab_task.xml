@@ -9,16 +9,33 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/colorTheme"
         android:layout_height="45dip">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/colorTheme"
             android:gravity="center"
+            android:layout_centerInParent="true"
             android:text="@string/tv_fragment_buy_title"
             android:textColor="@color/colorTextWhite"
             android:textSize="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_i_help_back"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:onClick="onBack"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_back_white_left" />
+        </RelativeLayout>
 
         <com.kyleduo.switchbutton.SwitchButton
             android:id="@+id/sb_fragment_buy"
@@ -27,6 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/rl_i_help_back"
+            android:layout_toLeftOf="@+id/title"
             android:textColor="@drawable/sb_text_color"
             android:textSize="12dp"
             app:kswBackColor="@drawable/sb_back_color"

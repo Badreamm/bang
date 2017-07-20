@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -27,23 +28,23 @@
         android:layout_height="50dp"
         android:textSize="15sp"
         app:pstsIndicatorColor="#05c0ab"
+        android:background="@color/white"
         app:pstsIndicatorHeight="4dp"
         app:pstsShouldExpand="true" />
 
-    <cn.xcom.helper.view.AlwaysMarqueeTextView
+
+    <cn.xcom.helper.view.AutoScrollTextView
         android:id="@+id/item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:focusableInTouchMode="true"
-        android:marqueeRepeatLimit="marquee_forever"
         android:background="@color/colorPrimary"
         android:textColor="@color/colorTextWhite"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="本活动所有开奖结果皆由重庆时时彩获取，两位数以上首位数字为机选，保证公平公正，点此查看"
+        android:maxLines = "1" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

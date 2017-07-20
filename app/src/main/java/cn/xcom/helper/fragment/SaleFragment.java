@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -331,7 +332,11 @@ public class SaleFragment extends Fragment implements View.OnClickListener {
                 Log.e("认证", response.toString());
                 if (response.optString("status").equals("success")) {
                     SPUtils.put(mContext, HelperConstant.IS_HAD_AUTHENTICATION, "1");
-                    goPublish();
+                    if(TextUtils.isEmpty(HelperApplication.getInstance().detailAdress)){
+                        Toast.makeText(getContext(),"请开启定位",Toast.LENGTH_SHORT);
+                    }else {
+                        goPublish();
+                    }
                 } else {
                     SPUtils.put(mContext, HelperConstant.IS_HAD_AUTHENTICATION, "0");
                     goAuthorized();

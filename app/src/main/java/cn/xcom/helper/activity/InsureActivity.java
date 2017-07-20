@@ -102,7 +102,9 @@ public class InsureActivity extends BaseActivity implements View.OnClickListener
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
-                mPhotoList.clear();
+                if (reqeustCode == REQUEST_CODE_GALLERY) {
+                    mPhotoList.clear();
+                }
                 mPhotoList.addAll(resultList);
 //                uploadImg();
                 Intent intent = new Intent(mContext, InsureDetailActivity.class);

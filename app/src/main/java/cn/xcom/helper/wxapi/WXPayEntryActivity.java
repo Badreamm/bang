@@ -23,6 +23,7 @@ import cn.xcom.helper.activity.BillActivity;
 import cn.xcom.helper.activity.ConvenienceActivity;
 import cn.xcom.helper.activity.MyAdvertsingActivity;
 import cn.xcom.helper.activity.MyOrderActivity;
+import cn.xcom.helper.activity.OybMyOrderActivity;
 import cn.xcom.helper.activity.ReleaseConvenienceActivity;
 import cn.xcom.helper.bean.OrderHelper;
 import cn.xcom.helper.constant.NetConstant;
@@ -93,7 +94,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             if ("0".equals(String.valueOf(resp.errCode))) {
                 ToastUtils.showToast(this, "支付成功");
                 Log.e("pay", "success");
-
+                if (HelperApplication.getInstance().wxpayType.equals("7")){
+                    HelperApplication.getInstance().wxpayType= "";
+                    startActivity(new Intent(WXPayEntryActivity.this, OybMyOrderActivity.class));
+                }
 
             } else if ("-1".equals(String.valueOf(resp.errCode))) {
                 finish();

@@ -30,19 +30,8 @@
                 android:src="@mipmap/ic_back_white_left" />
         </RelativeLayout>
     </RelativeLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/grab_task_srl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
-        <ListView
-            android:id="@+id/grab_task_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fastScrollEnabled="false"
-            android:scrollbars="none"
-            android:divider="@color/colorMainBackground"
-            android:dividerHeight="10dp">
-        </ListView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <view
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

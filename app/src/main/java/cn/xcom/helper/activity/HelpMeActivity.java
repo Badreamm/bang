@@ -530,7 +530,9 @@ public class HelpMeActivity extends BaseActivity implements View.OnClickListener
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
-                mPhotoList.clear();
+                if (reqeustCode == REQUEST_CODE_GALLERY) {
+                    mPhotoList.clear();
+                }
                 mPhotoList.addAll(resultList);
                 rl_grid_photo.setVisibility(View.VISIBLE);
                 localImgGridAdapter = new LocalImgGridAdapter(mPhotoList, HelpMeActivity.this);
@@ -628,6 +630,15 @@ public class HelpMeActivity extends BaseActivity implements View.OnClickListener
             ToastUtil.showShort(mContext, "请选择有效时间");
             return;
         }
+        if(TextUtils.isEmpty(et_site_location.getText().toString())){
+            ToastUtil.showShort(mContext, "请填写上门地址");
+            return;
+        }
+        if(TextUtils.isEmpty(et_service_location.getText().toString())){
+            ToastUtil.showShort(mContext, "请填写服务地址");
+            return;
+        }
+
         submit_hub = KProgressHUD.create(mContext)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setCancellable(true);
@@ -925,25 +936,26 @@ public class HelpMeActivity extends BaseActivity implements View.OnClickListener
                     .show();
             return;
         }
-        String address = result.getAddressDetail().city + result.getAddressDetail().district;
+        String address = "中国"+result.getAddressDetail().province+result.getAddressDetail().city + result.getAddressDetail().district;
         try {
+            String endName = "";
+            if (result.getPoiList() != null) {
+                endName = result.getPoiList().get(0).name;
+            } else {
+                endName = result.getAddressDetail().street;
+            }
             if (type == 1) {
-                if (result.getPoiList() != null) {
-                    et_service_location.setText(address + result.getPoiList().get(0).name);
-                    et_site_location.setText(address + result.getPoiList().get(0).name);
-                } else {
-                    et_service_location.setText(address + result.getAddressDetail().street);
-                    et_site_location.setText(address + result.getAddressDetail().street);
-                }
+                et_service_location.setText(address + endName);
+                et_site_location.setText(address + endName);
             } else if (type == 2) {
-                et_site_location.setText(address + mSiteName);
+                et_site_location.setText(address + endName);
             } else if (type == 3) {
-                et_service_location.setText(address + mServiceName);
+                et_service_location.setText(address + endName);
             }
         } catch (NullPointerException e) {
             if (type == 1) {
-                et_service_location.setText(HelperApplication.getInstance().detailCityAdress);
-                et_site_location.setText(HelperApplication.getInstance().detailCityAdress);
+                et_service_location.setText(HelperApplication.getInstance().detailAdress);
+                et_site_location.setText(HelperApplication.getInstance().detailAdress);
                 mSiteLat = HelperApplication.getInstance().mCurrentLocLat;
                 mSiteLon = HelperApplication.getInstance().mCurrentLocLon;
                 mServiceLat = HelperApplication.getInstance().mCurrentLocLat;

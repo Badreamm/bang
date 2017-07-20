@@ -80,7 +80,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public static final String RSA_PRIVATE = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAM2arVc/DULOrVn5VVdkALDETOa1sznxviFaDD/+bZJI+3C7ls1HVZzKNCj7uwKKk02fRnLU70twRMifdhbIwEpqIFQLZW2HXbbif9+74BhetsQiQ/kyzRAhWEqeppNv/KTCtPM5d99S74diQuHHIH0cz4g7Xy9i/9RH8oS315bDAgMBAAECgYEAqpiO/3dXn3kxqRgS0aIuWH1oeX2GKqwE4FOBGpAXhmt8BfwAkm9//8pfISpN7zvgIWXo5Fr9+pA64mQ9bYZA1YDMLxcebn6uRqXZGoa0iZmx0n8/JpTw9L9A0Jt2HBJltrW5vsHqwOkjNL3sPxeeLOnNT9kVRSpp2gRFQuqZPoECQQDvYBpPUOeQ9KC1nouv3ngXOZg0Pw/vJbxaQWwqCAjN/l2m6sBjU6lP2dVB6QSVbD4V6rNABX63PW69uo8V5e1jAkEA2+ImfhcdSM1zS3QnKeyNd0HCKNvXXWXhjnAZ22pHI7tApIexsa/IlbQYNGbL14ZyRD6jq64P2FPwxt4hHUcfIQJAbSBdviz+9GlhXorh2ZJNIyFhjuf05qxIWskae2rgQLCmlzLL9DwuorWG8B4/tbL79tfhUd1vcC/0bVBAbNY+SwJACG2SrCKWrMOzN6EsHx9CDOAoYQiMKLhO/PavBwn70BLNV4Eb/oOOXK6afuexyIEOwC7mdx4k3VXaVMUO3+BqAQJAeMQtg/QEDZJb+frQLOlElYpsUS/J+bASiHHb6j0UTgUYfEtC34oJDd5lX1ZkiaQV5lnGUT8T0da+bzomkZ5xSA==";
     private PayReq req;
     private String price, tradeNumber, tradeNo, body;
-    private String type = ""; //1--任务,2--商品 3 便民圈支付 4我的发布支付
+    private String type = ""; //1--任务,2--商品 3 便民圈支付 4我的发布支付 7一元购
     private boolean tag;
 
 
@@ -126,6 +126,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                                 HelperApplication.getInstance().advBack = true;
                                 finish();
                                 startActivity(new Intent(mContext, MyAdvertsingActivity.class));
+                            } else if(type.equals("7")){
+                                finish();
+                                startActivity(new Intent(mContext, OybMyOrderActivity.class));
                             }else {
                                 UpdateTradeState();
                             }
@@ -276,6 +279,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
                 if (cb_weixin.isChecked()) {
                     HelperApplication.getInstance().wxpay = "1";
+                    HelperApplication.getInstance().wxpayType = type;
                     wxpay();
                 }
                 /*if(cb_yinhangka.isChecked()){

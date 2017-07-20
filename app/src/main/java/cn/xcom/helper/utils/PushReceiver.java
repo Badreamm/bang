@@ -112,7 +112,7 @@ public class PushReceiver extends BroadcastReceiver {
                 case "acceptTaskType":
                     if(v.equals("-1")){
                         playNotificationSound(context,"task_cancel");
-                        popDialog(title,message);
+                        popOrederCancelDialog(title,message);
                     }
                     break;
                 case "sendTaskType":
@@ -141,11 +141,18 @@ public class PushReceiver extends BroadcastReceiver {
                     break;
                 case "hireTaskType":
                     playNotificationSound(context,"hire_task");
-                    popDialog(title,message);
+                    popHireDialog(title,message);
                     break;
                 case "bbspushwithcityname":
 //                    popDialog(title,message);
                     popPacketDialog(title,message,v);
+                    break;
+                case "sendHireTaskType":
+                    if(v.equals("1")){
+                        popMySendOrderDialog(title,"您的雇佣发单被接受，是否查看？");
+                    }else{
+                        popMySendOrderDialog(title,"您的雇佣发单被拒绝，是否查看？");
+                    }
                     break;
             }
 
@@ -184,6 +191,7 @@ public class PushReceiver extends BroadcastReceiver {
             case "sendTaskType":
                 intent = new Intent(context, BillActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("from", 1);
                 context.startActivity(intent);
                 break;
             case "acceptTaskType":
@@ -240,6 +248,12 @@ public class PushReceiver extends BroadcastReceiver {
                 intent = new Intent(context, ConvenienceActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("city", value);
+                context.startActivity(intent);
+                break;
+            case "sendHireTaskType":
+                intent = new Intent(context, BillActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("from", 1);
                 context.startActivity(intent);
                 break;
         }
@@ -352,6 +366,94 @@ public class PushReceiver extends BroadcastReceiver {
 
     }
 
+    private void popHireDialog(String title, String message) {
+        List<Activity> activities = HelperApplication.getInstance().getActivities();
+        if (activities.size() == 0) {
+            return;
+        }
+        final Activity activity = activities.get(activities.size() - 1);
+        if (activity == null) {
+            return;
+        }
+        if(StringUtils.isEmpty(title)){
+            return;
+        }
+        if(StringUtils.isEmpty(message)){
+            message = "";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title).setMessage(message).setCancelable(true).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(activity, OrderTakingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("from", "push");
+                activity.startActivity(intent);
+            }
+        });
+        builder.show();
+
+    }
+
+    private void popMySendOrderDialog(String title, String message) {
+        List<Activity> activities = HelperApplication.getInstance().getActivities();
+        if (activities.size() == 0) {
+            return;
+        }
+        final Activity activity = activities.get(activities.size() - 1);
+        if (activity == null) {
+            return;
+        }
+        if(StringUtils.isEmpty(title)){
+            return;
+        }
+        if(StringUtils.isEmpty(message)){
+            message = "";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title).setMessage(message).setCancelable(true).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(activity, BillActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("from", 1);
+                activity.startActivity(intent);
+            }
+        });
+        builder.show();
+
+    }
+
+    private void popOrederCancelDialog(String title, String message) {
+        List<Activity> activities = HelperApplication.getInstance().getActivities();
+        if (activities.size() == 0) {
+            return;
+        }
+        final Activity activity = activities.get(activities.size() - 1);
+        if (activity == null) {
+            return;
+        }
+        if(StringUtils.isEmpty(title)){
+            return;
+        }
+        if(StringUtils.isEmpty(message)){
+            message = "";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title).setMessage(message).setCancelable(true).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(activity, OrderTakingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                activity.startActivity(intent);
+            }
+        });
+        builder.show();
+
+    }
 
     private void processCustomMessage(Context context, Bundle bundle,String key) {
         NotificationManager manger = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

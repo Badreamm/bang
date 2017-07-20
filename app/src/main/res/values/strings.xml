@@ -332,4 +332,7 @@
     <string name="save_picture">保存图片</string>
     <string name="save_picture_failed">保存失败</string>
     <string name="save_picture_success">图片成功保存至%s目录</string>
+
+    <string name="qv_add">+</string>
+    <string name="qv_remove">-</string>
 </resources>

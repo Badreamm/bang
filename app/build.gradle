@@ -1,20 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'//增加这一句
-//apply plugin: 'org.greenrobot.greendao'
 android {
-    /*signingConfigs {
-        // your debug keystore
-        debug{
-            storeFile file("C:/Users/Administrator.RL-20160728GMZX/.android/debug.keystore")
-        }
-    }*/
-//    signingConfigs {
-//        // your debug keystore
-//        debug{
-//            storeFile file("C:/Users/Administrator.RL-20160728GMZX/.android/debug.keystore")
-//        }
-//    }
     signingConfigs {
         release {
             keyAlias '51bang'
@@ -23,14 +10,17 @@ android {
             storePassword 'love@1314'
         }
     }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "cn.xcom.helper"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 17
-        versionName "4.3"
+        versionCode 18
+        versionName "4.4"
         multiDexEnabled true
 
 //        ndk {
@@ -38,19 +28,7 @@ android {
 //            abiFilters 'armeabi','armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
 //        }
     }
-    //应用 Bugtags 插件
-//    apply plugin: 'com.bugtags.library.plugin'
-//    //Bugtags 插件配置
-//    bugtags {
-//        //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
-//        appKey "a0bfbbf506442a8f5ba633c758385d3c"  //这里是你的 appKey
-//
-//        appSecret "44a7cbccd4e1678d420c23e8cc5d3446"    //这里是你的 appSecret，管理员在设置页可以查看
-//        mappingUploadEnabled true
-//
-//        //网络跟踪功能配置(企业版)
-//        //trackingNetworkEnabled true
-//    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -75,14 +53,6 @@ android {
         exclude 'META-INF/maven/com.squareup.picasso/picasso/pom.properties'
 
     }
-//    sourceSets.main {
-//        jniLibs.srcDirs = ['libs']  // <-- Set your folder here!
-//    }
-//    greendao {
-//        schemaVersion 1
-//        daoPackage 'com.xcom.helper.model.greendao'
-//        targetGenDir 'src/main/java'
-//    }
 }
 
 
@@ -108,16 +78,7 @@ dependencies {
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.baoyz.actionsheet:library:1.1.4'
-    // compile files('libs/xUtils-2.6.14.jar')
     compile 'com.squareup.picasso:picasso:2.5.2'
-    //    compile files('build/intermediates/exploded-aar/org.xutils/xutils/3.1.22/jars/classes.jar')
-    //    compile files('build/intermediates/exploded-aar/com.facebook.fresco/fbcore/0.9.0/jars/classes.jar')
-    //    compile files('build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/0.9.0/jars/classes.jar')
-    //    compile files('build/intermediates/exploded-aar/com.facebook.fresco/fresco/0.9.0/jars/classes.jar')
-    //    compile files('build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/0.9.0/jars/classes.jar')
-    //    compile files('build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/0.9.0/jars/classes.jar')
-    //    compile files('build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/0.9.0/jars/classes.jar')
-    //    compile files('build/intermediates/exploded-aar/org.xutils/xutils/3.1.22/jars/classes.jar')
     compile files('libs/alipaySdk-20160825.jar')
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jakewharton:butterknife:8.4.0'
@@ -138,9 +99,6 @@ dependencies {
     compile 'com.czt.mp3recorder:library:1.0.4'
     compile 'fm.jiecao:jiecaovideoplayer:4.8.3'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    //    compile 'org.greenrobot:greendao:3.1.1'
-    //    compile 'com.bugtags.library:bugtags-lib:latest.integration'
     compile project(':mediapicker')
-    //   compile 'fm.jiecao:jiecaovideoplayer:5.5.2'
     compile 'com.youth.banner:banner:1.4.9'
 }

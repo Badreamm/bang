@@ -478,7 +478,7 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
         }
         request.putValue("latitude", String.valueOf(HelperApplication.getInstance().mCurrentLocLat));
         request.putValue("longitude", String.valueOf(HelperApplication.getInstance().mCurrentLocLon));
-        request.putValue("address", HelperApplication.getInstance().detailCityAdress);
+        request.putValue("address", HelperApplication.getInstance().detailAdress);
         SingleVolleyRequest.getInstance(getApplication()).addToRequestQueue(request);
     }
 
@@ -519,7 +519,9 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             if (resultList != null) {
-                addImageList.clear();
+                if (reqeustCode == REQUEST_CODE_GALLERY) {
+                    addImageList.clear();
+                }
                 addImageList.addAll(resultList);
                 Log.d("======haha", addImageList.size() + "");
                 gridViewAdapter = new GridViewAdapter(ReleaseConvenienceActivity.this, (ArrayList<PhotoInfo>) addImageList);
@@ -756,7 +758,7 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
 
     //弹出是否发红包dialog
     private void packetDailog(final boolean needBuyMore) {
-        String posiStr="",nagvStr="",neuStr="";
+        String posiStr = "", nagvStr = "", neuStr = "";
         if (needBuyMore) {
             posiStr = "去发红包和发布此便民圈";
             nagvStr = "只发布便民圈，不发红包";
@@ -797,7 +799,7 @@ public class ReleaseConvenienceActivity extends BaseActivity implements View.OnC
                 }
             }
         });
-        if(!TextUtils.isEmpty(neuStr)){
+        if (!TextUtils.isEmpty(neuStr)) {
             builder.setNeutralButton(neuStr, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

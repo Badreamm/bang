@@ -40,10 +40,28 @@ public class OybGood {
     private String prize_num;//我购买的号码
     private String phone;//中奖人的手机号
     private String iscomment;//中奖后是否评论
-
     private long countTime;//活动时间与当前时间的时间差
     private String showTime;//用于显示的倒计时时间
 
+    //只在MyOrder页面使用
+    private String myBuyCount;//我购买的次数
+    private String saledCount;//已经卖出去的次数
+
+    public String getMyBuyCount() {
+        return myBuyCount;
+    }
+
+    public void setMyBuyCount(String myBuyCount) {
+        this.myBuyCount = myBuyCount;
+    }
+
+    public String getSaledCount() {
+        return saledCount;
+    }
+
+    public void setSaledCount(String saledCount) {
+        this.saledCount = saledCount;
+    }
 
     public String getShowTime() {
         return showTime;

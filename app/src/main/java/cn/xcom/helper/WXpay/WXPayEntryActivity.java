@@ -22,14 +22,16 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.xcom.helper.HelperApplication;
 import cn.xcom.helper.R;
+import cn.xcom.helper.activity.OybMyOrderActivity;
 import cn.xcom.helper.bean.UserInfo;
 import cn.xcom.helper.pay.PayActivity;
 import cn.xcom.helper.utils.ToastUtils;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-	
+
 	private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
     private IWXAPI api;
 	private UserInfo user;
@@ -94,6 +96,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 				user.readData(contect);
 				Log.e("useridpay3", "===============>" + user.getUserId());
 				ToastUtils.showToast(this, "支付成功");
+
 				//new UserRequest(this, mHandler).PAYFREE(user.getUserId(), WXpay_StaticBean.wxpaylist.get(1), "2", WXpay_StaticBean.wxpaylist.get(0), "1", ADD_CURRENTKEY);
 			}else if ("-1".equals(String.valueOf(resp.errCode))){
 				ToastUtils.showToast(this, "支付失败");

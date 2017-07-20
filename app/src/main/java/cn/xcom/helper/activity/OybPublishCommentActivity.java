@@ -116,7 +116,7 @@ public class OybPublishCommentActivity extends BaseActivity {
         final String content = descriptionEt.getText().toString();
         final String name = nameEt.getText().toString();
         final String phone = phoneEt.getText().toString();
-        String address = addressTv.getText().toString();
+        final String address = addressTv.getText().toString();
         if (TextUtils.isEmpty(content)) {
             ToastUtil.Toast(this, "请输入内容");
             return;
@@ -134,7 +134,7 @@ public class OybPublishCommentActivity extends BaseActivity {
             return;
         }
         if (addImageList.size() == 0) {
-            Toast.makeText(this, "请选择图片", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "请发布中奖截图", Toast.LENGTH_SHORT).show();
             return;
         }
         hud = KProgressHUD.create(this)
@@ -172,6 +172,7 @@ public class OybPublishCommentActivity extends BaseActivity {
                 request.putValue("content", content);
                 request.putValue("phone", phone);
                 request.putValue("name", name);
+                request.putValue("address",address);
                 SingleVolleyRequest.getInstance(getApplication()).addToRequestQueue(request);
             }
 
