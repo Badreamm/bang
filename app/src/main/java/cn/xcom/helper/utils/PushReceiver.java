@@ -14,6 +14,7 @@ import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.ta.utdid2.android.utils.StringUtils;
@@ -152,6 +153,11 @@ public class PushReceiver extends BroadcastReceiver {
                         popMySendOrderDialog(title,"您的雇佣发单被接受，是否查看？");
                     }else{
                         popMySendOrderDialog(title,"您的雇佣发单被拒绝，是否查看？");
+                    }
+                    break;
+                default:
+                    if(!TextUtils.isEmpty(message)){
+                        popDialog("新消息提醒",message);
                     }
                     break;
             }
@@ -316,7 +322,7 @@ public class PushReceiver extends BroadcastReceiver {
             return;
         }
         final Activity activity = activities.get(activities.size() - 1);
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if(StringUtils.isEmpty(title)){
@@ -346,7 +352,7 @@ public class PushReceiver extends BroadcastReceiver {
             return;
         }
         final Activity activity = activities.get(activities.size() - 1);
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if(StringUtils.isEmpty(title)){
@@ -372,7 +378,7 @@ public class PushReceiver extends BroadcastReceiver {
             return;
         }
         final Activity activity = activities.get(activities.size() - 1);
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if(StringUtils.isEmpty(title)){
@@ -402,7 +408,7 @@ public class PushReceiver extends BroadcastReceiver {
             return;
         }
         final Activity activity = activities.get(activities.size() - 1);
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if(StringUtils.isEmpty(title)){
@@ -432,7 +438,7 @@ public class PushReceiver extends BroadcastReceiver {
             return;
         }
         final Activity activity = activities.get(activities.size() - 1);
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if(StringUtils.isEmpty(title)){

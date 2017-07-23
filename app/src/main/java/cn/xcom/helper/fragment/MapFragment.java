@@ -584,10 +584,11 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             Bitmap bitmaps = null;
 
             try {
-                if(android.text.TextUtils.isEmpty(lists.get(i).getPhone())){
+                Bitmap bb = GetLocalOrNetBitmap(NetConstant.NET_DISPLAY_IMG + lists.get(i).getPhoto());
+                if(bb == null){
                     continue;
                 }
-                bitmaps = makeRoundCorner(GetLocalOrNetBitmap(NetConstant.NET_DISPLAY_IMG + lists.get(i).getPhoto()));
+                bitmaps = makeRoundCorner(bb);
                 Bitmap sbitmap = zoomImage(bitmaps, 90, 90);
                 BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(sbitmap);
 
@@ -1261,7 +1262,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
                         banner.update(ads);
                         banner.start();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

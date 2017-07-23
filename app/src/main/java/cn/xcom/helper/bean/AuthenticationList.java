@@ -34,7 +34,7 @@ public class AuthenticationList implements Serializable{
     private String status;
     private String usertype;
     private String isworking;
-    private String serviceCount;
+    private String servicecount;
     private String Ranking;
     private String longitude;
     private String latitude;
@@ -134,11 +134,11 @@ public class AuthenticationList implements Serializable{
     }
 
     public String getServiceCount() {
-        return serviceCount;
+        return servicecount;
     }
 
     public void setServiceCount(String serviceCount) {
-        this.serviceCount = serviceCount;
+        this.servicecount = serviceCount;
     }
 
     public String getRanking() {
