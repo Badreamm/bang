@@ -125,8 +125,11 @@ public class PushReceiver extends BroadcastReceiver {
                 case "businessOrderType":
                     if(v.equals("1")){
                         playNotificationSound(context,"buy_goods");
-                        popDialog(title,message);
                     }
+                    popOrderDialog(title,message,OrderHelper.SellerOrder);
+                    break;
+                case "buyOrderType":
+                    popOrderDialog(title,message,OrderHelper.BuyerOrder);
                     break;
                 case "TaskTimeOut":
                     playNotificationSound(context,"timeout");
@@ -158,6 +161,7 @@ public class PushReceiver extends BroadcastReceiver {
                 case "newMessage":
                     popChatDialog(title,message,v);
                     break;
+
                 default:
                     if(!TextUtils.isEmpty(message)){
                         popDialog("新消息提醒",message);
@@ -474,6 +478,9 @@ public class PushReceiver extends BroadcastReceiver {
         if (activity == null || activity.isFinishing()) {
             return;
         }
+        if(activity.getClass().getSimpleName().equals("ChatActivity")){
+            return;
+        }
         if(StringUtils.isEmpty(title)){
             return;
         }
@@ -489,6 +496,45 @@ public class PushReceiver extends BroadcastReceiver {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("id", value);
                 activity.startActivity(intent);
+            }
+        });
+        builder.show();
+
+    }
+
+    private void popOrderDialog(String title, String message, final int orderType) {
+        List<Activity> activities = HelperApplication.getInstance().getActivities();
+        if (activities.size() == 0) {
+            return;
+        }
+        final Activity activity = activities.get(activities.size() - 1);
+        if (activity == null || activity.isFinishing()) {
+            return;
+        }
+        if(activity.getClass().getSimpleName().equals("ChatActivity")){
+            return;
+        }
+        if(StringUtils.isEmpty(title)){
+            title = "";
+        }
+        if(StringUtils.isEmpty(message)){
+            message = "";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title).setMessage(message).setCancelable(true).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                Intent intent = new Intent(activity, MyOrderActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if(orderType == OrderHelper.BuyerOrder){
+                    intent.putExtra("order_type", OrderHelper.BuyerOrder);
+                }else{
+                    intent.putExtra("order_type", OrderHelper.SellerOrder);
+                }
+                activity.startActivity(intent);
+
             }
         });
         builder.show();
