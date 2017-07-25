@@ -155,6 +155,9 @@ public class PushReceiver extends BroadcastReceiver {
                         popMySendOrderDialog(title,"您的雇佣发单被拒绝，是否查看？");
                     }
                     break;
+                case "newMessage":
+                    popChatDialog(title,message,v);
+                    break;
                 default:
                     if(!TextUtils.isEmpty(message)){
                         popDialog("新消息提醒",message);
@@ -460,6 +463,38 @@ public class PushReceiver extends BroadcastReceiver {
         builder.show();
 
     }
+
+
+    private void popChatDialog(String title, String message, final String value) {
+        List<Activity> activities = HelperApplication.getInstance().getActivities();
+        if (activities.size() == 0) {
+            return;
+        }
+        final Activity activity = activities.get(activities.size() - 1);
+        if (activity == null || activity.isFinishing()) {
+            return;
+        }
+        if(StringUtils.isEmpty(title)){
+            return;
+        }
+        if(StringUtils.isEmpty(message)){
+            message = "";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title).setMessage(message).setCancelable(true).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(activity, ChatActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("id", value);
+                activity.startActivity(intent);
+            }
+        });
+        builder.show();
+
+    }
+
 
     private void processCustomMessage(Context context, Bundle bundle,String key) {
         NotificationManager manger = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
