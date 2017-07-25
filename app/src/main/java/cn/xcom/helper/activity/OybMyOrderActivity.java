@@ -59,12 +59,13 @@ import cn.xcom.helper.view.DividerItemDecoration;
  * Created by hzh on 2017/7/11.
  */
 
-public class OybMyOrderActivity extends BaseActivity implements Runnable{
+public class OybMyOrderActivity extends BaseActivity implements Runnable {
     private XRecyclerView xRecyclerView;
     private OrderAdapter adapter;
     private boolean isRunning;
     private Thread thread;
     private List<OybGood> goodLists;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +100,7 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
         xRecyclerView.setAdapter(adapter);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -116,11 +118,11 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
                     if (state.equals("success")) {
                         JSONArray resultArray = jsonObject.getJSONArray("data");
                         goodLists.clear();
-                        for(int i = 0 ; i<resultArray.length();i++){
+                        for (int i = 0; i < resultArray.length(); i++) {
                             JSONObject j = resultArray.getJSONObject(i);
                             JSONObject goodJs = j.getJSONObject("goods");
-                            if(goodJs.opt("smeta").equals("")){
-                                goodJs.put("smeta",null);
+                            if (goodJs.opt("smeta").equals("")) {
+                                goodJs.put("smeta", null);
                             }
                             String js = goodJs.toString();
                             OybGood good = new Gson().fromJson(js, new TypeToken<OybGood>() {
@@ -132,12 +134,12 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
                         }
                         adapter.notifyDataSetChanged();
                         setTime();
-                        if(isRunning == false && goodLists.size() >0){
+                        if (isRunning == false && goodLists.size() > 0) {
                             isRunning = true;
                             thread = new Thread(OybMyOrderActivity.this);
                             thread.start();
                         }
-                    }else{
+                    } else {
                         isRunning = false;
                         goodLists.clear();
                         adapter.notifyDataSetChanged();
@@ -162,7 +164,10 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
     private void setTime() {
         for (int i = 0; i < goodLists.size(); i++) {
             OybGood good = goodLists.get(i);
-            if(good.getStatus().equals("2")){
+            if (good == null) {
+                continue;
+            }
+            if (good.getStatus() != null && good.getStatus().equals("2")) {
                 long count = TimeUtils.timeDifferent(good.getTime());
                 goodLists.get(i).setCountTime(count);
             }
@@ -172,31 +177,31 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
 
     @Override
     public void run() {
-        while(isRunning){
-            try{
+        while (isRunning) {
+            try {
                 //线程每秒钟执行一次
                 Thread.sleep(1000);
                 //遍历商品列表
-                for(int i = 0;i < goodLists.size();i++){
+                for (int i = 0; i < goodLists.size(); i++) {
                     //拿到每件商品的时间差，转化为具体的多少天多少小时多少分多少秒
                     //并保存在商品time这个属性内
                     OybGood good = goodLists.get(i);
-                    if(good.getStatus().equals("2")){
+                    if (good.getStatus().equals("2")) {
                         long counttime = goodLists.get(i).getCountTime();
                         long days = counttime / (1000 * 60 * 60 * 24);
-                        long hours = (counttime-days*(1000 * 60 * 60 * 24))/(1000* 60 * 60);
-                        long minutes = (counttime-days*(1000 * 60 * 60 * 24)
-                                -hours*(1000* 60 * 60))/(1000* 60);
-                        long second = (counttime-days*(1000 * 60 * 60 * 24)
-                                -hours*(1000* 60 * 60)-minutes*(1000*60))/1000;
+                        long hours = (counttime - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                        long minutes = (counttime - days * (1000 * 60 * 60 * 24)
+                                - hours * (1000 * 60 * 60)) / (1000 * 60);
+                        long second = (counttime - days * (1000 * 60 * 60 * 24)
+                                - hours * (1000 * 60 * 60) - minutes * (1000 * 60)) / 1000;
                         //并保存在商品time这个属性内
                         String finaltime = days + "天" + hours + "时" + minutes + "分" + second + "秒";
                         goodLists.get(i).setShowTime(finaltime);
                         //如果时间差大于1秒钟，将每件商品的时间差减去一秒钟，
                         // 并保存在每件商品的counttime属性内
-                        if(counttime > 1000 || second < 0) {
+                        if (counttime > 1000 || second < 0) {
                             goodLists.get(i).setCountTime(counttime - 1000);
-                        }else{
+                        } else {
                             Message message = new Message();
                             message.what = 2;
                             //发送信息给handler
@@ -209,15 +214,15 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
                 message.what = 1;
                 //发送信息给handler
                 handler.sendMessage(message);
-            }catch (Exception e){
+            } catch (Exception e) {
             }
         }
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     adapter.notifyData();
                     break;
@@ -247,7 +252,7 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.setDataPosition(position);
-            if(!myViewHoldList.contains(holder)){
+            if (!myViewHoldList.contains(holder)) {
                 myViewHoldList.add(holder);
             }
             final OybGood good = goodLists.get(position);
@@ -318,8 +323,8 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
             holder.getPrizeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(OybMyOrderActivity.this,OybPublishCommentActivity.class);
-                    intent.putExtra("id",good.getId());
+                    Intent intent = new Intent(OybMyOrderActivity.this, OybPublishCommentActivity.class);
+                    intent.putExtra("id", good.getId());
                     startActivity(intent);
                 }
             });
@@ -342,7 +347,7 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(OybMyOrderActivity.this, OybGoodDetailActivity.class);
-                    intent.putExtra("mark",good.getMark());
+                    intent.putExtra("mark", good.getMark());
                     startActivity(intent);
                 }
             });
@@ -354,19 +359,19 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
             return goodLists.size();
         }
 
-        public void notifyData(){
-            for (int i = 0;i<myViewHoldList.size();i++){
-                if(goodLists.size() == 0){
+        public void notifyData() {
+            for (int i = 0; i < myViewHoldList.size(); i++) {
+                if (goodLists.size() == 0) {
                     return;
                 }
-                if(myViewHoldList.get(i) == null){
+                if (myViewHoldList.get(i) == null) {
                     return;
                 }
-                if(goodLists.size() == myViewHoldList.get(i).position){
+                if (goodLists.size() == myViewHoldList.get(i).position) {
                     return;
                 }
-                if(goodLists.get(myViewHoldList.get(i).position).getStatus().equals("2")){
-                    if(goodLists.size() >0){
+                if (goodLists.get(myViewHoldList.get(i).position).getStatus().equals("2")) {
+                    if (goodLists.size() > 0) {
                         myViewHoldList.get(i).countTimeTv.setText(goodLists.get(myViewHoldList.get(i).position).getShowTime());
                     }
                 }
@@ -412,7 +417,7 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
             countTimeTv = (TextView) itemView.findViewById(R.id.countTimeTv);
         }
 
-        private void setDataPosition(int position){
+        private void setDataPosition(int position) {
             this.position = position;
         }
     }
@@ -421,7 +426,7 @@ public class OybMyOrderActivity extends BaseActivity implements Runnable{
     protected void onDestroy() {
         super.onDestroy();
         isRunning = false;
-        if(thread != null && thread.isAlive()){
+        if (thread != null && thread.isAlive()) {
             thread.interrupt();
             thread = null;
         }
