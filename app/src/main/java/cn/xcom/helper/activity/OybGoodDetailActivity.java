@@ -194,11 +194,11 @@ public class OybGoodDetailActivity extends BaseActivity {
                         needTv.setText("总需人数：" + oybGood.getPrice() + "人次");
                         nowTv.setText("已参与人数：" + oybGood.getCount() + "人次");
                         int letf = Integer.valueOf(oybGood.getPrice()) - Integer.valueOf(oybGood.getCount());
+                        countTv.setText("剩余：" + letf + "人次");
                         if (letf > 5000){
                             letf = 5000;
                         }
                         quantityView.setMaxQuantity(letf);
-                        countTv.setText("剩余：" + letf + "人次");
 
                         if (!oybGood.getCount().equals("0")) {
                             int count = Integer.valueOf(oybGood.getCount());
