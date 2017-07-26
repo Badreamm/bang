@@ -69,6 +69,7 @@ import cn.xcom.helper.utils.MyImageLoader;
 import cn.xcom.helper.utils.SingleVolleyRequest;
 import cn.xcom.helper.utils.StringPostRequest;
 import cn.xcom.helper.utils.TimeUtils;
+import cn.xcom.helper.utils.ToastUtil;
 import cn.xcom.helper.utils.ToastUtils;
 import cn.xcom.helper.view.DividerItemDecoration;
 import cn.xcom.helper.view.QuantityView;
@@ -170,6 +171,17 @@ public class OybGoodDetailActivity extends BaseActivity {
         });
         xRecyclerView.addHeaderView(headView);
         getNewData();
+        quantityView.setOnQuantityChangeListener(new QuantityView.OnQuantityChangeListener() {
+            @Override
+            public void onQuantityChanged(int newQuantity, boolean programmatically) {
+
+            }
+
+            @Override
+            public void onLimitReached() {
+                ToastUtil.show(OybGoodDetailActivity.this,"最多一次购买5000",Toast.LENGTH_SHORT);
+            }
+        });
     }
 
     private void getNewData() {
@@ -199,7 +211,6 @@ public class OybGoodDetailActivity extends BaseActivity {
                             letf = 5000;
                         }
                         quantityView.setMaxQuantity(letf);
-
                         if (!oybGood.getCount().equals("0")) {
                             int count = Integer.valueOf(oybGood.getCount());
                             int all = Integer.valueOf(oybGood.getPrice());
