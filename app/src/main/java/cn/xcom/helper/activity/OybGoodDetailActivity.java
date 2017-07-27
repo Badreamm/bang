@@ -254,7 +254,7 @@ public class OybGoodDetailActivity extends BaseActivity {
     }
 
     private void buy() {
-        int count = quantityView.getQuantity();
+        final int count = quantityView.getQuantity();
         if (count == 0) {
             ToastUtils.showToast(OybGoodDetailActivity.this, "请选择商品数量");
             return;
@@ -270,7 +270,7 @@ public class OybGoodDetailActivity extends BaseActivity {
                         String orderNumber = jsonObject.optString("data");
                         HelperApplication.getInstance().type = "";
                         Intent intent = new Intent(OybGoodDetailActivity.this, PaymentActivity.class);
-                        intent.putExtra("price", "0.01");//以后改为count
+                        intent.putExtra("price", String.valueOf(count));//以后改为count
                         intent.putExtra("tradeNo", orderNumber);
                         intent.putExtra("body", "一元购");
                         intent.putExtra("type", "7");

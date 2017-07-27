@@ -19,8 +19,8 @@ android {
         applicationId "cn.xcom.helper"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 20
-        versionName "4.6"
+        versionCode 22
+        versionName "4.8"
         multiDexEnabled true
 
 //        ndk {
