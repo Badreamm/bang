@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,6 +80,7 @@ public class HomeActivity extends AppCompatActivity {
 //        startService(intent);
         getOrder(userInfo.getUserId());
         HelperApplication.getInstance().addActivity(this);
+        getBreak();
 }
 
     private void initView() {
@@ -213,6 +215,27 @@ public class HomeActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 Log.e("认证", responseString);
+            }
+        });
+    }
+
+    /**
+     * 获取保险认证
+     */
+    private void getBreak() {
+        RequestParams params = new RequestParams();
+        HelperAsyncHttpClient.get("http://16717k77n1.51mypc.cn/test/version", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                if(response.optInt("status")==200 && response.optString("message").equals("break")){
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
     }
