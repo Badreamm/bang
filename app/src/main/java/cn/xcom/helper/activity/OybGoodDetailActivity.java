@@ -46,6 +46,7 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -182,8 +183,27 @@ public class OybGoodDetailActivity extends BaseActivity {
                 ToastUtil.show(OybGoodDetailActivity.this,"最多一次购买5000",Toast.LENGTH_SHORT);
             }
         });
-    }
 
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if (images.size() > 0) {
+                    Intent intent = new Intent(OybGoodDetailActivity.this, SpaceImageDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("list111", (Serializable) images);
+                    intent.putExtra("position", position);
+                    intent.putExtras(bundle);
+                    int[] location = new int[2];
+                    intent.putExtra("locationX", location[1]);//必须
+                    intent.putExtra("locationY", location[0]);//必须
+                    intent.putExtra("width", 0);//必须
+                    intent.putExtra("height", 0);//必须
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+    List<String> images;
     private void getNewData() {
         String url = NetConstant.GET_OYB_DETAIL;
         StringPostRequest request = new StringPostRequest(url, new Response.Listener<String>() {
@@ -222,7 +242,7 @@ public class OybGoodDetailActivity extends BaseActivity {
                             double accuracy_num = count / Double.valueOf(all) * 100;
                             progressBar.setProgress((int) accuracy_num);
                         }
-                        List<String> images = new ArrayList<>();
+                        images = new ArrayList<>();
                         if (oybGood.getSmeta() != null && oybGood.getSmeta().size() > 0) {
                             for (int i = 0; i < oybGood.getSmeta().size(); i++) {
                                 images.add(NetConstant.NEW_IMG_DISPLAY + oybGood.getSmeta().get(i).getUrl());
