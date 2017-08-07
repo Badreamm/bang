@@ -5,17 +5,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import cn.xcom.helper.R;
 
 
-public class AutoScrollTextView extends TextView implements OnClickListener {
+public class AutoScrollTextView extends AppCompatTextView implements OnClickListener {
     public final static String TAG = AutoScrollTextView.class.getSimpleName();
 
     private float textLength = 0f;//文本长度
@@ -131,6 +131,9 @@ public class AutoScrollTextView extends TextView implements OnClickListener {
         private SavedState(Parcel in) {
             super(in);
             boolean[] b = null;
+            if(in == null){
+                return;
+            }
             in.readBooleanArray(b);
             if(b != null && b.length > 0)
                 isStarting = b[0];

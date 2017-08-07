@@ -242,6 +242,9 @@ public class SelectMapPoiActivity extends BaseActivity implements OnGetGeoCoderR
             return;
         }
         mBaiduMap.clear();
+        if(mLat == null){
+            return;
+        }
         if (isFisrtIn) {
             mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(mLat));
             MapStatus.Builder builder = new MapStatus.Builder();

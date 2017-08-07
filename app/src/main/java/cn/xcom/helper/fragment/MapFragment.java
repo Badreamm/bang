@@ -248,7 +248,12 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             @Override
             public boolean onMarkerClick(Marker marker) {
                 hud.show();
-                markerId = lists.get(Integer.parseInt(marker.getTitle())).getId();
+                try {
+                    markerId = lists.get(Integer.parseInt(marker.getTitle())).getId();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    markerId = null;
+                }
                 if (markerId != null) {
                     skill.clear();
 
@@ -1171,7 +1176,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, OnGet
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 ToastUtils.showToast(getActivity(), "网络连接错误，请检查您的网络");
-
             }
         });
         request.putValue("city", HelperApplication.getInstance().mDistrict);

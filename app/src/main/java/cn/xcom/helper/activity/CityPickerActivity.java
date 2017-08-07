@@ -181,6 +181,9 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
         mAllCities.add(city);*/
         for(int i=1;i<array.length();i++){
             JSONArray cityArray = array.optJSONArray(i);
+            if (cityArray == null){
+                continue;
+            }
             for(int j = 0; j<cityArray.length();j++){
                 JSONObject object = cityArray.optJSONObject(j);
                 City city1 = new City();
