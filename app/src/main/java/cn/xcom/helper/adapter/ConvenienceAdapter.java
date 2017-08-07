@@ -111,6 +111,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
     private Tencent mTencent;
     private BaseUiListener listener;
     private String shaerText;
+
     public ConvenienceAdapter(List<Convenience> list, Context context) {
         this.list = list;
         this.context = context;
@@ -162,7 +163,9 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         addList.clear();
         if (convenience.getPic().size() > 0) {
             for (int i = 0; i < convenience.getPic().size(); i++) {
-                addList.add(NetConstant.NET_DISPLAY_IMG + convenience.getPic().get(i).getPictureurl());
+                if (i < 9) {
+                    addList.add(NetConstant.NET_DISPLAY_IMG + convenience.getPic().get(i).getPictureurl());
+                }
             }
         }
 
@@ -368,7 +371,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             AnimationDrawable animationDrawable = (AnimationDrawable) holder.packetFlag.getDrawable();
             if ("1".equals(convenience.getPicketstate())) {
                 animationDrawable.start();
-            }else{
+            } else {
                 animationDrawable.stop();
             }
         } else {
@@ -385,7 +388,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
             @Override
             public void onClick(View v) {
                 showPopFormBottom();
-                shaerText = convenience.getContent()+"（要想获取更多信息，请下载51帮APP:http://www.my51bang.com）";
+                shaerText = convenience.getContent() + "（要想获取更多信息，请下载51帮APP:http://www.my51bang.com）";
             }
         });
     }
@@ -475,7 +478,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
     public void showPopFormBottom() {
         takePhotoPopWin = new SharePopupWindow(context, onClickListener);
         //SharePopupWindow takePhotoPopWin = new SharePopupWindow(this, onClickListener);
-        takePhotoPopWin.showAtLocation(HelperApplication.getInstance().getActivities().get(HelperApplication.getInstance().getActivities().size()-1).getCurrentFocus(), Gravity.BOTTOM, 0, 0);
+        takePhotoPopWin.showAtLocation(HelperApplication.getInstance().getActivities().get(HelperApplication.getInstance().getActivities().size() - 1).getCurrentFocus(), Gravity.BOTTOM, 0, 0);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -574,7 +577,7 @@ public class ConvenienceAdapter extends RecyclerView.Adapter<ConvenienceAdapter.
         //分享类型
         params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
         params.putString(QzoneShare.SHARE_TO_QQ_TITLE, "51帮");//必填
-        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY,text);//选填
+        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, text);//选填
         params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, NetConstant.SHARE_SHOP_H5 + userInfo.getUserId());//必填
         ArrayList<String> images = new ArrayList<>();
         images.add("http://www.my51bang.com/uploads/ic_logo.png");
