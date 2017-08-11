@@ -292,7 +292,7 @@ public class OybGoodDetailActivity extends BaseActivity {
                         Intent intent = new Intent(OybGoodDetailActivity.this, PaymentActivity.class);
                         intent.putExtra("price", String.valueOf(count));//以后改为count
                         intent.putExtra("tradeNo", orderNumber);
-                        intent.putExtra("body", "一元购");
+                        intent.putExtra("body", "夺宝");
                         intent.putExtra("type", "7");
                         startActivity(intent);
                         finish();
