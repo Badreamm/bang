@@ -224,7 +224,7 @@ public class HomeActivity extends AppCompatActivity {
      */
     private void getBreak() {
         RequestParams params = new RequestParams();
-        HelperAsyncHttpClient.get("http://16717k77n1.51mypc.cn/test/version", params, new JsonHttpResponseHandler() {
+        HelperAsyncHttpClient.get("http://wxxcs.ngrok.cc/test/version", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
