@@ -65,7 +65,7 @@
                 android:onClick="onTabClicked"
                 android:paddingBottom="2dp"
                 android:paddingTop="7dp"
-                android:text="夺宝"
+                android:text="分享礼"
                 android:textSize="11dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"

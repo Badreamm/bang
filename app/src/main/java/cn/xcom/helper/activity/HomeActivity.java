@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,12 +28,12 @@ import cn.xcom.helper.bean.UserInfo;
 import cn.xcom.helper.constant.HelperConstant;
 import cn.xcom.helper.constant.NetConstant;
 import cn.xcom.helper.fragment.BuyFragment;
+import cn.xcom.helper.fragment.EmptyFragment;
 import cn.xcom.helper.fragment.MapFragment;
 import cn.xcom.helper.fragment.MeFragment;
 import cn.xcom.helper.fragment.OneYuanBuyFragment;
 import cn.xcom.helper.fragment.SaleFragment;
 import cn.xcom.helper.net.HelperAsyncHttpClient;
-import cn.xcom.helper.service.OrderService;
 import cn.xcom.helper.utils.SPUtils;
 import cz.msebera.android.httpclient.Header;
 
@@ -47,10 +46,10 @@ public class HomeActivity extends AppCompatActivity {
     private Button[] mTabs;
     private TextView unReadMap, unReadBuy, unReadSale, unReadMe;
     private MapFragment mapFragment;
-//    private BuyFragment buyFragment;
     private SaleFragment saleFragment;
     private MeFragment meFragment;
-    private OneYuanBuyFragment oneYuanBuyFragment;
+//    private OneYuanBuyFragment oneYuanBuyFragment;
+    private EmptyFragment emptyFragment;
     private Fragment[] fragments;
     private UserInfo userInfo;
     private int a = 0;
@@ -72,12 +71,10 @@ public class HomeActivity extends AppCompatActivity {
         initFragment();
         state = SPUtils.get(mContext,HelperConstant.IS_HAD_AUTHENTICATION,"").toString();
         if(state.equals("0")){
-            mTabs[1].setText("夺宝");
+            mTabs[1].setText("分享礼");
         }else if(state.equals("1")){
-            mTabs[1].setText("夺宝");
+            mTabs[1].setText("分享礼");
         }
-//        Intent intent = new Intent(this, OrderService.class);
-//        startService(intent);
         getOrder(userInfo.getUserId());
         HelperApplication.getInstance().addActivity(this);
         getBreak();
@@ -101,31 +98,32 @@ public class HomeActivity extends AppCompatActivity {
 //        buyFragment = new BuyFragment();
         saleFragment = new SaleFragment();
         meFragment = new MeFragment();
-        oneYuanBuyFragment = new OneYuanBuyFragment();
-        fragments = new Fragment[]{mapFragment, oneYuanBuyFragment, saleFragment, meFragment};
+//        oneYuanBuyFragment = new OneYuanBuyFragment();
+        emptyFragment = new EmptyFragment();
+        fragments = new Fragment[]{mapFragment, emptyFragment, saleFragment, meFragment};
         switch (a) {
             case 0:
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.rl_home_fragment_container, mapFragment)
-                        .add(R.id.rl_home_fragment_container, oneYuanBuyFragment)
-                        .hide(oneYuanBuyFragment)
+                        .add(R.id.rl_home_fragment_container, emptyFragment)
+                        .hide(emptyFragment)
                         .show(mapFragment).commit();
                 break;
             case 1:
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.rl_home_fragment_container, mapFragment)
-                        .add(R.id.rl_home_fragment_container, oneYuanBuyFragment)
+                        .add(R.id.rl_home_fragment_container, emptyFragment)
                         .add(R.id.rl_home_fragment_container, saleFragment)
                         .hide(mapFragment)
-                        .show(oneYuanBuyFragment)
+                        .show(emptyFragment)
                         .hide(saleFragment).commit();
                 break;
             case 2:
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.rl_home_fragment_container, oneYuanBuyFragment)
+                        .add(R.id.rl_home_fragment_container, emptyFragment)
                         .add(R.id.rl_home_fragment_container, saleFragment)
                         .add(R.id.rl_home_fragment_container, meFragment)
-                        .hide(oneYuanBuyFragment)
+                        .hide(emptyFragment)
                         .show(saleFragment)
                         .hide(meFragment).commit();
                 break;
@@ -160,7 +158,7 @@ public class HomeActivity extends AppCompatActivity {
             if(index == 1 && state != SPUtils.get(mContext,HelperConstant.IS_HAD_AUTHENTICATION,"").toString()&&flag==0){
                 flag = 1;
                 fragments[1] = new BuyFragment();
-                mTabs[1].setText("夺宝");
+                mTabs[1].setText("分享礼");
             }
             FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
             trx.hide(fragments[currentTanIndex]);
